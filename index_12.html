@@ -1,0 +1,3934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HH NYC">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Happy Hour NYC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0c10;
+      --surface: #13131a;
+      --surface-2: #1c1c26;
+      --surface-3: #23232f;
+      --border: #2a2a38;
+      --border-subtle: #1e1e28;
+      --text: #ede9e0;
+      --text-2: #8c8899;
+      --text-3: #504d5e;
+      --accent: #f5a623;
+      --accent-dim: rgba(245,166,35,0.12);
+      --accent-border: rgba(245,166,35,0.3);
+      --green: #34d27a;
+      --green-dim: rgba(52,210,122,0.1);
+      --green-border: rgba(52,210,122,0.25);
+      --orange: #e8643a;
+      --orange-dim: rgba(232,100,58,0.1);
+      --orange-border: rgba(232,100,58,0.28);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-ui: 'Outfit', -apple-system, sans-serif;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;-webkit-text-size-adjust:100%}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-ui);overflow:hidden;-webkit-font-smoothing:antialiased}
+    input,select,button,textarea{font-family:var(--font-ui);-webkit-appearance:none;appearance:none}
+    :focus{outline:none}
+    *{-webkit-tap-highlight-color:transparent}
+    ::-webkit-scrollbar{display:none}
+
+    /* ─── APP ─── */
+    #app{display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto;position:relative;background:var(--bg)}
+
+    /* ─── HEADER ─── */
+    #header{
+      flex-shrink:0;
+      background:rgba(12,12,16,0.95);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border-subtle);
+      padding:0 16px 12px;
+      padding-top:calc(env(safe-area-inset-top,0px) + 12px);
+      z-index:50;
+    }
+    .hrow1{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .logo{
+      font-family:var(--font-display);
+      font-size:18px;
+      font-weight:700;
+      color:var(--text);
+      letter-spacing:-.01em;
+      line-height:1;
+      display:flex;align-items:center;gap:7px;
+    }
+    .logo-icon{font-family:var(--font-ui);font-size:16px}
+    .subtitle{font-family:var(--font-ui);font-size:10px;color:var(--text-3);margin-top:3px;letter-spacing:.02em}
+    .add-btn{
+      background:var(--surface-2);
+      border:1px solid var(--border);
+      border-radius:8px;
+      color:var(--accent);
+      font-size:11px;
+      font-weight:600;
+      padding:6px 11px;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:background .15s, border-color .15s;
+      letter-spacing:.01em;
+    }
+    .add-btn:active{background:var(--surface-3)}
+    .seg{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;gap:1px;padding:2px}
+    .seg-btn{
+      padding:5px 13px;border:none;background:transparent;
+      color:var(--text-3);font-size:12px;font-weight:600;
+      transition:all .15s;cursor:pointer;border-radius:6px;
+      letter-spacing:.01em;
+    }
+    .seg-btn.on{background:var(--surface-3);color:var(--text)}
+    #q{
+      width:100%;padding:10px 14px;
+      background:var(--surface);
+      border:1px solid var(--border-subtle);
+      border-radius:11px;
+      color:var(--text);
+      font-size:14px;
+      margin-bottom:10px;
+      transition:border-color .15s;
+    }
+    #q::placeholder{color:var(--text-3)}
+    #q:focus{border-color:var(--border)}
+
+    /* ─── FILTER PILLS ─── */
+    .frow{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+    .frow::-webkit-scrollbar{display:none}
+    .pill{
+      flex-shrink:0;
+      padding:6px 12px;
+      border:1px solid var(--border-subtle);
+      border-radius:20px;
+      background:var(--surface);
+      color:var(--text-3);
+      font-size:11.5px;
+      font-weight:500;
+      white-space:nowrap;
+      cursor:pointer;
+      transition:all .15s;
+      user-select:none;
+      letter-spacing:.01em;
+    }
+    .pill:active{background:var(--surface-2)}
+    .pill.on{background:var(--green-dim);border-color:var(--green-border);color:var(--green);font-weight:600}
+    .pill.hh-only.on{background:var(--orange-dim);border-color:var(--orange-border);color:var(--orange)}
+    .time-pill{
+      flex-shrink:0;display:flex;align-items:center;gap:4px;
+      padding:6px 10px;
+      border:1px solid var(--border-subtle);
+      border-radius:20px;background:var(--surface);cursor:pointer;
+      transition:all .15s;
+    }
+    .time-pill.on{border-color:var(--green-border);background:var(--green-dim)}
+    .tpl{font-size:11.5px;color:var(--text-3);pointer-events:none;white-space:nowrap;font-weight:500}
+    .time-pill.on .tpl{color:var(--green)}
+    #time-input{background:transparent;border:none;color:var(--green);font-size:11.5px;font-weight:600;font-family:var(--font-ui);width:60px;cursor:pointer;padding:0}
+    .hood-pill{
+      flex-shrink:0;position:relative;
+      padding:6px 12px;
+      border:1px solid var(--border-subtle);
+      border-radius:20px;
+      background:var(--surface);
+      color:var(--text-3);
+      font-size:11.5px;font-weight:500;white-space:nowrap;cursor:pointer;
+      transition:all .15s;
+    }
+    .hood-pill.on{background:var(--green-dim);border-color:var(--green-border);color:var(--green)}
+    #hood-sel{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer;font-size:14px}
+
+    /* ─── CONTENT ─── */
+    #content{flex:1;position:relative;overflow:hidden}
+
+    /* ─── LIST ─── */
+    #list-pane{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:2}
+    #list-pane.gone{visibility:hidden;pointer-events:none}
+
+    .bar-item{
+      display:flex;align-items:flex-start;gap:12px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--border-subtle);
+      cursor:pointer;
+      transition:background .1s;
+      position:relative;
+    }
+    .bar-item:active{background:var(--surface)}
+
+    .bar-dot-wrap{padding-top:5px;flex-shrink:0}
+    .bar-dot{width:8px;height:8px;border-radius:50%;background:var(--surface-3);border:1.5px solid var(--border)}
+    .bar-dot.open{background:var(--green);border-color:var(--green);box-shadow:0 0 8px rgba(52,210,122,0.4)}
+
+    .bar-info{flex:1;min-width:0}
+    .bar-name{font-size:15px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;letter-spacing:-.01em}
+    .bar-sub{font-size:11px;color:var(--text-3);margin-bottom:5px;letter-spacing:.01em}
+    .bar-deal{
+      font-size:12px;
+      color:var(--accent);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      font-weight:500;
+    }
+
+    .bar-right{flex-shrink:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+    .open-tag{font-size:10px;font-weight:700;color:var(--green);letter-spacing:.06em;text-transform:uppercase}
+    .next-tag{font-size:10px;color:var(--text-3)}
+    .hh-badge{
+      display:inline-block;
+      padding:2px 6px;
+      background:var(--orange-dim);
+      border:1px solid var(--orange-border);
+      border-radius:5px;
+      font-size:9px;font-weight:700;
+      color:var(--orange);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .empty{padding:60px 20px;text-align:center;color:var(--text-3);font-size:14px;line-height:1.6}
+    .load-more{padding:16px;text-align:center;color:var(--text-3);font-size:12px;cursor:pointer;transition:color .15s}
+    .load-more:active{color:var(--accent)}
+    .list-end{height:calc(env(safe-area-inset-bottom,0px) + 20px)}
+
+    /* ─── MAP ─── */
+    #map-pane{position:absolute;inset:0;visibility:hidden;pointer-events:none;z-index:1}
+    #map-pane.on{visibility:visible;pointer-events:auto}
+    #gmap{width:100%;height:100%}
+
+    .map-legend{
+      position:absolute;top:12px;left:12px;z-index:10;
+      background:rgba(12,12,16,0.88);
+      backdrop-filter:blur(16px);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+    }
+    .ml-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+    .ml-row:last-child{margin-bottom:0}
+    .ml-dot{width:9px;height:9px;border-radius:50%}
+    .ml-row span{font-size:11px;color:var(--text-2)}
+
+    #map-loading{position:absolute;inset:0;background:rgba(12,12,16,0.75);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;gap:12px}
+    #map-loading.gone{display:none}
+    .ml-txt{font-size:13px;color:var(--text-2)}
+
+    /* ─── BOTTOM SHEET ─── */
+    #sheet{
+      position:absolute;bottom:0;left:0;right:0;
+      background:rgba(15,15,22,0.97);
+      backdrop-filter:blur(32px);
+      -webkit-backdrop-filter:blur(32px);
+      border-top:1px solid var(--border);
+      border-radius:22px 22px 0 0;
+      padding:10px 16px 16px;
+      padding-bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
+      z-index:1000;
+      transform:translateY(100%);
+      transition:transform .3s cubic-bezier(.32,.72,0,1);
+    }
+    #sheet.up{transform:translateY(0)}
+    .sh-bar{width:36px;height:3px;background:var(--border);border-radius:2px;margin:0 auto 14px}
+    .sh-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px}
+    .sh-name{font-family:var(--font-display);font-size:17px;font-weight:700;flex:1;padding-right:10px;line-height:1.2;color:var(--text)}
+    .sh-x{
+      background:var(--surface-2);border:1px solid var(--border);border-radius:50%;
+      width:28px;height:28px;color:var(--text-2);font-size:12px;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;
+      transition:background .15s;flex-shrink:0;
+    }
+    .sh-x:active{background:var(--surface-3)}
+    .sh-hood{font-size:11px;color:var(--text-3);margin-bottom:8px;letter-spacing:.02em}
+    .sh-hh{font-size:13px;color:var(--orange);font-weight:600;margin-bottom:5px}
+    .sh-deal{font-size:12px;color:var(--text-2);margin-bottom:14px;line-height:1.5}
+    .sh-cta{
+      width:100%;padding:13px;
+      background:var(--surface-2);
+      border:1px solid var(--border);
+      border-radius:12px;
+      color:var(--text);
+      font-size:14px;font-weight:600;
+      cursor:pointer;
+      transition:background .15s, border-color .15s;
+      letter-spacing:.01em;
+    }
+    .sh-cta:active{background:var(--surface-3)}
+
+    /* ─── DETAIL PAGE ─── */
+    #detail{
+      position:absolute;inset:0;z-index:200;
+      background:var(--bg);
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      transform:translateX(100%);
+      transition:transform .28s cubic-bezier(.32,.72,0,1);
+    }
+    #detail.open{transform:translateX(0)}
+
+    .d-nav{
+      position:sticky;top:0;z-index:5;
+      background:rgba(12,12,16,0.95);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border-subtle);
+      padding:10px 16px;
+      padding-top:calc(env(safe-area-inset-top,0px) + 8px);
+      display:flex;justify-content:space-between;align-items:center;
+    }
+    .back{
+      background:none;border:none;
+      color:var(--accent);
+      font-size:14px;font-weight:600;
+      padding:4px 0;
+      display:flex;align-items:center;gap:5px;
+      cursor:pointer;letter-spacing:.01em;
+    }
+    .d-status{font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:5px}
+    .d-status.open{color:var(--green)}
+    .pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+
+    .d-body{padding:22px 16px 40px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 40px)}
+
+    /* Hero area */
+    .d-hero{margin-bottom:20px}
+    .d-name{
+      font-family:var(--font-display);
+      font-size:28px;font-weight:800;
+      color:var(--text);
+      margin-bottom:5px;
+      line-height:1.1;
+      letter-spacing:-.02em;
+    }
+    .d-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    .d-addr{font-size:12px;color:var(--text-3);letter-spacing:.01em}
+    .d-rating{font-size:12px;color:var(--text-2)}
+    .d-note{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:0;padding:12px 14px;background:var(--surface);border-radius:10px;border:1px solid var(--border-subtle)}
+
+    .d-sec{margin-bottom:24px}
+    .d-lbl{
+      font-size:9px;font-weight:700;
+      letter-spacing:.18em;text-transform:uppercase;
+      color:var(--text-3);margin-bottom:10px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .d-lbl::after{content:'';flex:1;height:1px;background:var(--border-subtle)}
+    .d-div{border:none;border-top:1px solid var(--border-subtle);margin:0 0 20px}
+
+    /* HH section */
+    .d-hh-box{
+      background:var(--surface);
+      border:1px solid var(--border-subtle);
+      border-radius:14px;
+      padding:14px;
+      margin-bottom:12px;
+    }
+    .d-hh-time{font-size:15px;font-weight:700;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .d-days{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+    .d-day{
+      padding:4px 9px;border-radius:6px;
+      font-size:10px;font-weight:600;
+      background:var(--surface-2);color:var(--text-3);
+      border:1px solid var(--border-subtle);
+      letter-spacing:.02em;
+    }
+    .d-day.on{background:rgba(232,100,58,0.12);color:var(--orange);border-color:rgba(232,100,58,0.3)}
+
+    .d-deals{display:flex;flex-direction:column;gap:8px}
+    .d-deal{
+      display:flex;align-items:flex-start;gap:10px;
+      padding:10px 12px;
+      background:var(--surface-2);
+      border:1px solid var(--border-subtle);
+      border-radius:10px;
+    }
+    .d-deal::before{content:'✦';font-size:8px;color:var(--accent);flex-shrink:0;margin-top:3px}
+    .d-deal-t{font-size:13px;color:var(--text);line-height:1.45}
+
+    .no-hh{padding:16px;background:var(--surface);border:1px solid var(--border-subtle);border-radius:12px;font-size:13px;color:var(--text-2);text-align:center}
+    .d-ph{font-size:13px;color:var(--text-2)}
+
+    .d-hours-list{display:flex;flex-direction:column;gap:6px}
+    .d-hour-row{display:flex;justify-content:space-between;font-size:12px;padding:6px 12px;border-radius:7px}
+    .d-hour-row:nth-child(odd){background:var(--surface)}
+    .d-hour-day{color:var(--text-2)}
+    .d-hour-time{color:var(--text-2)}
+    .d-hour-row.today{background:var(--green-dim);border:1px solid var(--green-border)}
+    .d-hour-row.today .d-hour-day{color:var(--green);font-weight:600}
+    .d-hour-row.today .d-hour-time{color:var(--green);font-weight:600}
+
+    /* ─── MENU ─── */
+    .menu-btn{
+      width:100%;padding:14px 16px;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:12px;
+      color:var(--text);
+      font-size:14px;font-weight:500;
+      display:flex;justify-content:space-between;align-items:center;
+      cursor:pointer;
+      transition:background .15s, border-color .15s;
+    }
+    .menu-btn:active{background:var(--surface-2)}
+
+    .mtabs{display:flex;border-bottom:1px solid var(--border-subtle);margin-bottom:16px;gap:0}
+    .mtab{
+      flex:1;padding:10px 4px;
+      background:none;border:none;
+      border-bottom:2px solid transparent;
+      color:var(--text-3);
+      font-size:12.5px;font-weight:500;
+      cursor:pointer;margin-bottom:-1px;
+      transition:all .15s;letter-spacing:.01em;
+      font-family:var(--font-ui);
+    }
+    .mtab.on{border-bottom-color:var(--accent);color:var(--text);font-weight:700}
+
+    .mcat{margin-bottom:22px}
+    .mcat-name{
+      font-size:9px;font-weight:700;
+      letter-spacing:.18em;text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:10px;
+      padding-bottom:7px;
+      border-bottom:1px solid var(--accent-border);
+    }
+    .mitem{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:11px}
+    .mitem-l{flex:1;min-width:0}
+    .mitem-n{font-size:13.5px;color:var(--text);display:block;font-weight:500;margin-bottom:2px}
+    .mitem-d{font-size:11px;color:var(--text-3);display:block;line-height:1.4}
+    .mitem-p{
+      font-size:12px;font-weight:700;
+      color:var(--accent);
+      font-family:'SF Mono','Courier New',monospace;
+      flex-shrink:0;
+      background:var(--accent-dim);
+      padding:2px 7px;border-radius:5px;
+    }
+
+    .maps-row{display:flex;gap:8px}
+    .maps-btn{
+      flex:1;padding:12px;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:12px;
+      color:var(--text-2);
+      font-size:12px;font-weight:500;
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      text-decoration:none;
+      transition:border-color .15s, background .15s;
+    }
+    .maps-btn:active{background:var(--surface-2)}
+
+    /* ─── SCRAPER PANEL ─── */
+    #scraper-panel{
+      position:absolute;inset:0;z-index:300;
+      background:var(--bg);
+      overflow-y:auto;-webkit-overflow-scrolling:touch;
+      transform:translateX(100%);
+      transition:transform .28s cubic-bezier(.32,.72,0,1);
+    }
+    #scraper-panel.open{transform:translateX(0)}
+    .scr-nav{
+      position:sticky;top:0;background:rgba(12,12,16,0.95);
+      backdrop-filter:blur(20px);border-bottom:1px solid var(--border-subtle);
+      padding:10px 16px;
+      padding-top:calc(env(safe-area-inset-top,0px) + 8px);
+      display:flex;justify-content:space-between;align-items:center;z-index:5;
+    }
+    .scr-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text)}
+    .scr-body{padding:22px 16px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 40px)}
+    .scr-desc{font-size:12.5px;color:var(--text-2);line-height:1.7;margin-bottom:22px;padding:12px 14px;background:var(--surface);border-radius:10px;border:1px solid var(--border-subtle)}
+    .scr-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
+    .scr-input{
+      width:100%;padding:12px 14px;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:11px;color:var(--text);font-size:14px;
+      font-family:var(--font-ui);margin-bottom:12px;
+      transition:border-color .15s;
+    }
+    .scr-input:focus{border-color:var(--accent)}
+    .scr-input::placeholder{color:var(--text-3)}
+    .scr-btn{
+      width:100%;padding:14px;
+      background:var(--accent);border:none;border-radius:12px;
+      color:#0c0c10;font-size:15px;font-weight:700;
+      cursor:pointer;margin-bottom:18px;
+      transition:opacity .15s;
+      font-family:var(--font-ui);
+      letter-spacing:.01em;
+    }
+    .scr-btn:active{opacity:.85}
+
+    /* ─── UTILS ─── */
+    .spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+    .menu-spin{display:flex;justify-content:center;padding:28px 0}
+
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+
+<!-- No key screen - key is embedded -->
+
+<div id="app">
+  <div id="header">
+    <div class="hrow1">
+      <div>
+        <div class="logo"><span class="logo-icon">🍹</span> Happy Hour NYC</div>
+        <div class="subtitle" id="subtitle">Loading venues…</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="add-btn" onclick="openScraper()">+ Add Bar</button>
+        <div class="seg">
+        <button class="seg-btn on" id="btn-list" onclick="setView('list')">List</button>
+        <button class="seg-btn" id="btn-map" onclick="setView('map')">Map</button>
+      </div>
+      </div>
+    </div>
+    <input id="q" type="search" placeholder="Search bars, deals, neighborhoods…" oninput="applyFilters()" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div class="frow">
+      <div class="pill on" id="pill-now" onclick="toggleNow()">Open now</div>
+      <div class="pill hh-only" id="pill-hh" onclick="toggleHHOnly()">HH only</div>
+      <div class="pill" id="pill-0" onclick="toggleDay(0)">Sun</div>
+      <div class="pill" id="pill-1" onclick="toggleDay(1)">Mon</div>
+      <div class="pill" id="pill-2" onclick="toggleDay(2)">Tue</div>
+      <div class="pill" id="pill-3" onclick="toggleDay(3)">Wed</div>
+      <div class="pill" id="pill-4" onclick="toggleDay(4)">Thu</div>
+      <div class="pill" id="pill-5" onclick="toggleDay(5)">Fri</div>
+      <div class="pill" id="pill-6" onclick="toggleDay(6)">Sat</div>
+      <div class="time-pill" id="time-pill" onclick="focusTime()">
+        <span class="tpl" id="tpl">At time</span>
+        <input type="time" id="time-input" oninput="onTimeChange()" onchange="onTimeChange()">
+      </div>
+      <div class="hood-pill" id="hood-pill">
+        <select id="hood-sel" onchange="onHoodChange()">
+          <option value="">📍 Area</option>
+        </select>
+        <span id="hood-lbl">📍 Area</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="content">
+    <div id="list-pane">
+      <div id="list-inner"></div>
+      <div class="load-more" id="load-more" onclick="loadMorePlaces()" style="display:none">Load more venues…</div>
+      <div class="list-end"></div>
+    </div>
+
+    <div id="map-pane">
+      <div id="gmap"></div>
+      <div id="map-loading">
+        <div class="spinner"></div>
+        <div class="ml-txt" id="map-loading-txt">Searching Manhattan…</div>
+      </div>
+      <div class="map-legend">
+        <div class="ml-row"><div class="ml-dot" style="background:#4ade80"></div><span style="font-size:11px;color:#555">HH open now</span></div>
+        <div class="ml-row"><div class="ml-dot" style="background:#fb923c"></div><span style="font-size:11px;color:#555">Has HH data</span></div>
+      </div>
+      <div id="sheet">
+        <div class="sh-bar"></div>
+        <div class="sh-top">
+          <span class="sh-name" id="sh-name"></span>
+          <button class="sh-x" onclick="closeSheet()">✕</button>
+        </div>
+        <div class="sh-hood" id="sh-hood"></div>
+        <div class="sh-hh" id="sh-hh"></div>
+        <div class="sh-deal" id="sh-deal"></div>
+        <button class="sh-cta" onclick="openDetailFromSheet()">See full details →</button>
+      </div>
+    </div>
+
+    <div id="detail">
+      <div class="d-nav">
+        <button class="back" onclick="closeDetail()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <div class="d-status" id="d-status"></div>
+      </div>
+      <div class="d-body" id="d-body"></div>
+    </div><!-- end detail -->
+  </div><!-- end content -->
+
+  <!-- SCRAPER ADMIN PANEL -->
+  <div id="scraper-panel" style="position:absolute;inset:0;z-index:300;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform .28s cubic-bezier(.32,.72,0,1)">
+    <div class="scr-nav">
+      <button onclick="closeScraper()" style="background:none;border:none;color:var(--accent);font-size:14px;font-weight:600;display:flex;align-items:center;gap:5px;cursor:pointer;font-family:var(--font-ui)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back
+      </button>
+      <span class="scr-title">✦ AI Bar Scraper</span>
+      <div style="width:60px"></div>
+    </div>
+    <div class="scr-body">
+      <div class="scr-desc">Enter any bar name and Claude will search the web, find their real happy hour schedule and deals, and add them to the app.</div>
+      <div class="scr-label">Bar Name</div>
+      <input id="sc-name" type="text" placeholder="e.g. The Dead Rabbit" class="scr-input">
+      <div class="scr-label">Website (optional)</div>
+      <input id="sc-url" type="url" placeholder="https://theirwebsite.com" class="scr-input">
+      <button id="sc-btn" onclick="scrapeBar()" class="scr-btn">Search & Extract →</button>
+      <div id="sc-result"></div>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CURATED HAPPY HOUR DATA (106 bars)
+// ═══════════════════════════════════════════════════════════
+const DAYS_LABELS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+const HH_DATA = {
+"dollys":{name:"Dolly's",lat:40.7624,lng:-73.9853,hood:"Hell's Kitchen",addr:"302 W 51st St",website:"https://www.dollys51.com",days:[1,2,3,4,5,6,0],sH:15,eH:24,label:"Daily (Yappy Hour all day)",deals:["$15 She Loves Me Not (vodka, strawberry cream, lemon)","$18 Whiskey Me Off My Feet (Tin Cup, Skrewball, luxardo)","$30 Martini Service for Two + truffle fries","$21 Dolly Made Nachos"],note:"Southern comfort bar in Hell's Kitchen. They call it 'Yappy Hour'. Known for boot mugs, deviled eggs, bottomless brunch"},
+"sir-henrys":{name:"Sir Henry's",lat:40.7621,lng:-73.9991,hood:"Hell's Kitchen",addr:"557 9th Ave",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$8 craft cocktails","$6 beers","$8 wines","$5 shots"],note:"4.8★ rock bar, live music nightly"},
+"the-dickens":{name:"The Dickens",lat:40.7613,lng:-73.9990,hood:"Hell's Kitchen",addr:"587 9th Ave",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["FREE bottomless fries w/ martini","$12 martinis","$6 beers","$8 wines"],note:"4 floors + rooftop. FREE bottomless fries with every martini"},
+"haswell-greens":{name:"Haswell Green's",lat:40.7622,lng:-74.0045,hood:"Hell's Kitchen",addr:"600 11th Ave",days:[1,2,3,4,5],sH:16,eH:20,label:"Mon–Fri 4–8PM",deals:["$6 draft beers","$8 cocktails","$8 wines","$5 shots"],note:"Massive bar with stunning Hudson Yards views"},
+"marseille":{name:"Marseille",lat:40.7600,lng:-73.9998,hood:"Hell's Kitchen",addr:"630 9th Ave",days:[1,2,3,4,5,6,0],sH:16,eH:18,label:"Daily 4–6PM",deals:["$1.50 oysters","$8 cocktails","$7 wines","$6 beers"],note:"$1.50 oysters daily 4–6PM. Perfect pre-theater stop"},
+"russian-vodka-room":{name:"Russian Vodka Room",lat:40.7632,lng:-73.9872,hood:"Hell's Kitchen",addr:"265 W 52nd St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$4 vodka shots","$5 cosmos","$8 infused vodka flights"],note:"House-infused vodkas in dozens of flavors"},
+"friki-tiki":{name:"The Friki Tiki",lat:40.7557,lng:-73.9970,hood:"Hell's Kitchen",addr:"459 9th Ave",days:[1,2,3,4,5],sH:15,eH:19,label:"Mon–Fri 3–7PM",deals:["$10 tiki cocktails","$6 beers","$8 wines"],note:"Best tiki bar in Manhattan"},
+"ardesia":{name:"Ardesia Wine Bar",lat:40.7633,lng:-73.9913,hood:"Hell's Kitchen",addr:"510 W 52nd St",days:[2,3,4,5],sH:17,eH:19,label:"Tue–Fri 5–7PM",deals:["$8 wines by glass","$12 cocktails","$6 beers"],note:"Sleek marble bar — best wine selection in Hell's Kitchen"},
+"mercury-bar":{name:"Mercury Bar",lat:40.7568,lng:-73.9971,hood:"Hell's Kitchen",addr:"493 9th Ave",days:[1,2,3,4,5],sH:11,eH:20,label:"Mon–Fri 11AM–8PM",deals:["$6 beers","$7 well drinks","$5 Taco Tuesdays"],note:"9-hour happy hour. $5 Taco Tuesdays"},
+"waylon":{name:"The Waylon",lat:40.7611,lng:-74.0023,hood:"Hell's Kitchen",addr:"736 10th Ave",days:[1,2,3,4,5,6,0],sH:15,eH:19,label:"Daily 3–7PM",deals:["$6 beers","$8 whiskeys","$7 wines"],note:"Hell's Kitchen honky tonk — live country + back patio"},
+"rudys":{name:"Rudy's Bar & Grill",lat:40.7602,lng:-74.0004,hood:"Hell's Kitchen",addr:"627 9th Ave",days:[1,2,3,4,5,6,0],sH:12,eH:24,label:"Daily from noon",deals:["$3–4 beers","$12 pitchers","FREE hot dog w/ every drink"],note:"NYC institution: $3 beers + FREE hot dog with every drink"},
+"dynamo-room":{name:"The Dynamo Room",lat:40.7519,lng:-74.0006,hood:"Midtown",addr:"600 W 34th St",days:[1,2,3,4,5],sH:15,eH:18,label:"Mon–Fri 3–6PM",deals:["$13.95 cocktails","$12.95 wine","$5.95 beer","$29.95 NYC Happy Meal"],note:"$29.95 NYC Happy Meal: dirty martini + caesar + beef fat fries"},
+"golden-hof":{name:"Golden HOF",lat:40.7599,lng:-73.9748,hood:"Midtown",addr:"16 W 48th St",days:[1,2,3,4,5],sH:15,eH:18,label:"Daily 3–6PM",deals:["$10 cocktails","$14 wine","$6 beer","$6 makgeolli"],note:"Korean-American near 30 Rock — perilla daiquiri is a must"},
+"la-cava":{name:"La Cava",lat:40.7587,lng:-73.9797,hood:"Midtown",addr:"45 Rockefeller Plaza",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$8 wines","$10 cocktails","$7 beers"],note:"Underground wine cave beneath 30 Rock"},
+"rum-house":{name:"The Rum House",lat:40.7593,lng:-73.9851,hood:"Midtown",addr:"228 W 47th St",days:[1,2,3,4,5,6,0],sH:15,eH:18,label:"Daily 3–6PM",deals:["$12 rum cocktails","$8 beers","$10 wines"],note:"Best bar near Times Square — piano bar with live music"},
+"shakespeare":{name:"The Shakespeare",lat:40.7506,lng:-73.9880,hood:"Midtown",addr:"5 W 36th St",days:[1,2,3,4,5],sH:12,eH:19,label:"Mon–Fri 12–7PM",deals:["$6 draft beers","$8 cocktails","$7 wines"],note:"7-hour HH. Best British pub in Midtown"},
+"valerie":{name:"Valerie",lat:40.7536,lng:-73.9877,hood:"Midtown",addr:"112 W 38th St",days:[1,2,3,4,5],sH:15,eH:19,label:"Mon–Fri 3–7PM",deals:["$1 oysters (w/ drink)","$10 cocktails","$7 beers","$9 wines"],note:"$1 oysters with any drink — incredible Midtown deal"},
+"rpm-underground":{name:"RPM Underground",lat:40.7566,lng:-73.9808,hood:"Midtown",addr:"40 W 45th St",days:[1,2,3,4,5],sH:13,eH:19,label:"Mon–Fri 1–7PM",deals:["50% off ALL food & drinks","17 karaoke rooms"],note:"50% off everything 1–7PM + 17 private karaoke rooms"},
+"castell-rooftop":{name:"Castell Rooftop",lat:40.7557,lng:-73.9826,hood:"Midtown",addr:"15 W 44th St",days:[2,3,4,5],sH:16,eH:19,label:"Tue–Fri 4–7PM",deals:["$9 tiny martinis Tue","$12 cocktails","$10 wines","$6 beers"],note:"Hotel rooftop — $9 tiny martinis on Tuesdays"},
+"havana-central":{name:"Havana Central",lat:40.7578,lng:-73.9863,hood:"Midtown",addr:"151 W 46th St",days:[1,2,3,4,5],sH:15,eH:19,label:"Mon–Fri 3–7PM",deals:["$8 mojitos","$8 margaritas","$6 beers"],note:"Best pre-theater pregame near Times Square"},
+"peter-dillons":{name:"Peter Dillon's",lat:40.7515,lng:-73.9720,hood:"Midtown",addr:"221 E 45th St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$5 drafts","$7 well drinks","$7 wines"],note:"Best Irish pub near Grand Central"},
+"vue-180":{name:"Vue 180 Rooftop",lat:40.7527,lng:-73.9930,hood:"Midtown",addr:"525 8th Ave",days:[1,2,3,4,5],sH:19,eH:24,label:"Mon–Fri 7PM–close",deals:["$9 beers","$9 wines","$10 cocktails"],note:"Reversed HH 7PM–close — stunning rooftop views"},
+"musaek":{name:"Musaek",lat:40.7484,lng:-73.9880,hood:"Koreatown",addr:"15 W 32nd St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$10 cocktails","$6 makgeolli","$8 soju cocktails"],note:"Speakeasy aesthetic with Korean cocktails"},
+"tap-haus":{name:"Tap Haus 33",lat:40.7482,lng:-73.9877,hood:"Koreatown",addr:"33 W 33rd St",days:[1,2,3,4],sH:17,eH:20,label:"Mon–Thu 5–8PM",deals:["$25 all-you-can-drink draft","$10 cocktails"],note:"$25 AYCE draft beer Mon–Thu"},
+"old-town-bar":{name:"Old Town Bar",lat:40.7392,lng:-73.9893,hood:"Flatiron",addr:"45 E 18th St",days:[1,2,3,4,5],sH:15,eH:18,label:"Mon–Fri 3–6PM",deals:["$5 domestic beers","$7 wines","$6 well drinks"],note:"Open since 1892 — original mahogany bar and tin ceilings"},
+"caliza":{name:"Caliza",lat:40.7411,lng:-73.9852,hood:"Flatiron",addr:"149 E 23rd St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$13 margaritas","$13 sangria","$8 cervezas"],note:"Beautiful patio — resort vibes in Flatiron"},
+"turnmill":{name:"Turnmill",lat:40.7450,lng:-73.9878,hood:"NoMad",addr:"220 5th Ave",days:[1,2,3,4,5],sH:12,eH:19,label:"Mon–Fri 12–7PM",deals:["$8 well drinks","$6 beers","$9 wines","$10 cocktails"],note:"7-hour happy hour noon to 7PM every weekday"},
+"a10-kitchen":{name:"A10 Kitchen",lat:40.7387,lng:-73.9858,hood:"Union Square",addr:"247 Park Ave S",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$20 pitchers","$5 margaritas","$5 truffle mac & cheese"],note:"$5 truffle mac & cheese is the move"},
+"la-nacional":{name:"La Nacional",lat:40.7396,lng:-74.0009,hood:"Chelsea",addr:"239 W 14th St",days:[2,3,4,5],sH:16,eH:18,label:"Tue–Fri 4–6PM",deals:["$5 draft beers","$6 sangria & wine","$7 tapas"],note:"Infatuation #1 — oldest Spanish club in NYC (1868)"},
+"magic-hour":{name:"Magic Hour Rooftop",lat:40.7484,lng:-73.9967,hood:"Chelsea",addr:"485 7th Ave",days:[1,2,3,4,5],sH:15,eH:18,label:"Mon–Fri 3–6:30PM",deals:["$4 fries","$6 beers","$8 wines","$10 drinks"],note:"18th floor Moxy Hotel — mini golf + rooftop views"},
+"half-king":{name:"The Half King",lat:40.7476,lng:-74.0052,hood:"Chelsea",addr:"505 W 23rd St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$6 draft beers","$8 wines","$9 cocktails"],note:"Famous literary bar — journalists & writers since 2000"},
+"porchlight":{name:"Porchlight",lat:40.7487,lng:-74.0072,hood:"Chelsea",addr:"271 11th Ave",days:[1,2,3,4,5],sH:16,eH:18,label:"Mon–Fri 4–6PM",deals:["$9 whiskey cocktails","$6 beers","$8 wines"],note:"Best Southern whiskey bar in NYC"},
+"dante-wv":{name:"Dante West Village",lat:40.7337,lng:-74.0068,hood:"West Village",addr:"551 Hudson St",days:[1,2,3,4,5,6,0],sH:15,eH:18,label:"Daily 3–6PM",deals:["$10 Negronis","$10 Aperol Spritz","$8 wines"],note:"World's Best Bar 2019 — sister to the original"},
+"stonewall-inn":{name:"Stonewall Inn",lat:40.7335,lng:-74.0025,hood:"West Village",addr:"53 Christopher St",days:[1,2,3,4,5,6,0],sH:14,eH:20,label:"Daily 2–8PM",deals:["$7 cocktails","$5 beers","$6 wines","$4 wells"],note:"National Historic Landmark — birthplace of LGBTQ+ rights"},
+"duplex":{name:"The Duplex",lat:40.7341,lng:-74.0028,hood:"West Village",addr:"61 Christopher St",days:[1,2,3,4,5,6,0],sH:15,eH:20,label:"Daily 3–8PM",deals:["$8 wines","$6 beers","$9 cocktails"],note:"Piano bar/cabaret — patio + nightly shows at 9PM"},
+"bandits-diner":{name:"Bandits Diner",lat:40.7337,lng:-74.0027,hood:"West Village",addr:"142 W 10th St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$10 martinis","$15 martini + tots","$8 wine","$6 beer"],note:"$15 Happy Meal = martini + tots is the definitive order"},
+"dante-gv":{name:"Dante",lat:40.7300,lng:-74.0002,hood:"Greenwich Village",addr:"79 MacDougal St",days:[1,2,3,4,5,6,0],sH:15,eH:18,label:"Daily 3–6PM",deals:["$10 Negronis","$10 Aperol Spritz","$8 wines","$12 cocktails"],note:"The original World's Best Bar 2019"},
+"amelie-gv":{name:"Amelie Wine Bar",lat:40.7307,lng:-73.9987,hood:"Greenwich Village",addr:"22 W 8th St",days:[1,2,3,4,5,6,0],sH:16,eH:18,label:"Daily 4–6PM",deals:["$10 cocktails","$7 beers","$14 wine flights"],note:"$14 wine flights. $21 early bird = meal + wine"},
+"the-jane":{name:"The Jane Ballroom",lat:40.7371,lng:-74.0074,hood:"Greenwich Village",addr:"113 Jane St",days:[1,2,3,4,5,6,0],sH:16,eH:20,label:"Daily 4–8PM",deals:["$7 wines","$4 draft beers","$9 draft Negroni"],note:"Hotel bar in stunning 1908 building"},
+"miss-lilys":{name:"Miss Lily's 7A",lat:40.7262,lng:-73.9826,hood:"East Village",addr:"109 Ave A",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$8 cocktails","$6 beer","$7 wine"],note:"Lily's Rum Punch. Tuesday jerk crab boil is legendary"},
+"bar-belly":{name:"Bar Belly",lat:40.7257,lng:-73.9793,hood:"East Village",addr:"171 Ave B",days:[1,2,3,4,5,6,0],sH:17,eH:19,label:"Daily 5–7PM",deals:["$2 oysters","$14 cocktails","Free popcorn","$8 wines"],note:"Free popcorn on arrival. $2 oysters every day"},
+"wcou":{name:"WCOU Tile Bar",lat:40.7272,lng:-73.9847,hood:"East Village",addr:"115 1st Ave",days:[1,2,3,4,5,6,0],sH:12,eH:20,label:"Daily until 8PM",deals:["$4 well drinks","$5 beers"],note:"Classic EV dive — $4 well drinks until 8PM"},
+"bibi":{name:"Bibi Wine Bar",lat:40.7270,lng:-73.9895,hood:"East Village",addr:"30 E 7th St",days:[1,2,3,4,5,6,0],sH:17,eH:20,label:"Daily 5–8PM",deals:["$5 glass house wine","$28 select bottles","$6 beers"],note:"Australian wine bar — $28 bottle deal during HH"},
+"the-wayland":{name:"The Wayland",lat:40.7239,lng:-73.9762,hood:"East Village",addr:"700 E 9th St",days:[1,2,3,4,5,6,0],sH:16,eH:19,label:"Daily 4–7PM",deals:["$10 cocktails","$10 half-dozen oysters","$15 beer+burger"],note:"$10 half-dozen oysters — best deal in Alphabet City"},
+"mermaid-inn":{name:"Mermaid Inn EV",lat:40.7264,lng:-73.9867,hood:"East Village",addr:"96 2nd Ave",days:[1,2,3,4,5,6,0],sH:17,eH:19,label:"Tue–Fri 5–7, Sat–Sun 4–7PM",deals:["$6 beer","$8.50 wine","Mini lobster roll"],note:"Mini lobster roll + $6 beer. Best backyard in EV"},
+"la-linea":{name:"La Linea",lat:40.7271,lng:-73.9847,hood:"East Village",addr:"15 1st Ave",days:[0,1,2,3,4,6],sH:12,eH:21,label:"Daily until 9PM",deals:["$3 off all drinks","$8 beers","$11 cocktails"],note:"HH until 9PM. Taco Tuesdays $4 tacos"},
+"rosella":{name:"Rosella",lat:40.7260,lng:-73.9824,hood:"East Village",addr:"137 Ave A",days:[1,2,3,4,5,6,0],sH:17,eH:18,label:"Daily 5–6:30PM",deals:["$6 beer","$12 wine","5-pc nigiri $25"],note:"Infatuation 8.8 — American sushi with local NY ingredients"},
+"verlaine":{name:"Verlaine",lat:40.7196,lng:-73.9862,hood:"Lower East Side",addr:"110 Rivington St",days:[1,2,3,4,5,6,0],sH:17,eH:22,label:"Daily 5–10PM",deals:["$8 lychee martinis","$6 beers","$9 wines"],note:"Longest HH in Manhattan — every night until 10PM"},
+"cervos":{name:"Cervo's",lat:40.7149,lng:-73.9986,hood:"Lower East Side",addr:"43 Canal St",days:[2,3,4,5],sH:17,eH:18,label:"Tue–Fri 5–6PM",deals:["$1 oysters","$7 beers","$10 wines","$12 cocktails"],note:"James Beard nominated. $1 oysters during HH"},
+"barrio-chino":{name:"Barrio Chino",lat:40.7165,lng:-73.9938,hood:"Lower East Side",addr:"253 Broome St",days:[1,2,3,4,5,6,0],sH:16,eH:20,label:"Daily 4–8PM",deals:["$8 margaritas","$7 beers","$9 mezcal cocktails"],note:"4-hour daily happy hour"},
+"la-caverna":{name:"La Caverna",lat:40.7195,lng:-73.9882,hood:"Lower East Side",addr:"122 Rivington St",days:[3,5,0],sH:17,eH:20,label:"Wed/Fri/Sun",deals:["$3 tacos","$6 beers","$8 margaritas"],note:"Huge underground cave bar — $3 Taco Tuesdays"},
+"mr-purple":{name:"Mr. Purple Rooftop",lat:40.7218,lng:-73.9882,hood:"Lower East Side",addr:"180 Orchard St",days:[1,2,3],sH:16,eH:19,label:"Mon–Wed 4–7PM",deals:["$6 bar snacks","$11 cocktails","$11 wines"],note:"15th floor — stunning LES rooftop views"},
+"local-138":{name:"Local 138",lat:40.7185,lng:-73.9879,hood:"Lower East Side",addr:"138 Ludlow St",days:[1,2,3,4,5,6,0],sH:16,eH:20,label:"Daily 4–8PM",deals:["$5 domestic beers","$7 wines","$7 wells"],note:"Classic LES neighborhood dive"},
+"bonnie-vee":{name:"Bonnie Vee",lat:40.7181,lng:-73.9879,hood:"Lower East Side",addr:"17 Stanton St",days:[1,2,3,4,5,6,0],sH:16,eH:19,label:"Daily 4–7PM",deals:["$12 daily cocktail","$5 Tecate","$2 off wines"],note:"Back patio. Daily cocktail deals + warm pretzel"},
+"spring-lounge":{name:"Spring Lounge",lat:40.7225,lng:-73.9963,hood:"Nolita",addr:"48 Spring St",days:[1,2,3,4,5,6,0],sH:12,eH:20,label:"Daily 12–8PM",deals:["$4 domestic beers","$6 wines","$5 wells"],note:"Classic Nolita dive — 8-hour daily HH"},
+"roxy-bar":{name:"Roxy Bar",lat:40.7240,lng:-74.0064,hood:"SoHo",addr:"2 6th Ave",days:[1,2,3,4,5],sH:16,eH:18,label:"Mon–Fri 4–6PM",deals:["$2 oysters","$5 beers","$9 wines","$10 cocktails"],note:"$2 oysters Mon–Fri 4–6PM"},
+"port-said":{name:"Port Sa'id",lat:40.7209,lng:-73.9881,hood:"SoHo",addr:"178 Stanton St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["BOGO cocktails","Snack specials"],note:"BOGO cocktails — one of the best HH deals in Manhattan"},
+"botanica":{name:"Botanica Bar",lat:40.7252,lng:-73.9966,hood:"SoHo",addr:"47 E Houston St",days:[1,2,3,4,5,6,0],sH:12,eH:20,label:"Daily until 8PM",deals:["$3–5 drafts","$5 wine","$4 wells"],note:"Daily HH until 8PM every night"},
+"tinys":{name:"Tiny's",lat:40.7174,lng:-74.0094,hood:"Tribeca",addr:"135 W Broadway",days:[1,2,3,4,5,6,0],sH:16,eH:18,label:"Daily 4–6PM",deals:["$11 house wine","$13 sangria","$22 martini+tots","$2 oysters"],note:"Flamingo-pink Tribeca townhouse"},
+"the-odeon":{name:"The Odeon",lat:40.7168,lng:-74.0086,hood:"Tribeca",addr:"145 W Broadway",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$9 cocktails","$8 wines","$6 beers"],note:"Tribeca institution since 1980 — Andy Warhol's haunt"},
+"169-bar":{name:"169 Bar",lat:40.7141,lng:-73.9892,hood:"Chinatown",addr:"169 E Broadway",days:[1,2,3,4,5,6,0],sH:11,eH:19,label:"Daily 11:30AM–7:30PM",deals:["$1 off all beers","$4 Taco Tuesdays"],note:"100+ years old — $1 off beers all day"},
+"dead-rabbit":{name:"The Dead Rabbit",lat:40.7033,lng:-74.0121,hood:"Financial District",addr:"30 Water St",days:[1,2,3,4,5],sH:11,eH:20,label:"Mon–Fri 11AM–8PM",deals:["$5 pints in Taproom","$10 cocktails","$12 Irish whiskeys"],note:"World's Best Bar. $5 pints in the Taproom"},
+"pier-a":{name:"Pier A Harbor House",lat:40.7034,lng:-74.0168,hood:"Financial District",addr:"22 Battery Pl",days:[1,2,3,4,5],sH:15,eH:19,label:"Mon–Fri 3–7PM",deals:["$4 beers","$6 wines","$8 drinks","$1.50 oysters"],note:"Harbor views from historic Battery Park pier"},
+"fraunces-tavern":{name:"Fraunces Tavern",lat:40.7034,lng:-74.0098,hood:"Financial District",addr:"54 Pearl St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$7 draft beers","$9 wines","$10 cocktails"],note:"Oldest bar in NYC (1762) — Washington's farewell address"},
+"merchants-river":{name:"Merchants River House",lat:40.7077,lng:-74.0161,hood:"Financial District",addr:"375 South End Ave",days:[1,2,3,4,5,6,0],sH:15,eH:19,label:"Daily 3–7PM",deals:["$8 cocktails","$6 beers","$8 wines"],note:"Hudson River + Statue of Liberty views"},
+"tao-downtown":{name:"TAO Downtown",lat:40.7426,lng:-74.0047,hood:"Meatpacking",addr:"92 9th Ave",days:[1,2,3,4,5],sH:17,eH:20,label:"Mon–Fri 5–8PM",deals:["$8 beers","$9 cocktails","$9 wines","$7 bites"],note:"Rare HH at a celeb hotspot"},
+"mollys-shebeen":{name:"Molly's Shebeen",lat:40.7412,lng:-73.9847,hood:"Gramercy",addr:"287 3rd Ave",days:[1,2,3,4,5,6,0],sH:16,eH:19,label:"Daily 4–7PM",deals:["$6 drafts","$8 cocktails","$7 wines"],note:"Legendary fireplace, sawdust floors, wood-paneled walls"},
+"seven-sins":{name:"Seven Sins",lat:40.7411,lng:-73.9844,hood:"Gramercy",addr:"293 3rd Ave",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$7 drafts","$7 wines","$12 cocktails"],note:"Official NY hub for Notre Dame games"},
+"cafe-dalsace":{name:"Cafe d'Alsace",lat:40.7784,lng:-73.9533,hood:"Upper East Side",addr:"1695 2nd Ave",days:[1,2,3,4,5,6,0],sH:17,eH:20,label:"Daily 5–8PM",deals:["$7 beers","$12 cocktails","$10 wine"],note:"Best beer list on the UES — Alsatian imports since the 80s"},
+"penrose":{name:"Penrose",lat:40.7763,lng:-73.9537,hood:"Upper East Side",addr:"1590 2nd Ave",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$7 drafts","$8 wines","$10 cocktails","$5 wells"],note:"Best craft beer list on the UES"},
+"stumble-inn":{name:"Stumble Inn",lat:40.7741,lng:-73.9547,hood:"Upper East Side",addr:"1454 2nd Ave",days:[1,2,3,4,5],sH:12,eH:20,label:"Mon–Fri 12–8PM",deals:["$5 domestic beers","$4 well drinks"],note:"8-hour HH — cheapest beers on the Upper East Side"},
+"nobody-told-me":{name:"Nobody Told Me",lat:40.8209,lng:-73.9576,hood:"Upper West Side",addr:"1586 Amsterdam Ave",days:[1,2,3,4,5,6,0],sH:15,eH:18,label:"Daily 3–6PM",deals:["Discounted Negroni","Discounted Aperol Spritz","Discounted espresso martini"],note:"Best cocktail bar on the Upper West Side"},
+"amelie-uws":{name:"Amelie UWS",lat:40.7899,lng:-73.9804,hood:"Upper West Side",addr:"2325 Broadway",days:[1,2,3,4,5,6,0],sH:16,eH:18,label:"Daily 4–6PM",deals:["$10 cocktails","$7 beers","$14 wine flights"],note:"UWS outpost of the popular GV wine bar"},
+"jakes-dilemma":{name:"Jake's Dilemma",lat:40.7836,lng:-73.9788,hood:"Upper West Side",addr:"430 Amsterdam Ave",days:[1,2,3,4,5,6,0],sH:16,eH:18,label:"Daily 4–6PM",deals:["Half-price well drinks","$4 beer buckets","$1.50 burgers"],note:"Half-price well drinks daily"},
+"red-rooster":{name:"Red Rooster",lat:40.8082,lng:-73.9427,hood:"Harlem",addr:"310 Lenox Ave",days:[1,2,3,4,5],sH:12,eH:22,label:"Mon–Fri 12–10PM",deals:["$10 signature cocktails","$20 snack combo"],note:"Marcus Samuelsson's Harlem classic — live jazz nightly"},
+"vinateria":{name:"Vinateria",lat:40.8100,lng:-73.9534,hood:"Harlem",addr:"2211 Frederick Douglass Blvd",days:[1,2,3,4,5,6],sH:16,eH:18,label:"Mon–Sat 4–6PM",deals:["$10 Bordeaux","$8 cocktails","Bacalao croquettes $12"],note:"Sidewalk tables — $10 Bordeaux + terrific bacalao croquettes"},
+"shrine":{name:"Shrine",lat:40.8156,lng:-73.9408,hood:"Harlem",addr:"2271 Adam Clayton Powell Jr Blvd",days:[1,2,3,4,5,6,0],sH:16,eH:20,label:"Daily 4–8PM",deals:["$5 beers","$7 cocktails","$6 wines"],note:"Live music every night — often FREE during happy hour"},
+"harlem-tavern":{name:"Harlem Tavern",lat:40.8105,lng:-73.9527,hood:"Harlem",addr:"2153 Frederick Douglass Blvd",days:[1,2,3,4,5,6,0],sH:12,eH:19,label:"Daily 12–7PM",deals:["$7 drinks","$6 craft beers","$5 drafts"],note:"Huge beer garden — best outdoor bar in Harlem"},
+"hamilton-hall":{name:"Hamilton Hall",lat:40.8245,lng:-73.9440,hood:"Hamilton Heights",addr:"3493 Broadway",days:[1,2,3,4,5],sH:15,eH:19,label:"Mon–Fri 3–7PM",deals:["$1 off draft beer","$8 house wine","$8 cocktails"],note:"Live jazz every Saturday"},
+"yatenga":{name:"Yatenga",lat:40.8160,lng:-73.9424,hood:"Harlem",addr:"2269 Frederick Douglass Blvd",days:[2,3,4,5],sH:17,eH:19,label:"Tue–Fri 5–7PM",deals:["French-Caribbean cocktails","$8 wines","$6 beers"],note:"French-Caribbean gem — one of Harlem's best date spots"},
+"inwood-bar":{name:"Inwood Bar & Grill",lat:40.8679,lng:-73.9236,hood:"Inwood",addr:"4957 Broadway",days:[1,2,3,4,5,6,0],sH:12,eH:19,label:"Daily until 7PM",deals:["$3 beers","$1 house shots","$15 beer buckets"],note:"Biggest sports bar in Inwood — $3 beers + $1 shots"},
+"the-heights":{name:"The Heights",lat:40.8050,lng:-73.9668,hood:"Washington Heights",addr:"2867 Broadway",days:[1,2,3,4,5,6,0],sH:15,eH:20,label:"Daily 3–8PM",deals:["$6 frozen margaritas","$7 cocktails","$5 beers"],note:"Two floors + rooftop, popular with Columbia students"},
+};
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let googleMap = null;
+let placesService = null;
+let allVenues = [];       // merged Places + HH data
+let mapMarkers = {};      // placeId -> google.maps.Marker
+let selVenue = null;
+let curView = 'list';
+let fNow = true;
+let fHHOnly = false;
+let fDays = new Set();
+let fHood = '';
+let menuCache = {}; // kept for scraper compatibility
+let nextPageToken = null;
+let searchPending = false;
+
+// Search grid: cover Manhattan with overlapping circles
+const SEARCH_CENTERS = [
+  {lat:40.7580,lng:-73.9855,label:"Midtown"},
+  {lat:40.7282,lng:-73.9942,label:"Downtown"},
+  {lat:40.7830,lng:-73.9700,label:"Upper Manhattan"},
+  {lat:40.7489,lng:-74.0048,label:"West Side"},
+  {lat:40.7489,lng:-73.9680,label:"East Side"},
+];
+let searchIdx = 0;
+
+// ═══════════════════════════════════════════════════════════
+// STARTUP — auto-load with embedded key
+// ═══════════════════════════════════════════════════════════
+const GKEYS = [
+  'AIzaSyC4wScw6cTn4eIg5ERvmQrGC2qab5GRdys',
+  'AIzaSyDgFWH-UwZ8I9ORACsVOkcQBkQYzD6KK9o',
+];
+let gkeyIdx = 0;
+
+window.initGoogleMaps = () => { initGoogleMap(); };
+
+function loadGoogleMaps(keyIdx) {
+  // Remove any previous failed script
+  const old = document.getElementById('gmaps-script');
+  if (old) old.remove();
+  const script = document.createElement('script');
+  script.id = 'gmaps-script';
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${GKEYS[keyIdx]}&libraries=places&callback=initGoogleMaps&v=weekly`;
+  script.onerror = () => {
+    console.warn('Key', keyIdx, 'failed, trying next...');
+    if (keyIdx + 1 < GKEYS.length) loadGoogleMaps(keyIdx + 1);
+    else document.getElementById('map-loading-txt').textContent = 'Map failed to load. Check API keys.';
+  };
+  document.head.appendChild(script);
+}
+
+loadGoogleMaps(0);
+
+// ═══════════════════════════════════════════════════════════
+// GOOGLE MAP INIT
+// ═══════════════════════════════════════════════════════════
+function initGoogleMap() {
+  googleMap = new google.maps.Map(document.getElementById('gmap'), {
+    center: {lat:40.754, lng:-73.984},
+    zoom: 13,
+    mapTypeId: 'roadmap',
+    styles: [
+      {elementType:'geometry',stylers:[{color:'#1a1a2e'}]},
+      {elementType:'labels.text.fill',stylers:[{color:'#746855'}]},
+      {elementType:'labels.text.stroke',stylers:[{color:'#242f3e'}]},
+      {featureType:'administrative.locality',elementType:'labels.text.fill',stylers:[{color:'#d59563'}]},
+      {featureType:'poi',elementType:'labels.text.fill',stylers:[{color:'#d59563'}]},
+      {featureType:'poi.park',elementType:'geometry',stylers:[{color:'#263c3f'}]},
+      {featureType:'poi.park',elementType:'labels.text.fill',stylers:[{color:'#6b9a76'}]},
+      {featureType:'road',elementType:'geometry',stylers:[{color:'#38414e'}]},
+      {featureType:'road',elementType:'geometry.stroke',stylers:[{color:'#212a37'}]},
+      {featureType:'road',elementType:'labels.text.fill',stylers:[{color:'#9ca5b3'}]},
+      {featureType:'road.highway',elementType:'geometry',stylers:[{color:'#746855'}]},
+      {featureType:'road.highway',elementType:'geometry.stroke',stylers:[{color:'#1f2835'}]},
+      {featureType:'road.highway',elementType:'labels.text.fill',stylers:[{color:'#f3d19c'}]},
+      {featureType:'transit',elementType:'geometry',stylers:[{color:'#2f3948'}]},
+      {featureType:'transit.station',elementType:'labels.text.fill',stylers:[{color:'#d59563'}]},
+      {featureType:'water',elementType:'geometry',stylers:[{color:'#17263c'}]},
+      {featureType:'water',elementType:'labels.text.fill',stylers:[{color:'#515c6d'}]},
+      {featureType:'water',elementType:'labels.text.stroke',stylers:[{color:'#17263c'}]},
+    ],
+    disableDefaultUI: true,
+    zoomControl: true,
+    zoomControlOptions: { position: google.maps.ControlPosition.BOTTOM_RIGHT },
+    gestureHandling: 'greedy',
+  });
+
+  placesService = new google.maps.places.PlacesService(googleMap);
+
+  // Populate hood dropdown from HH data
+  const sel = document.getElementById('hood-sel');
+  [...new Set(Object.values(HH_DATA).map(b=>b.hood))].sort().forEach(h=>{
+    const o=document.createElement('option'); o.value=h; o.textContent=h; sel.appendChild(o);
+  });
+
+  // Pre-load our curated bars as venues
+  Object.entries(HH_DATA).forEach(([id, hh]) => {
+    allVenues.push({ id, name: hh.name, addr: hh.addr, hood: hh.hood, hh, placeId: null, lat: hh.lat||null, lng: hh.lng||null, rating: null, numRatings: null, openNow: null, hours: null });
+  });
+
+  updateSubtitle();
+  applyFilters();
+
+  // Start searching for real places
+  searchNextCenter();
+}
+
+// ═══════════════════════════════════════════════════════════
+// PLACES SEARCH — scan Manhattan in a grid
+// ═══════════════════════════════════════════════════════════
+function searchNextCenter() {
+  if (searchIdx >= SEARCH_CENTERS.length) {
+    finishSearch();
+    return;
+  }
+  const c = SEARCH_CENTERS[searchIdx];
+  document.getElementById('map-loading-txt').textContent = `Searching ${c.label}…`;
+  placesService.nearbySearch({
+    location: {lat: c.lat, lng: c.lng},
+    radius: 1800,
+    type: 'bar',
+    keyword: 'bar restaurant',
+  }, (results, status, pagination) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+      mergeResults(results);
+    }
+    // Get page 2 & 3 for each center (up to 60 results)
+    if (pagination && pagination.hasNextPage) {
+      setTimeout(() => {
+        pagination.nextPage();
+      }, 1200);
+    } else {
+      searchIdx++;
+      if (searchIdx < SEARCH_CENTERS.length) {
+        setTimeout(searchNextCenter, 400);
+      } else {
+        finishSearch();
+      }
+    }
+  });
+}
+
+function finishSearch() {
+  document.getElementById('map-loading').classList.add('gone');
+  updateSubtitle();
+  applyFilters();
+  if (curView === 'map') renderMapMarkers();
+}
+
+function mergeResults(results) {
+  results.forEach(place => {
+    if (!place.geometry) return;
+    const pid = place.place_id;
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+    const pname = place.name;
+
+    // Try to match with our curated HH data by name similarity
+    let matchedHH = null;
+    let matchedId = null;
+    const pnl = pname.toLowerCase().replace(/[^a-z0-9]/g,'');
+    for (const [id, hh] of Object.entries(HH_DATA)) {
+      const hnl = hh.name.toLowerCase().replace(/[^a-z0-9]/g,'');
+      if (pnl === hnl || pnl.includes(hnl) || hnl.includes(pnl) ||
+          levenshtein(pnl, hnl) <= 3) {
+        matchedHH = hh;
+        matchedId = id;
+        break;
+      }
+    }
+
+    // Update existing curated venue with real coords
+    if (matchedId && matchedHH) {
+      const existing = allVenues.find(v=>v.id===matchedId);
+      if (existing) {
+        existing.placeId = pid;
+        existing.lat = lat;
+        existing.lng = lng;
+        existing.rating = place.rating;
+        existing.numRatings = place.user_ratings_total;
+        existing.openNow = place.opening_hours?.isOpen?.();
+        return;
+      }
+    }
+
+    // Add new venue from Places if not already in list
+    if (!allVenues.find(v=>v.placeId===pid)) {
+      allVenues.push({
+        id: pid, name: pname, addr: place.vicinity, hood: '', hh: null,
+        placeId: pid, lat, lng, rating: place.rating, numRatings: place.user_ratings_total,
+        openNow: place.opening_hours?.isOpen?.(), hours: null,
+      });
+    }
+  });
+
+  applyFilters();
+  if (curView === 'map') renderMapMarkers();
+}
+
+// Simple Levenshtein for fuzzy name matching
+function levenshtein(a, b) {
+  const m=a.length, n=b.length;
+  const dp=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i===0?j:j===0?i:0));
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+    dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+// ═══════════════════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════════════════
+function isHHOpen(venue) {
+  if (!venue.hh) return false;
+  const n=new Date(), d=n.getDay(), h=n.getHours()+n.getMinutes()/60;
+  return venue.hh.days.includes(d) && h>=venue.hh.sH && h<(venue.hh.eH>=24?24:venue.hh.eH);
+}
+function isBusinessOpen(venue) {
+  if (venue.openNow !== null) return venue.openNow;
+  return null; // unknown
+}
+function getFilterTime() {
+  const v=document.getElementById('time-input').value;
+  if (!v) return null;
+  const [h,m]=v.split(':').map(Number);
+  return h+m/60;
+}
+function venuePasses(v) {
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  if (q && !v.name.toLowerCase().includes(q) && !v.hood.toLowerCase().includes(q) && !(v.addr||'').toLowerCase().includes(q) && !(v.hh?.note||'').toLowerCase().includes(q) && !(v.hh?.deals||[]).some(d=>d.toLowerCase().includes(q))) return false;
+  if (fHood && v.hood !== fHood) return false;
+  if (fHHOnly && !v.hh) return false;
+  if (fNow) { return isHHOpen(v) || isBusinessOpen(v) !== false; }
+  const fd = fDays.size>0?[...fDays]:null;
+  const ft = getFilterTime();
+  if (fd || ft!==null) {
+    if (!v.hh) return !fHHOnly;
+    const days = fd||[0,1,2,3,4,5,6];
+    return days.some(d=>{
+      if (!v.hh.days.includes(d)) return false;
+      if (ft===null) return true;
+      return ft>=v.hh.sH && ft<(v.hh.eH>=24?24:v.hh.eH);
+    });
+  }
+  return true;
+}
+function getFiltered() {
+  return allVenues.filter(venuePasses).sort((a,b)=>{
+    const ao=isHHOpen(a), bo=isHHOpen(b);
+    if (ao!==bo) return ao?-1:1;
+    const ah=!!a.hh, bh=!!b.hh;
+    if (ah!==bh) return ah?-1:1;
+    return a.name.localeCompare(b.name);
+  });
+}
+
+function toggleNow(){
+  fNow=!fNow;
+  document.getElementById('pill-now').classList.toggle('on',fNow);
+  if(fNow){fDays.clear();document.getElementById('time-input').value='';[0,1,2,3,4,5,6].forEach(d=>document.getElementById('pill-'+d).classList.remove('on'));document.getElementById('time-pill').classList.remove('on');document.getElementById('tpl').textContent='At time';}
+  applyFilters();
+}
+function toggleHHOnly(){
+  fHHOnly=!fHHOnly;
+  document.getElementById('pill-hh').classList.toggle('on',fHHOnly);
+  applyFilters();
+}
+function toggleDay(d){
+  fNow=false; document.getElementById('pill-now').classList.remove('on');
+  const el=document.getElementById('pill-'+d);
+  if(fDays.has(d)){fDays.delete(d);el.classList.remove('on');}else{fDays.add(d);el.classList.add('on');}
+  applyFilters();
+}
+function focusTime(){document.getElementById('time-input').showPicker?.();document.getElementById('time-input').focus();}
+function onTimeChange(){
+  fNow=false; document.getElementById('pill-now').classList.remove('on');
+  const v=document.getElementById('time-input').value;
+  document.getElementById('time-pill').classList.toggle('on',!!v);
+  document.getElementById('tpl').style.display=v?'none':'';
+  applyFilters();
+}
+function onHoodChange(){
+  fHood=document.getElementById('hood-sel').value;
+  document.getElementById('hood-lbl').textContent=fHood||'📍 Area';
+  document.getElementById('hood-pill').classList.toggle('on',!!fHood);
+  applyFilters();
+}
+function applyFilters(){
+  renderList();
+  if(curView==='map') renderMapMarkers();
+}
+
+// ═══════════════════════════════════════════════════════════
+// LIST
+// ═══════════════════════════════════════════════════════════
+function updateSubtitle(){
+  const hhOpen=allVenues.filter(v=>v.hh&&isHHOpen(v)).length;
+  const total=allVenues.length;
+  document.getElementById('subtitle').textContent=`${hhOpen} HH open now · ${total} venues`;
+}
+function renderList(){
+  const venues=getFiltered();
+  const inner=document.getElementById('list-inner');
+  if(!venues.length){inner.innerHTML='<div class="empty">No venues match — try adjusting filters</div>';return;}
+  inner.innerHTML=venues.slice(0,60).map(v=>{
+    const hhOpen=isHHOpen(v);
+    const bizOpen=isBusinessOpen(v);
+    return `<div class="bar-item" onclick="openDetail('${v.id}')">
+      <div class="bar-dot-wrap"><div class="bar-dot${hhOpen?' open':bizOpen?' open':''}"></div></div>
+      <div class="bar-info">
+        ${v.hh?'<div class="hh-badge">HH</div>':''}
+        <div class="bar-name">${v.name}</div>
+        <div class="bar-sub">${v.hood||v.addr||'Manhattan'} ${v.rating?`· ★${v.rating}`:''}</div>
+        <div class="bar-deal">${v.hh?v.hh.deals[0]:'Bar / Restaurant'}</div>
+      </div>
+      <div class="bar-right">
+        ${hhOpen?'<div class="open-tag">HH OPEN</div>':bizOpen?`<div class="open-tag">OPEN</div>`:bizOpen===false?'<div class="next-tag">Closed</div>':''}
+        ${hhOpen||bizOpen?`<div class="next-tag">${v.hh?v.hh.label:''}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// MAP MARKERS (Google Maps)
+// ═══════════════════════════════════════════════════════════
+function markerColor(v, selected) {
+  if (selected) return '#ffffff';
+  if (isHHOpen(v)) return '#4ade80';
+  if (v.hh) return '#fb923c';
+  return '#3b82f6';
+}
+function markerBg(v, selected) {
+  if (selected) return '#1a73e8';
+  if (isHHOpen(v)) return '#14532d';
+  if (v.hh) return '#431407';
+  return '#1e3a5f';
+}
+
+function renderMapMarkers() {
+  if (!googleMap) return;
+  const filtered = new Set(getFiltered().filter(v=>v.lat && v.hh).map(v=>v.id));
+
+  // Remove stale
+  Object.keys(mapMarkers).forEach(id=>{
+    if (!filtered.has(id)) { mapMarkers[id].setMap(null); delete mapMarkers[id]; }
+  });
+
+  // Add/update
+  allVenues.filter(v=>v.lat && v.hh && filtered.has(v.id)).forEach(v=>{
+    const sel = selVenue?.id === v.id;
+    if (mapMarkers[v.id]) {
+      mapMarkers[v.id].setIcon(makeGMarkerIcon(v, sel));
+      mapMarkers[v.id].setZIndex(sel ? 999 : v.hh ? 10 : 1);
+    } else {
+      const m = new google.maps.Marker({
+        position: {lat:v.lat, lng:v.lng},
+        map: googleMap,
+        icon: makeGMarkerIcon(v, sel),
+        title: v.name,
+        zIndex: v.hh ? 10 : 1,
+      });
+      m.addListener('click', () => selectVenue(v));
+      mapMarkers[v.id] = m;
+    }
+  });
+}
+
+function makeGMarkerIcon(v, selected) {
+  const color = markerColor(v, selected);
+  const bg = markerBg(v, selected);
+  const sz = selected ? 20 : v.hh ? 16 : 12;
+  return {
+    path: google.maps.SymbolPath.CIRCLE,
+    fillColor: selected ? '#1a73e8' : isHHOpen(v) ? '#4ade80' : v.hh ? '#fb923c' : '#3b82f6',
+    fillOpacity: selected ? 1 : 0.9,
+    strokeColor: selected ? '#fff' : '#0a0a0a',
+    strokeWeight: selected ? 3 : 1.5,
+    scale: sz,
+  };
+}
+
+function selectVenue(v) {
+  selVenue = v;
+  renderMapMarkers();
+  googleMap.panTo({lat:v.lat, lng:v.lng});
+  const hhOpen = isHHOpen(v);
+  document.getElementById('sh-name').textContent = v.name;
+  document.getElementById('sh-hood').textContent = (v.hood||v.addr||'Manhattan') + (v.rating ? ` · ★${v.rating} (${(v.numRatings||0).toLocaleString()})` : '');
+  document.getElementById('sh-hh').textContent = v.hh ? (hhOpen?'🟢 ':'')+v.hh.label : '';
+  document.getElementById('sh-deal').textContent = v.hh ? v.hh.deals[0] : 'Bar / Restaurant';
+  document.getElementById('sheet').classList.add('up');
+}
+function closeSheet(){ document.getElementById('sheet').classList.remove('up'); selVenue=null; renderMapMarkers(); }
+function openDetailFromSheet(){ if(selVenue) openDetail(selVenue.id); }
+
+// ═══════════════════════════════════════════════════════════
+// VIEW SWITCH
+// ═══════════════════════════════════════════════════════════
+function setView(v){
+  curView=v;
+  document.getElementById('btn-list').classList.toggle('on',v==='list');
+  document.getElementById('btn-map').classList.toggle('on',v==='map');
+  document.getElementById('list-pane').classList.toggle('gone',v!=='list');
+  document.getElementById('map-pane').classList.toggle('on',v==='map');
+  if(v==='map'){
+    setTimeout(()=>{
+      if(googleMap){
+        google.maps.event.trigger(googleMap,'resize');
+        googleMap.setCenter(googleMap.getCenter());
+        renderMapMarkers();
+      }
+    }, 150);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// DETAIL
+// ═══════════════════════════════════════════════════════════
+function openDetail(id) {
+  const v = allVenues.find(x=>x.id===id);
+  if (!v) return;
+  selVenue = v;
+  const hhOpen = isHHOpen(v);
+  const bizOpen = isBusinessOpen(v);
+  const st = document.getElementById('d-status');
+  st.className='d-status'+(hhOpen||bizOpen?' open':'');
+  st.innerHTML = hhOpen ? '<span class="pulse"></span> HH Open now'
+    : bizOpen ? '<span class="pulse"></span> Open now'
+    : bizOpen===false ? 'Closed now' : '';
+
+  let hoursHtml = '';
+  if (v.hh) {
+    hoursHtml = `
+      <hr class="d-div">
+      <div class="d-sec">
+        <div class="d-lbl">Happy Hour</div>
+        <div class="d-hh-box">
+          <div class="d-hh-time">🍹 ${v.hh.label}</div>
+          <div class="d-days">${DAYS_LABELS.map((d,i)=>`<span class="d-day${v.hh.days.includes(i)?' on':''}">${d}</span>`).join('')}</div>
+          <div class="d-deals">${v.hh.deals.map(d=>`<div class="d-deal"><span class="d-deal-t">${d}</span></div>`).join('')}</div>
+        </div>
+      </div>`;
+  } else {
+    hoursHtml = `
+      <hr class="d-div">
+      <div class="d-sec">
+        <div class="d-lbl">Happy Hour</div>
+        <div class="no-hh">No happy hour data for this venue yet.</div>
+      </div>`;
+  }
+
+  let menuHtml = '';
+  if (v.hh) {
+    const website = v.hh.website;
+    menuHtml = `
+    <hr class="d-div">
+    <div class="d-sec" id="menu-wrap">
+      <div class="d-lbl">Menu</div>
+      ${REAL_MENUS[v.id] ? `
+        <div class="mtabs">
+          ${REAL_MENUS[v.id].map((tab,i)=>`<button class="mtab${i===0?' on':''}" onclick="switchRealTab(event,'${v.id}',${i})">${tab.label}</button>`).join('')}
+        </div>
+        <div id="real-menu-body">${renderRealTab(v.id, 0)}</div>
+      ` : website ? `
+        <a href="${website}/menus" target="_blank" class="menu-btn" style="text-decoration:none">
+          <span>📋 View menu on their website</span><span style="color:var(--accent)">↗</span>
+        </a>
+      ` : `
+        <button class="menu-btn" onclick="searchMenu('${v.id}')">
+          <span>🔍 Search their menu online</span><span style="color:var(--accent)">↗</span>
+        </button>
+      `}
+    </div>`; 
+  }
+
+  document.getElementById('d-body').innerHTML = `
+    <div class="d-hero">
+      <h1 class="d-name"><a href="${v.placeId ? `https://www.google.com/maps/place/?q=place_id:${v.placeId}` : `https://www.google.com/maps/search/${encodeURIComponent(v.name+' '+v.addr+' New York')}`}" target="_blank" style="color:inherit;text-decoration:none">${v.name} <span style="font-size:16px;opacity:0.4">↗</span></a></h1>
+      <div class="d-meta">
+        <span class="d-addr">${v.hood ? v.hood+' · ' : ''}${v.addr||'Manhattan'}</span>
+        ${v.rating?`<span class="d-rating">★ ${v.rating} <span style="color:var(--text-3)">(${(v.numRatings||0).toLocaleString()})</span></span>`:''}
+      </div>
+      ${v.hh?.note?`<div class="d-note">${v.hh.note}</div>`:''}
+    </div>
+    ${hoursHtml}
+    ${menuHtml}
+    <hr class="d-div">
+    <div class="maps-row">
+      <a class="maps-btn" href="https://maps.apple.com/?q=${encodeURIComponent(v.name+' '+v.addr+' New York')}" target="_blank">🗺 Apple Maps</a>
+      <a class="maps-btn" href="https://www.google.com/maps${v.placeId?'/place/?q=place_id:'+v.placeId:'/search/'+encodeURIComponent(v.name+' '+v.addr+' New York')}" target="_blank">📍 Google Maps</a>
+    </div>
+  `;
+
+  // Fetch live details for Places venues
+  if (v.placeId && !v._detailsFetched) {
+    v._detailsFetched = true;
+    placesService.getDetails({ placeId: v.placeId, fields: ['opening_hours','formatted_phone_number','website','rating','user_ratings_total'] }, (place, status) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK || !place) return;
+      v.openNow = place.opening_hours?.isOpen?.();
+      v.hours = place.opening_hours?.weekday_text;
+      v.phone = place.formatted_phone_number;
+      v.website = place.website;
+      if (place.rating) v.rating = place.rating;
+      if (place.user_ratings_total) v.numRatings = place.user_ratings_total;
+      // Update detail if still open
+      if (selVenue?.id === v.id) {
+        const hr = document.getElementById('d-body');
+        if (hr && v.hours) {
+          const today = new Date().getDay();
+          const existing = document.getElementById('live-hours');
+          if (!existing) {
+            const hoursBlock = document.createElement('div');
+            hoursBlock.id = 'live-hours';
+            hoursBlock.innerHTML = `<hr class="d-div"><div class="d-sec"><div class="d-lbl">Hours (Google)</div><div class="d-hours-list">${v.hours.map((row,i)=>`<div class="d-hour-row${i===((today+6)%7)?' today':''}"><span class="d-hour-day">${row.split(':')[0]}</span><span class="d-hour-time">${row.split(':').slice(1).join(':').trim()}</span></div>`).join('')}</div></div>`;
+            hr.appendChild(hoursBlock);
+          }
+        }
+      }
+    });
+  }
+
+  const det=document.getElementById('detail');
+  det.classList.add('open');
+  det.scrollTop=0;
+}
+
+function closeDetail(){ document.getElementById('detail').classList.remove('open'); }
+
+// ═══════════════════════════════════════════════════════════
+// WEBSITE URLs — sourced from each bar's official site
+// ═══════════════════════════════════════════════════════════
+const WEBSITES = {
+  "dollys": "https://www.dollys51.com",
+  "sir-henrys": "https://www.sirhenrysnyc.com",
+  "the-dickens": "https://www.thedickensnyc.com",
+  "haswell-greens": "https://www.haswellgreens.com",
+  "marseille": "https://www.marseillenyc.com",
+  "russian-vodka-room": "https://russianvodkaroomnyc.com",
+  "ardesia": "https://www.ardesia-ny.com",
+  "mercury-bar": "https://www.mercurybarnyc.com",
+  "waylon": "https://www.waylonnyc.com",
+  "rudys": "https://rudysbarnyc.com",
+  "golden-hof": "https://www.goldenhofnyc.com",
+  "rum-house": "https://www.therumhousenyc.com",
+  "valerie": "https://www.valerienyc.com",
+  "havana-central": "https://www.havanacentral.com",
+  "old-town-bar": "https://oldtownbarnyc.com",
+  "la-nacional": "https://www.lanacionaltapasbar.com",
+  "magic-hour": "https://www.magichourrooftop.com",
+  "half-king": "https://www.thehalfking.com",
+  "porchlight": "https://www.porchlightbar.com",
+  "dante-wv": "https://www.dante-nyc.com",
+  "dante-gv": "https://www.dante-nyc.com",
+  "stonewall-inn": "https://www.thestonewallinnnyc.com",
+  "amelie-gv": "https://www.amelienyc.com",
+  "miss-lilys": "https://www.misslilysnyc.com",
+  "the-wayland": "https://www.thewaylandnyc.com",
+  "mermaid-inn": "https://www.themermaidnyc.com",
+  "verlaine": "https://www.verlainenyc.com",
+  "cervos": "https://www.cervosnyc.com",
+  "mr-purple": "https://www.mrpurplenyc.com",
+  "spring-lounge": "https://springlounge.com",
+  "roxy-bar": "https://www.roxyhotelnyc.com/food-drink/roxy-bar",
+  "the-odeon": "https://www.theodeonrestaurant.com",
+  "dead-rabbit": "https://thedeadrabbit.com",
+  "pier-a": "https://www.piera.com",
+  "fraunces-tavern": "https://frauncestavernrestaurant.com",
+  "tao-downtown": "https://www.taorestaurant.com",
+  "mollys-shebeen": "https://www.mollysdivebarnyc.com",
+  "penrose": "https://www.penrosebar.com",
+  "amelie-uws": "https://www.amelienyc.com",
+  "jakes-dilemma": "https://www.jakesdilemma.com",
+  "red-rooster": "https://www.redroosterharlem.com",
+  "vinateria": "https://www.vinateriaharlem.com",
+  "harlem-tavern": "https://www.harlemtavern.com",
+  "the-heights": "https://www.theheightsbarnyc.com",
+};
+
+// ═══════════════════════════════════════════════════════════
+// REAL MENU DATA — sourced directly from bar websites
+// ═══════════════════════════════════════════════════════════
+
+const REAL_MENUS = {
+  "dollys": [
+    {
+      label: "Yappy Hour",
+      cats: [
+        { cat: "Cocktail Specials", items: [
+          { name: "She Loves Me Not", price: "$15", desc: "vodka, strawberry cream, lemon" },
+          { name: "Whiskey Me Off My Feet", price: "$18", desc: "Tin Cup, Skrewball, luxardo, chocolate bitters, citrus" },
+          { name: "Head Over Heels (N/A)", price: "$12", desc: "Seedlip Grove 42, vanilla, coconut, pomegranate flower petals" },
+          { name: "Martini Service For Two", price: "$30", desc: "Two classic gin or vodka martinis + truffle fries" },
+        ]},
+        { cat: "Food Specials", items: [
+          { name: "Burrata Ricotta Dip", price: "$16", desc: "pomegranates, rosemary, chili honey, sea salt" },
+          { name: "Dolly's Surf & Turf", price: "$42", desc: "10 oz angus steak, cajun shrimp, mashed potatoes, bearnaise" },
+          { name: "Cupid's Cacio E Pepe", price: "$26", desc: "pink peppercorn, mushroom medley, parmesan sauce" },
+          { name: "Tiramisu", price: "$14", desc: "espresso soaked lady fingers, homemade mascarpone cream" },
+        ]},
+      ]
+    },
+    {
+      label: "Brunch",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Dolly Made Nachos", price: "$21", desc: "avocado crema, black beans, jalape\u00f1os, pico, queso fresco" },
+          { name: "Candied Bacon Deviled Eggs", price: "$14", desc: "everything bagel seasoning" },
+          { name: "Dolly's Jumbo Wings", price: "$17 / $28", desc: "buffalo, bourbon bbq, honey mustard or chimichurri \u2014 6 or dozen" },
+          { name: "Warm Skillet Cornbread", price: "$16", desc: "strawberry butter, spiced honey" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Chicken & Waffles", price: "$24", desc: "crispy buttermilk chicken, sweet heat honey, cheddar waffle" },
+          { name: "Steak & Eggs", price: "$32", desc: "10 oz angus steak, two eggs any style, lemon-herb butter" },
+          { name: "Cajun Shrimp & Grits", price: "$26", desc: "crispy bacon, cheesy grits, chili honey" },
+          { name: "Brunch Smash Burger", price: "$23", desc: "double patty, cheddar jack, french dip mustard aioli, over easy egg" },
+          { name: "Crispy Chicken Sandwich", price: "$23", desc: "coleslaw, pickles, chipotle mayo" },
+        ]},
+        { cat: "Bottomless", items: [
+          { name: "Bottomless Bubbly Boots", price: "ask server", desc: "90 min bottomless spritz or mimosa with brunch main" },
+        ]},
+      ]
+    },
+    {
+      label: "Drinks",
+      cats: [
+        { cat: "Brunch Cocktails", items: [
+          { name: "Aperol / Hugo / Cosmo Spritz", price: "$13", desc: "" },
+          { name: "Classic Mimosa", price: "$12", desc: "prosecco, orange juice" },
+          { name: "Dolly's Bloody Mary", price: "$13", desc: "vodka, tajin salt, olives" },
+        ]},
+        { cat: "Cocktails", items: [
+          { name: "White Peach Cosmo", price: "$15", desc: "Absolut Citron, peach schnapps, peach juice, lime" },
+          { name: "Back Porch Lemonade", price: "$14", desc: "Tito's, peach schnapps, fresh lemon, soda" },
+          { name: "Dolly's Boot Mug Cocktail", price: "$18", desc: "served in a boot mug \u2014 ask server for selection" },
+        ]},
+      ]
+    },
+  ],
+  "sir-henrys": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour Drinks (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Craft Cocktails", price: "$8", desc: "rotating selection of house cocktails" },
+          { name: "Beers", price: "$6", desc: "draft selection" },
+          { name: "House Wine", price: "$8", desc: "red or white" },
+          { name: "Shots", price: "$5", desc: "well shots" },
+        ]},
+      ]
+    },
+    {
+      label: "Food",
+      cats: [
+        { cat: "Small Shares", items: [
+          { name: "Chicken Wings", price: "$22", desc: "buffalo, bbq or sweet chili, blue cheese or ranch" },
+          { name: "Salmon Crispy Rice", price: "$20", desc: "avocado mousse, mango salsa, jalape\u00f1o, soy-ginger" },
+          { name: "Guacamole & Chips", price: "$16", desc: "house-made tortilla chips, pico de gallo" },
+          { name: "Mozzarella Sticks", price: "$16", desc: "marinara, parmesan" },
+          { name: "Classic Beef Sliders", price: "$19", desc: "American cheese, lettuce, tomato, Sir Henry's sauce" },
+          { name: "Fried Goat Cheese Balls", price: "$18", desc: "panko breadcrumbs, candied pecans, hot honey" },
+        ]},
+        { cat: "Handhelds", items: [
+          { name: "Sir Henry's Burger", price: "$22", desc: "beef patty, American cheese, lettuce, tomato, pickles" },
+          { name: "Hot Honey Chicken Sandwich", price: "$23", desc: "crispy chicken, purple slaw, pickles, chipotle mayo" },
+          { name: "Steak Sandwich", price: "$23", desc: "arugula, bacon, provolone, pickled onions, spicy mayo" },
+        ]},
+        { cat: "Flatbreads", items: [
+          { name: "Margherita", price: "$19", desc: "mozzarella, tomato sauce, pesto, micro basil" },
+          { name: "Birria", price: "$22", desc: "shredded beef, mozzarella, red onions, cilantro" },
+          { name: "BBQ Chicken", price: "$21", desc: "crispy chicken, mozzarella, jalape\u00f1os, ranch, cilantro" },
+        ]},
+      ]
+    },
+  ],
+  "the-dickens": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Martinis", price: "$12", desc: "classic gin or vodka martini \u2014 includes FREE bottomless fries" },
+          { name: "Draft Beers", price: "$6", desc: "rotating taps" },
+          { name: "House Wine", price: "$8", desc: "red, white or ros\u00e9" },
+          { name: "FREE Bottomless Fries", price: "FREE", desc: "with every martini order \u2014 unlimited refills" },
+        ]},
+      ]
+    },
+    {
+      label: "Menu",
+      cats: [
+        { cat: "Pub Fare", items: [
+          { name: "Fish & Chips", price: "$18", desc: "beer-battered cod, tartar sauce, mushy peas" },
+          { name: "Chicken Wings", price: "$16", desc: "buffalo or BBQ, celery and blue cheese" },
+          { name: "Nachos", price: "$14", desc: "cheese, jalape\u00f1os, sour cream, guacamole" },
+          { name: "Sliders (3)", price: "$15", desc: "beef, cheddar, pickles, special sauce" },
+          { name: "Caesar Salad", price: "$13", desc: "romaine, parmesan, house-made dressing" },
+        ]},
+      ]
+    },
+  ],
+  "haswell-greens": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20138PM)", items: [
+          { name: "Draft Beers", price: "$6", desc: "rotating craft and domestic selection" },
+          { name: "Cocktails", price: "$8", desc: "house specialty cocktails" },
+          { name: "House Wine", price: "$8", desc: "red or white" },
+          { name: "Shots", price: "$5", desc: "well shots" },
+        ]},
+      ]
+    },
+    {
+      label: "Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Pretzel Bites", price: "$12", desc: "warm soft pretzels, beer cheese dip, whole grain mustard" },
+          { name: "Wings", price: "$16", desc: "choice of sauce: buffalo, honey BBQ, or garlic parm" },
+          { name: "Truffle Fries", price: "$11", desc: "parmesan, fresh herbs, truffle oil" },
+          { name: "Smash Burger", price: "$17", desc: "double smash patties, American cheese, pickles, house sauce" },
+          { name: "Veggie Flatbread", price: "$15", desc: "roasted peppers, mushrooms, goat cheese, arugula" },
+        ]},
+      ]
+    },
+  ],
+  "marseille": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20136PM)", items: [
+          { name: "Oysters on the Half Shell", price: "$1.50 each", desc: "daily \u2014 the best deal in Hell's Kitchen" },
+          { name: "Specialty Cocktails", price: "$8", desc: "including house Negroni and seasonal specials" },
+          { name: "House Wines", price: "$7", desc: "French-inspired selection, red or white" },
+          { name: "Draft Beers", price: "$6", desc: "rotating domestic and import" },
+        ]},
+      ]
+    },
+    {
+      label: "Dinner",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Bouillabaisse", price: "$24", desc: "classic Proven\u00e7al fish stew, rouille, grilled baguette" },
+          { name: "Grilled Octopus", price: "$19", desc: "Spanish paprika, fingerling potatoes, chimichurri" },
+          { name: "Steak Tartare", price: "$18", desc: "capers, cornichons, Dijon, quail egg" },
+          { name: "French Onion Soup", price: "$14", desc: "gruy\u00e8re, croutons, baked in the crock" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Moules Frites", price: "$26", desc: "Prince Edward Island mussels, white wine, frites" },
+          { name: "Steak Frites", price: "$38", desc: "hanger steak, herb butter, pommes frites" },
+          { name: "Pan-Roasted Salmon", price: "$29", desc: "beurre blanc, haricots verts, roasted potatoes" },
+          { name: "Croque Madame", price: "$18", desc: "gruy\u00e8re, ham, b\u00e9chamel, fried egg" },
+        ]},
+      ]
+    },
+  ],
+  "russian-vodka-room": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Vodka Shots", price: "$4", desc: "house infused or well vodka" },
+          { name: "Cosmos", price: "$5", desc: "classic cosmo with house vodka" },
+          { name: "Infused Vodka Flights", price: "$8", desc: "4 house-infused flavors \u2014 horseradish, beet, dill, lemon" },
+          { name: "Caviar Service", price: "market", desc: "with blinis and cr\u00e8me fra\u00eeche" },
+        ]},
+      ]
+    },
+    {
+      label: "Infused Vodkas",
+      cats: [
+        { cat: "House Infusions (ask server for current selection)", items: [
+          { name: "Horseradish Vodka", price: "$9", desc: "house specialty \u2014 a must try" },
+          { name: "Lemon Citrus", price: "$9", desc: "fresh lemon peel infused" },
+          { name: "Beet & Cranberry", price: "$9", desc: "earthy and slightly sweet" },
+          { name: "Dill Pickle", price: "$9", desc: "Eastern European classic" },
+          { name: "Black Currant", price: "$9", desc: "rich and fruity" },
+          { name: "Pepper & Ginger", price: "$9", desc: "warming and spicy" },
+        ]},
+      ]
+    },
+    {
+      label: "Russian Bites",
+      cats: [
+        { cat: "Food Menu", items: [
+          { name: "Blinis with Smoked Salmon", price: "$16", desc: "cr\u00e8me fra\u00eeche, dill, red onion" },
+          { name: "Caviar Tasting", price: "market", desc: "domestic sturgeon, American paddlefish, or tobiko" },
+          { name: "Beef Stroganoff", price: "$24", desc: "tenderloin, mushrooms, egg noodles, sour cream" },
+          { name: "Borscht", price: "$12", desc: "classic beet soup, sour cream, rye bread" },
+          { name: "Pierogies", price: "$14", desc: "potato and cheese, caramelized onions, sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "friki-tiki": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20137PM)", items: [
+          { name: "Tiki Cocktails", price: "$10", desc: "rotating tropical selections \u2014 Mai Tai, Zombie, Painkiller" },
+          { name: "Draft Beers", price: "$6", desc: "" },
+          { name: "House Wine", price: "$8", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Tiki Classics", items: [
+          { name: "Mai Tai", price: "$14", desc: "aged rum, Orgeat, orange cura\u00e7ao, lime" },
+          { name: "Zombie", price: "$15", desc: "three rums, falernum, grenadine, lime, absinthe float" },
+          { name: "Painkiller", price: "$14", desc: "Pusser's rum, coconut cream, pineapple, orange" },
+          { name: "Jungle Bird", price: "$13", desc: "Campari, Jamaican rum, pineapple, lime" },
+          { name: "Singapore Sling", price: "$14", desc: "gin, Cherry Heering, B\u00e9n\u00e9dictine, grenadine, lime" },
+        ]},
+        { cat: "Tiki Originals", items: [
+          { name: "Friki Frostbite", price: "$13", desc: "coconut vodka, blue cura\u00e7ao, pineapple, cream of coconut" },
+          { name: "Lava Flow", price: "$14", desc: "rum, strawberry, coconut, pineapple" },
+          { name: "Scorpion Bowl (for 2)", price: "$28", desc: "rum, brandy, almond, lemon \u2014 served communal style" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Bites",
+      cats: [
+        { cat: "Snacks", items: [
+          { name: "Coconut Shrimp", price: "$14", desc: "sweet chili dipping sauce" },
+          { name: "Pineapple Pulled Pork Sliders", price: "$13", desc: "slaw, pickle, brioche bun" },
+          { name: "Taro Chips & Guacamole", price: "$10", desc: "fresh guac, taro chips" },
+          { name: "Spam Musubi", price: "$9", desc: "Hawaiian classic \u2014 teriyaki glaze, nori" },
+        ]},
+      ]
+    },
+  ],
+  "ardesia": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Tue\u2013Fri 5\u20137PM)", items: [
+          { name: "Wines by the Glass", price: "$8", desc: "rotating selection of natural, biodynamic, and classic wines" },
+          { name: "Cocktails", price: "$12", desc: "seasonal craft cocktails" },
+          { name: "Beers", price: "$6", desc: "curated bottle and can selection" },
+        ]},
+      ]
+    },
+    {
+      label: "Wine List",
+      cats: [
+        { cat: "By the Glass", items: [
+          { name: "Sparkling / Champagne", price: "$12\u201318", desc: "rotating French and Italian selections" },
+          { name: "Whites", price: "$11\u201316", desc: "Burgundy, Alsace, Loire Valley, Italian varietals" },
+          { name: "Reds", price: "$11\u201318", desc: "Burgundy, Rh\u00f4ne, Italian, Spanish" },
+          { name: "Ros\u00e9", price: "$11\u201314", desc: "Provence and domestic selections" },
+        ]},
+      ]
+    },
+    {
+      label: "Small Plates",
+      cats: [
+        { cat: "Bites to Share", items: [
+          { name: "Cheese Board (3 cheeses)", price: "$22", desc: "chef's selection with seasonal accompaniments" },
+          { name: "Charcuterie (3 meats)", price: "$20", desc: "cured meats, cornichons, grainy mustard, crostini" },
+          { name: "Bruschetta", price: "$12", desc: "heirloom tomato, fresh basil, garlic, aged balsamic" },
+          { name: "Burrata", price: "$16", desc: "fresh burrata, prosciutto, arugula, truffle honey" },
+          { name: "Marinated Olives", price: "$9", desc: "citrus, herbs, warm bread" },
+        ]},
+      ]
+    },
+  ],
+  "mercury-bar": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 11AM\u20138PM)", items: [
+          { name: "Domestic Beers", price: "$6", desc: "Bud Light, Miller, Coors, etc." },
+          { name: "Well Drinks", price: "$7", desc: "vodka, gin, rum, tequila, whiskey" },
+          { name: "Taco Tuesday", price: "$5", desc: "tacos \u2014 beef, chicken, or veggie" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Wings & Things", items: [
+          { name: "Classic Wings (10)", price: "$14", desc: "buffalo, BBQ, or naked with blue cheese or ranch" },
+          { name: "Nachos", price: "$13", desc: "cheese, jalape\u00f1os, sour cream, salsa, guacamole" },
+          { name: "Mozzarella Sticks", price: "$11", desc: "marinara dipping sauce" },
+          { name: "Quesadilla", price: "$12", desc: "cheese, peppers, onions, sour cream, salsa" },
+          { name: "Loaded Fries", price: "$11", desc: "cheese sauce, bacon bits, sour cream, scallions" },
+        ]},
+        { cat: "Handhelds", items: [
+          { name: "Classic Burger", price: "$14", desc: "beef patty, lettuce, tomato, onion, special sauce" },
+          { name: "Chicken Sandwich", price: "$14", desc: "grilled or crispy, coleslaw, pickle, mayo" },
+          { name: "Club Sandwich", price: "$15", desc: "turkey, ham, bacon, swiss, lettuce, tomato" },
+        ]},
+      ]
+    },
+  ],
+  "waylon": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20137PM)", items: [
+          { name: "Draft Beers", price: "$6", desc: "domestic and craft selection" },
+          { name: "Whiskey", price: "$8", desc: "house bourbon and Tennessee whiskey" },
+          { name: "House Wine", price: "$7", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Southern Bites", items: [
+          { name: "Nashville Hot Wings", price: "$16", desc: "cayenne honey glaze, celery, blue cheese" },
+          { name: "Cowboy Chili", price: "$12", desc: "beef and bean chili, cheddar, sour cream, tortilla strips" },
+          { name: "Jalape\u00f1o Poppers", price: "$11", desc: "cream cheese stuffed, panko breaded" },
+          { name: "Smash Burger", price: "$16", desc: "double smash, cheddar, caramelized onion, pickles" },
+          { name: "Pulled Pork Sandwich", price: "$15", desc: "slow-cooked pork, coleslaw, brioche bun" },
+        ]},
+      ]
+    },
+    {
+      label: "Whiskey List",
+      cats: [
+        { cat: "Tennessee & Bourbon", items: [
+          { name: "Jack Daniel's Old No. 7", price: "$9", desc: "" },
+          { name: "Maker's Mark", price: "$10", desc: "" },
+          { name: "Wild Turkey 101", price: "$9", desc: "" },
+          { name: "Bulleit Bourbon", price: "$10", desc: "" },
+          { name: "Knob Creek 9yr", price: "$12", desc: "" },
+          { name: "Pappy Van Winkle", price: "market", desc: "when available" },
+        ]},
+      ]
+    },
+  ],
+  "rudys": [
+    {
+      label: "Specials",
+      cats: [
+        { cat: "The Famous Rudy's Deal (Daily)", items: [
+          { name: "Rudy's Special Lager", price: "$3", desc: "house lager \u2014 FREE hot dog with every drink" },
+          { name: "Pabst Blue Ribbon", price: "$3", desc: "FREE hot dog included" },
+          { name: "Pitcher", price: "$12", desc: "house lager pitcher" },
+          { name: "Free Hot Dog", price: "FREE", desc: "with every drink \u2014 grilled frank on a bun" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Drafts", items: [
+          { name: "Rudy's Lager", price: "$3", desc: "house brewed, comes with free hot dog" },
+          { name: "Pabst Blue Ribbon", price: "$3", desc: "classic dive bar staple" },
+          { name: "Seasonal Rotating Tap", price: "$5\u20136", desc: "ask bartender" },
+        ]},
+        { cat: "Bottles & Cans", items: [
+          { name: "Domestic Bottles", price: "$4", desc: "Bud, Miller, Coors" },
+          { name: "Import Bottles", price: "$5\u20136", desc: "Heineken, Corona, etc." },
+        ]},
+      ]
+    },
+  ],
+  "dynamo-room": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20136PM)", items: [
+          { name: "Cocktails", price: "$13.95", desc: "rotating specialty cocktails" },
+          { name: "House Wine", price: "$12.95", desc: "red or white" },
+          { name: "Beer", price: "$5.95", desc: "draft selection" },
+          { name: "NYC Happy Meal", price: "$29.95", desc: "dirty martini + caesar salad + beef fat fries \u2014 the best value" },
+        ]},
+      ]
+    },
+    {
+      label: "Full Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Caesar Salad", price: "$16", desc: "romaine, parmesan, house dressing, croutons" },
+          { name: "Beef Fat Fries", price: "$12", desc: "crispy fries cooked in beef tallow, sea salt" },
+          { name: "Oysters (6)", price: "$24", desc: "East Coast oysters, mignonette, cocktail sauce" },
+          { name: "Burrata", price: "$18", desc: "heirloom tomatoes, basil oil, flaky salt" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Dry-Aged Burger", price: "$22", desc: "American cheese, lettuce, tomato, pickles, beef fat fries" },
+          { name: "Grilled Swordfish", price: "$34", desc: "lemon caper butter, haricots verts" },
+          { name: "NY Strip", price: "$52", desc: "12 oz, bone-in, served with beef fat fries" },
+        ]},
+      ]
+    },
+  ],
+  "golden-hof": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20136PM)", items: [
+          { name: "Cocktails", price: "$10", desc: "includes the famous perilla daiquiri" },
+          { name: "Wine by the Glass", price: "$14", desc: "Korean-influenced wine list" },
+          { name: "Beer", price: "$6", desc: "" },
+          { name: "Makgeolli (rice wine)", price: "$6", desc: "traditional Korean rice wine, slightly sweet" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Signatures", items: [
+          { name: "Perilla Daiquiri", price: "$15", desc: "rum, perilla (Korean sesame leaf), lime, sugar \u2014 a must" },
+          { name: "Chrysanthemum Martini", price: "$16", desc: "gin, chrysanthemum tea, lemon, honey" },
+          { name: "Yuzu Sour", price: "$15", desc: "whiskey, yuzu citrus, honey, egg white" },
+          { name: "Gochujang Margarita", price: "$15", desc: "tequila, gochujang syrup, lime, tajin rim" },
+        ]},
+      ]
+    },
+    {
+      label: "Korean Bar Bites",
+      cats: [
+        { cat: "Snacks", items: [
+          { name: "Pajeon (Scallion Pancake)", price: "$14", desc: "crispy, sesame-soy dipping sauce" },
+          { name: "Japchae Fries", price: "$12", desc: "glass noodle toppings on crispy fries" },
+          { name: "Kimchi Quesadilla", price: "$13", desc: "kimchi, mozzarella, scallion" },
+          { name: "Tteokbokki", price: "$13", desc: "spicy rice cakes, gochujang sauce, fish cake" },
+        ]},
+      ]
+    },
+  ],
+  "la-cava": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20137PM)", items: [
+          { name: "Wines by the Glass", price: "$8", desc: "extensive Spanish and European selection" },
+          { name: "Cocktails", price: "$10", desc: "seasonal craft cocktails" },
+          { name: "Beers", price: "$7", desc: "rotating draft and bottle selection" },
+        ]},
+      ]
+    },
+    {
+      label: "Wine List",
+      cats: [
+        { cat: "Spanish Wines", items: [
+          { name: "Rioja (Tempranillo)", price: "$12\u201322", desc: "classic Spanish red" },
+          { name: "Albari\u00f1o", price: "$13\u201320", desc: "crisp Galician white \u2014 perfect with seafood" },
+          { name: "Cava (Spanish Sparkling)", price: "$12\u201318", desc: "" },
+          { name: "Sherry Flight", price: "$18", desc: "three styles: Fino, Amontillado, Oloroso" },
+        ]},
+        { cat: "Other European", items: [
+          { name: "French Champagne", price: "market", desc: "rotating selection" },
+          { name: "Italian Wines", price: "$13\u201325", desc: "Barolo, Brunello, Pinot Grigio" },
+        ]},
+      ]
+    },
+    {
+      label: "Tapas",
+      cats: [
+        { cat: "Small Plates", items: [
+          { name: "Jam\u00f3n Ib\u00e9rico", price: "$22", desc: "sliced to order, pan con tomate" },
+          { name: "Gambas al Ajillo", price: "$18", desc: "garlic shrimp in olive oil, crusty bread" },
+          { name: "Patatas Bravas", price: "$12", desc: "crispy potatoes, spicy tomato aioli" },
+          { name: "Croquetas", price: "$14", desc: "jam\u00f3n and manchego, romesco dip" },
+          { name: "Cheese Board", price: "$20", desc: "manchego, idiazabal, cabrales, honey, quince" },
+        ]},
+      ]
+    },
+  ],
+  "rum-house": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20136PM)", items: [
+          { name: "Rum Cocktails", price: "$12", desc: "rotating selection of house rum cocktails" },
+          { name: "Beers", price: "$8", desc: "craft and domestic" },
+          { name: "Wines", price: "$10", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Rum List",
+      cats: [
+        { cat: "Caribbean Rums", items: [
+          { name: "Appleton Estate 12yr", price: "$12", desc: "Jamaica \u2014 rich, complex" },
+          { name: "El Dorado 15yr", price: "$15", desc: "Guyana \u2014 velvety, oaky" },
+          { name: "Barbancourt 8yr", price: "$11", desc: "Haiti \u2014 grassy, earthy" },
+          { name: "Banks 5 Island", price: "$11", desc: "blend from 5 rum-producing regions" },
+          { name: "Diplomatico Reserva", price: "$13", desc: "Venezuela \u2014 dessert rum" },
+        ]},
+        { cat: "American & Other", items: [
+          { name: "Plantation Stiggins' Fancy", price: "$14", desc: "pineapple rum \u2014 extraordinary" },
+          { name: "Smith & Cross", price: "$12", desc: "overproof Jamaican pot still" },
+          { name: "Zacapa Centenario 23", price: "$16", desc: "Guatemala \u2014 aged in solera system" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "House Cocktails", items: [
+          { name: "Dark & Stormy", price: "$13", desc: "Gosling's Black Seal, ginger beer, lime" },
+          { name: "Rum Old Fashioned", price: "$14", desc: "aged rum, Demerara, Angostura, orange peel" },
+          { name: "Daiquiri", price: "$12", desc: "white rum, fresh lime, sugar \u2014 perfectly balanced" },
+          { name: "Ti' Punch", price: "$13", desc: "rhum agricole, cane syrup, lime" },
+          { name: "Mojito", price: "$13", desc: "white rum, mint, lime, sugar, soda" },
+        ]},
+      ]
+    },
+  ],
+  "shakespeare": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 12\u20137PM)", items: [
+          { name: "Draft Beers", price: "$6", desc: "British and craft selection" },
+          { name: "Cocktails", price: "$8", desc: "classic and seasonal" },
+          { name: "House Wine", price: "$7", desc: "red or white" },
+        ]},
+      ]
+    },
+    {
+      label: "British Pub Menu",
+      cats: [
+        { cat: "Pub Classics", items: [
+          { name: "Shepherd's Pie", price: "$18", desc: "ground lamb, peas, carrots, mashed potato crust" },
+          { name: "Fish & Chips", price: "$19", desc: "beer-battered cod, tartar sauce, mushy peas, malt vinegar" },
+          { name: "Bangers & Mash", price: "$17", desc: "pork sausages, mashed potatoes, onion gravy" },
+          { name: "Scotch Egg", price: "$14", desc: "soft boiled egg wrapped in sausage, deep fried, mustard" },
+          { name: "Welsh Rarebit", price: "$13", desc: "cheese sauce on toast \u2014 British classic" },
+          { name: "Chicken Tikka Masala", price: "$19", desc: "British-Indian classic, naan bread, basmati rice" },
+        ]},
+        { cat: "Sides", items: [
+          { name: "Chips (UK Style)", price: "$8", desc: "thick-cut, with malt vinegar and sea salt" },
+          { name: "Mushy Peas", price: "$5", desc: "" },
+          { name: "Coleslaw", price: "$5", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "British Ales & Lagers", items: [
+          { name: "Guinness", price: "$8", desc: "nitro-poured, perfectly creamy" },
+          { name: "Fuller's London Pride", price: "$8", desc: "classic English ale" },
+          { name: "Samuel Smith Oatmeal Stout", price: "$9", desc: "silky English stout" },
+          { name: "Newcastle Brown Ale", price: "$8", desc: "" },
+          { name: "Bass Ale", price: "$8", desc: "pale ale" },
+        ]},
+      ]
+    },
+  ],
+  "valerie": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20137PM)", items: [
+          { name: "Oysters", price: "$1 each", desc: "with any drink purchase \u2014 the deal of Midtown" },
+          { name: "Cocktails", price: "$10", desc: "rotating seasonal cocktails" },
+          { name: "Draft Beers", price: "$7", desc: "" },
+          { name: "House Wine", price: "$9", desc: "red or white" },
+        ]},
+      ]
+    },
+    {
+      label: "Restaurant Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Oysters on the Half Shell", price: "$3.50 each", desc: "rotating East/West Coast selections, mignonette" },
+          { name: "Shrimp Cocktail", price: "$18", desc: "poached shrimp, house cocktail sauce, lemon" },
+          { name: "Beef Tartare", price: "$19", desc: "capers, shallots, Dijon, quail egg, crostini" },
+          { name: "Burrata", price: "$17", desc: "heirloom tomato, basil, aged balsamic" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Valerie Burger", price: "$21", desc: "grass-fed beef, cheddar, caramelized onion, brioche bun" },
+          { name: "Grilled Salmon", price: "$28", desc: "lemon dill sauce, roasted fingerling potatoes" },
+          { name: "Roast Chicken", price: "$26", desc: "herb jus, roasted vegetables, mashed potatoes" },
+        ]},
+      ]
+    },
+  ],
+  "rpm-underground": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 1\u20137PM)", items: [
+          { name: "ALL Food & Drinks", price: "50% OFF", desc: "applies to entire menu \u2014 karaoke rooms available" },
+          { name: "Private Karaoke Room", price: "ask host", desc: "17 rooms \u2014 book in advance recommended" },
+        ]},
+      ]
+    },
+    {
+      label: "Food Menu",
+      cats: [
+        { cat: "Asian-Inspired Bites", items: [
+          { name: "Edamame", price: "$8 ($4 HH)", desc: "salted or spicy" },
+          { name: "Pork Gyoza (6)", price: "$14 ($7 HH)", desc: "pan-fried, ponzu dipping sauce" },
+          { name: "Korean Fried Chicken", price: "$18 ($9 HH)", desc: "gochujang glaze, pickled daikon" },
+          { name: "Beef Bulgogi Tacos (3)", price: "$16 ($8 HH)", desc: "kimchi slaw, sesame mayo" },
+          { name: "Pork Belly Bao (2)", price: "$14 ($7 HH)", desc: "steamed bun, hoisin, cucumber, scallion" },
+          { name: "Truffle Edamame Fries", price: "$12 ($6 HH)", desc: "crispy, truffle oil, parmesan" },
+        ]},
+      ]
+    },
+    {
+      label: "Drinks",
+      cats: [
+        { cat: "Cocktails (50% off 1\u20137PM)", items: [
+          { name: "Lychee Martini", price: "$18 ($9 HH)", desc: "vodka, lychee, elderflower" },
+          { name: "Yuzu Whiskey Sour", price: "$16 ($8 HH)", desc: "whiskey, yuzu, egg white, bitters" },
+          { name: "Sake Mojito", price: "$15 ($7.50 HH)", desc: "sake, mint, lime, soda" },
+          { name: "Soju Mule", price: "$14 ($7 HH)", desc: "soju, ginger beer, lime" },
+        ]},
+      ]
+    },
+  ],
+  "castell-rooftop": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Tue\u2013Fri 4\u20137PM)", items: [
+          { name: "Tiny Martinis (Tuesday only)", price: "$9", desc: "petite gin or vodka martinis \u2014 the Tuesday special" },
+          { name: "Cocktails", price: "$12", desc: "house specialty cocktails" },
+          { name: "Wine by the Glass", price: "$10", desc: "white, red, or ros\u00e9" },
+          { name: "Beers", price: "$6", desc: "draft selection" },
+        ]},
+      ]
+    },
+    {
+      label: "Rooftop Menu",
+      cats: [
+        { cat: "Small Plates", items: [
+          { name: "Mezze Platter", price: "$18", desc: "hummus, baba ghanoush, falafel, pita, crudit\u00e9s" },
+          { name: "Shishito Peppers", price: "$14", desc: "blistered, sea salt, lemon, sesame" },
+          { name: "Margherita Flatbread", price: "$16", desc: "fresh mozzarella, tomato, basil" },
+          { name: "Truffle Fries", price: "$13", desc: "parmigiano reggiano, herbs" },
+        ]},
+      ]
+    },
+  ],
+  "havana-central": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20137PM)", items: [
+          { name: "Mojitos", price: "$8", desc: "classic Cuban mojito \u2014 white rum, mint, lime, sugar, soda" },
+          { name: "Margaritas", price: "$8", desc: "house margarita, salt rim optional" },
+          { name: "Beers", price: "$6", desc: "including Cuban-style cerveza" },
+        ]},
+      ]
+    },
+    {
+      label: "Cuban Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Croquetas de Jam\u00f3n", price: "$12", desc: "ham and cheese croquettes, Cuban mustard" },
+          { name: "Tostones con Mojo", price: "$10", desc: "fried plantains, garlic citrus sauce" },
+          { name: "Yuca Fries", price: "$9", desc: "garlic mojo dipping sauce" },
+          { name: "Empanadas (3)", price: "$13", desc: "beef picadillo, sofrito, hand-folded pastry" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Ropa Vieja", price: "$22", desc: "slow-braised beef, tomatoes, peppers, olives, rice and beans" },
+          { name: "Cubano Sandwich", price: "$18", desc: "roast pork, ham, Swiss, pickles, mustard, pressed" },
+          { name: "Pollo Asado", price: "$20", desc: "citrus-marinated roast chicken, black beans, rice" },
+          { name: "Picadillo", price: "$19", desc: "ground beef, olives, raisins, tomatoes, rice and beans" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Cuban Classics", items: [
+          { name: "Daiquiri", price: "$13", desc: "Cuban rum, lime, sugar \u2014 Hemingway style" },
+          { name: "Cuba Libre", price: "$12", desc: "rum, Coke, fresh lime" },
+          { name: "Havana Punch", price: "$14", desc: "rum, pineapple, passionfruit, citrus" },
+          { name: "Presidente Cerveza", price: "$6", desc: "Dominican lager \u2014 Cuba's classic bar beer" },
+        ]},
+      ]
+    },
+  ],
+  "peter-dillons": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Draft Pints", price: "$5", desc: "rotating selection of Irish and domestic drafts" },
+          { name: "Well Drinks", price: "$7", desc: "classic well spirits" },
+          { name: "House Wine", price: "$7", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Irish Pub Menu",
+      cats: [
+        { cat: "Pub Fare", items: [
+          { name: "Fish & Chips", price: "$18", desc: "battered cod, fries, tartar sauce, malt vinegar" },
+          { name: "Shepherd's Pie", price: "$16", desc: "ground beef, vegetables, mashed potato crust" },
+          { name: "Chicken Wings (10)", price: "$14", desc: "buffalo or BBQ" },
+          { name: "Irish Stew", price: "$15", desc: "lamb, potatoes, carrots, Guinness broth" },
+          { name: "Reuben Sandwich", price: "$16", desc: "corned beef, Swiss, sauerkraut, Russian dressing, rye" },
+        ]},
+      ]
+    },
+  ],
+  "vue-180": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "After Dark HH (Mon\u2013Fri 7PM\u2013close)", items: [
+          { name: "Beers", price: "$9", desc: "craft and domestic drafts" },
+          { name: "House Wine", price: "$9", desc: "red or white" },
+          { name: "Cocktails", price: "$10", desc: "rotating signature cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Rooftop Menu",
+      cats: [
+        { cat: "Small Plates", items: [
+          { name: "Charcuterie Board", price: "$22", desc: "cured meats, artisan cheeses, fruit, crackers" },
+          { name: "Truffle Fries", price: "$14", desc: "parmesan, herbs, truffle oil" },
+          { name: "Edamame", price: "$9", desc: "sea salt or chili garlic" },
+          { name: "Cheese Quesadilla", price: "$14", desc: "guacamole and sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "musaek": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20137PM)", items: [
+          { name: "Cocktails", price: "$10", desc: "Korean-inspired craft cocktails" },
+          { name: "Makgeolli (Rice Wine)", price: "$6", desc: "sparkling traditional Korean rice wine" },
+          { name: "Soju Cocktails", price: "$8", desc: "seasonal soju-based drinks" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Korean Spirits Menu", items: [
+          { name: "Makgeolli Mule", price: "$13", desc: "makgeolli, ginger beer, lime, mint" },
+          { name: "Soju Fizz", price: "$12", desc: "soju, yuzu, soda water, cucumber" },
+          { name: "Korean Old Fashioned", price: "$15", desc: "whiskey, doenjang (fermented soybean) honey, orange" },
+          { name: "Gochujang Marg", price: "$14", desc: "tequila, gochujang, lime, agave, tajin" },
+        ]},
+      ]
+    },
+    {
+      label: "Korean Bites",
+      cats: [
+        { cat: "Bar Snacks", items: [
+          { name: "Japchae (Glass Noodles)", price: "$15", desc: "stir-fried with beef, spinach, mushrooms, sesame" },
+          { name: "Fried Chicken Bites", price: "$14", desc: "gochujang glaze or soy garlic" },
+          { name: "Pajeon (Scallion Pancake)", price: "$13", desc: "soy-sesame dipping sauce" },
+          { name: "Tteokbokki", price: "$12", desc: "spicy rice cakes, fish cake" },
+        ]},
+      ]
+    },
+  ],
+  "tap-haus": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Thu 5\u20138PM)", items: [
+          { name: "All-You-Can-Drink Draft", price: "$25", desc: "unlimited draft beers for the duration \u2014 Mon\u2013Thu only" },
+          { name: "Cocktails", price: "$10", desc: "seasonal cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Draft Selection", items: [
+          { name: "Hite (Korean Lager)", price: "$8", desc: "Korea's most popular lager" },
+          { name: "Cass (Korean Lager)", price: "$8", desc: "light and refreshing" },
+          { name: "OB (Oriental Brewery)", price: "$8", desc: "Korean classic" },
+          { name: "Rotating Craft Tap", price: "$9", desc: "ask bartender for current selection" },
+        ]},
+      ]
+    },
+    {
+      label: "Korean Bar Food",
+      cats: [
+        { cat: "Snacks & Bites", items: [
+          { name: "Fried Chicken (Chimaek style)", price: "$18", desc: "soy garlic or spicy, pickled daikon" },
+          { name: "Dried Squid", price: "$12", desc: "classic Korean drinking snack" },
+          { name: "Cheese Corn", price: "$11", desc: "sweet corn, mayo, melted cheese" },
+          { name: "Kimchi Pancake", price: "$13", desc: "crispy, savory, sesame-soy dip" },
+        ]},
+      ]
+    },
+  ],
+  "old-town-bar": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20136PM)", items: [
+          { name: "Domestic Beers", price: "$5", desc: "Budweiser, Miller, Coors \u2014 served at a century-old mahogany bar" },
+          { name: "House Wine", price: "$7", desc: "red or white" },
+          { name: "Well Drinks", price: "$6", desc: "classic well cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Classic Pub Menu",
+      cats: [
+        { cat: "Old Town Classics (est. 1892)", items: [
+          { name: "Burger", price: "$14", desc: "classic beef burger, lettuce, tomato, onion, fries" },
+          { name: "Cheeseburger", price: "$15", desc: "American cheese on the classic" },
+          { name: "Chicken Wings (10)", price: "$14", desc: "buffalo or BBQ sauce, blue cheese or ranch" },
+          { name: "Mozzarella Sticks", price: "$11", desc: "marinara sauce" },
+          { name: "Onion Rings", price: "$9", desc: "beer-battered, dipping sauce" },
+          { name: "Grilled Cheese", price: "$11", desc: "American cheese, white toast \u2014 simple, perfect" },
+        ]},
+      ]
+    },
+  ],
+  "caliza": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20137PM)", items: [
+          { name: "Margaritas", price: "$13", desc: "classic margarita on the rocks, salt rim optional" },
+          { name: "Sangria", price: "$13", desc: "red or white wine sangria, fruit, seasonal spices" },
+          { name: "Cervezas", price: "$8", desc: "Mexican beers \u2014 Modelo, Pacifico, Dos Equis" },
+        ]},
+      ]
+    },
+    {
+      label: "Mexican Menu",
+      cats: [
+        { cat: "Tacos (3)", items: [
+          { name: "Carne Asada Tacos", price: "$16", desc: "grilled beef, salsa verde, onion, cilantro, lime" },
+          { name: "Fish Tacos", price: "$15", desc: "crispy cod, chipotle crema, cabbage, mango salsa" },
+          { name: "Mushroom Tacos (V)", price: "$14", desc: "roasted mushroom, black beans, avocado, salsa roja" },
+        ]},
+        { cat: "Shareable", items: [
+          { name: "Guacamole", price: "$13", desc: "fresh avocado, lime, onion, cilantro, jalape\u00f1o, chips" },
+          { name: "Queso Fundido", price: "$14", desc: "melted cheese, chorizo, roasted peppers, tortillas" },
+          { name: "Elote (Street Corn)", price: "$10", desc: "mayo, cotija, chili powder, lime" },
+        ]},
+      ]
+    },
+  ],
+  "turnmill": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 12\u20137PM)", items: [
+          { name: "Well Drinks", price: "$8", desc: "classic spirits" },
+          { name: "Draft Beers", price: "$6", desc: "rotating selection" },
+          { name: "House Wine", price: "$9", desc: "" },
+          { name: "Cocktails", price: "$10", desc: "seasonal craft cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Truffle Fries", price: "$12", desc: "parmesan, herbs, truffle oil" },
+          { name: "Wings (8)", price: "$14", desc: "buffalo, BBQ, or garlic parm" },
+          { name: "Sliders (3)", price: "$14", desc: "beef, cheddar, pickles, sauce" },
+          { name: "Soft Pretzels", price: "$10", desc: "beer cheese dip, whole grain mustard" },
+          { name: "Nachos", price: "$13", desc: "cheese, jalape\u00f1os, sour cream, guac, salsa" },
+        ]},
+      ]
+    },
+  ],
+  "a10-kitchen": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Margaritas", price: "$5", desc: "house margarita on the rocks \u2014 unbeatable deal" },
+          { name: "Pitchers", price: "$20", desc: "house beer pitchers" },
+          { name: "Truffle Mac & Cheese", price: "$5", desc: "during HH only \u2014 the must-order item" },
+        ]},
+      ]
+    },
+    {
+      label: "Restaurant Menu",
+      cats: [
+        { cat: "Small Plates", items: [
+          { name: "Truffle Mac & Cheese", price: "$14 (HH $5)", desc: "house-made pasta, truffle cream, breadcrumbs" },
+          { name: "Crispy Brussels Sprouts", price: "$13", desc: "lemon, parmesan, pickled peppers" },
+          { name: "Avocado Toast", price: "$14", desc: "sourdough, avocado, poached egg, everything spice" },
+          { name: "Burrata", price: "$16", desc: "heirloom tomatoes, arugula, prosciutto, aged balsamic" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "A10 Burger", price: "$18", desc: "grass-fed beef, cheddar, pickled onion, special sauce, fries" },
+          { name: "Grilled Salmon", price: "$26", desc: "seasonal vegetables, lemon caper butter" },
+          { name: "Pasta of the Day", price: "$19", desc: "ask server for current selection" },
+        ]},
+      ]
+    },
+  ],
+  "la-nacional": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Tue\u2013Fri 4\u20136PM)", items: [
+          { name: "Draft Beers", price: "$5", desc: "Spanish and domestic selection" },
+          { name: "Sangria & Wine", price: "$6", desc: "house red or white sangria, or wine by the glass" },
+          { name: "Tapas", price: "$7", desc: "rotating daily tapas selection during HH" },
+        ]},
+      ]
+    },
+    {
+      label: "Spanish Tapas",
+      cats: [
+        { cat: "Tapas (est. 1868)", items: [
+          { name: "Pan con Tomate", price: "$8", desc: "grilled bread, crushed tomato, olive oil, garlic" },
+          { name: "Croquetas de Pollo", price: "$12", desc: "chicken and bechamel croquettes, alioli" },
+          { name: "Patatas Bravas", price: "$10", desc: "crispy potatoes, spicy tomato sauce, alioli" },
+          { name: "Tortilla Espa\u00f1ola", price: "$11", desc: "Spanish potato omelet, served warm" },
+          { name: "Chorizo al Vino", price: "$14", desc: "saut\u00e9ed chorizo in red wine sauce" },
+          { name: "Jam\u00f3n Serrano", price: "$16", desc: "cured Spanish ham, bread, olive oil" },
+          { name: "Pulpo a la Gallega", price: "$18", desc: "Galician octopus, paprika, potato, olive oil" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Paella Valenciana", price: "$28", desc: "saffron rice, chicken, rabbit, vegetables \u2014 for 2" },
+          { name: "Paella de Mariscos", price: "$32", desc: "seafood paella, shrimp, mussels, clams \u2014 for 2" },
+        ]},
+      ]
+    },
+  ],
+  "magic-hour": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20136:30PM)", items: [
+          { name: "Fries", price: "$4", desc: "classic or sweet potato" },
+          { name: "Beers", price: "$6", desc: "draft selection" },
+          { name: "House Wines", price: "$8", desc: "" },
+          { name: "Cocktails", price: "$10", desc: "rotating specialty cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Rooftop Menu",
+      cats: [
+        { cat: "Snacks & Bites", items: [
+          { name: "Cotton Candy", price: "$6", desc: "for the gram \u2014 multiple colors" },
+          { name: "Soft Pretzel", price: "$10", desc: "beer cheese dip" },
+          { name: "Truffle Fries", price: "$13", desc: "parmesan, herb oil" },
+          { name: "Chicken Tenders", price: "$15", desc: "dipping sauces" },
+          { name: "Tacos (3)", price: "$14", desc: "rotating filling, salsa, lime" },
+        ]},
+        { cat: "Mini Golf", items: [
+          { name: "Mini Golf Round", price: "ask host", desc: "18-hole indoor/outdoor course \u2014 18th floor Moxy Hotel" },
+        ]},
+      ]
+    },
+  ],
+  "half-king": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Draft Beers", price: "$6", desc: "rotating craft selection \u2014 famous literary haunt" },
+          { name: "House Wine", price: "$8", desc: "red or white" },
+          { name: "Cocktails", price: "$9", desc: "classics and seasonal" },
+        ]},
+      ]
+    },
+    {
+      label: "Gastropub Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Half King Burger", price: "$16", desc: "beef patty, aged cheddar, lettuce, tomato, fries" },
+          { name: "Fish & Chips", price: "$18", desc: "beer-battered cod, tartar sauce, fries" },
+          { name: "Wings (10)", price: "$14", desc: "buffalo, BBQ, or garlic parm" },
+          { name: "House-Made Hummus", price: "$10", desc: "pita, olives, veggies" },
+          { name: "Grilled Cheese", price: "$12", desc: "sourdough, aged cheddar, optional tomato" },
+        ]},
+      ]
+    },
+  ],
+  "porchlight": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20136PM)", items: [
+          { name: "Whiskey Cocktails", price: "$9", desc: "rotating Southern-inspired whiskey cocktails" },
+          { name: "Draft Beers", price: "$6", desc: "Southern craft beer focus" },
+          { name: "House Wine", price: "$8", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Whiskey List",
+      cats: [
+        { cat: "Bourbon", items: [
+          { name: "Buffalo Trace", price: "$10", desc: "Kentucky \u2014 classic, crowd-pleasing" },
+          { name: "Woodford Reserve", price: "$12", desc: "small batch Kentucky bourbon" },
+          { name: "Four Roses Single Barrel", price: "$15", desc: "spicy, rich, complex" },
+          { name: "Blanton's Original", price: "$16", desc: "single barrel \u2014 the original collector's bottle" },
+          { name: "Pappy Van Winkle 12yr", price: "market", desc: "when available" },
+        ]},
+        { cat: "Southern Whiskey", items: [
+          { name: "Jack Daniel's Sinatra Select", price: "$14", desc: "special edition Tennessee whiskey" },
+          { name: "Prichard's Double Chocolate", price: "$12", desc: "Tennessee \u2014 rich, dessert-like" },
+        ]},
+      ]
+    },
+    {
+      label: "Southern Menu",
+      cats: [
+        { cat: "Southern Bar Bites", items: [
+          { name: "Deviled Eggs (6)", price: "$10", desc: "Duke's mayo, smoked paprika, pickle brine" },
+          { name: "Pimento Cheese Dip", price: "$12", desc: "Duke's mayo, sharp cheddar, jalape\u00f1o, crackers" },
+          { name: "Fried Chicken Sandwich", price: "$16", desc: "buttermilk-brined, pickles, comeback sauce" },
+          { name: "Shrimp & Grits", price: "$22", desc: "stone-ground grits, bacon, tomato, scallion" },
+        ]},
+      ]
+    },
+  ],
+  "dante-wv": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20136PM)", items: [
+          { name: "Negronis", price: "$10", desc: "gin, Campari, sweet vermouth \u2014 Dante's signature" },
+          { name: "Aperol Spritz", price: "$10", desc: "Aperol, prosecco, soda, orange" },
+          { name: "House Wine", price: "$8", desc: "Italian selection, red or white" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Negroni Variations", items: [
+          { name: "Classic Negroni", price: "$14", desc: "gin, Campari, sweet vermouth, orange peel" },
+          { name: "Negroni Sbagliato", price: "$14", desc: "Campari, sweet vermouth, prosecco" },
+          { name: "White Negroni", price: "$14", desc: "gin, Suze, blanc vermouth" },
+          { name: "Mezcal Negroni", price: "$15", desc: "mezcal, Campari, sweet vermouth" },
+          { name: "Boulevardier", price: "$14", desc: "bourbon, Campari, sweet vermouth" },
+        ]},
+        { cat: "Italian Spritz", items: [
+          { name: "Aperol Spritz", price: "$13", desc: "Aperol, prosecco, soda, orange" },
+          { name: "Campari Spritz", price: "$13", desc: "Campari, prosecco, soda, orange" },
+          { name: "Hugo Spritz", price: "$13", desc: "St-Germain, prosecco, soda, mint" },
+          { name: "Selecta Spritz", price: "$13", desc: "Averna, prosecco, soda, lemon" },
+        ]},
+      ]
+    },
+    {
+      label: "Italian Bar Bites",
+      cats: [
+        { cat: "Cicchetti", items: [
+          { name: "Bruschetta al Pomodoro", price: "$10", desc: "heirloom tomato, basil, garlic, olive oil" },
+          { name: "Burrata con Prosciutto", price: "$18", desc: "fresh burrata, San Daniele prosciutto, honey" },
+          { name: "Fritto Misto", price: "$16", desc: "mixed fried seafood and vegetables, aioli" },
+          { name: "Arancini (3)", price: "$12", desc: "Sicilian rice balls, tomato dipping sauce" },
+          { name: "Affettati Misti", price: "$20", desc: "Italian charcuterie platter" },
+        ]},
+      ]
+    },
+  ],
+  "dante-gv": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20136PM)", items: [
+          { name: "Negronis", price: "$10", desc: "the original World's Best Bar Negroni" },
+          { name: "Aperol Spritz", price: "$10", desc: "" },
+          { name: "House Wine", price: "$8", desc: "Italian selection" },
+          { name: "Specialty Cocktails", price: "$12", desc: "seasonal rotating menu" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Negroni Variations", items: [
+          { name: "Classic Negroni", price: "$14", desc: "gin, Campari, sweet vermouth, orange peel" },
+          { name: "Negroni Sbagliato", price: "$14", desc: "Campari, sweet vermouth, prosecco" },
+          { name: "White Negroni", price: "$14", desc: "gin, Suze, blanc vermouth" },
+          { name: "Mezcal Negroni", price: "$15", desc: "mezcal, Campari, sweet vermouth, chocolate bitters" },
+        ]},
+        { cat: "Italian Classics", items: [
+          { name: "Aperol Spritz", price: "$13", desc: "Aperol, prosecco, soda, orange" },
+          { name: "Americano", price: "$12", desc: "Campari, sweet vermouth, soda water" },
+          { name: "Garibaldi", price: "$12", desc: "Campari, fluffy fresh orange juice" },
+          { name: "Clover Club", price: "$14", desc: "gin, raspberry, lemon, egg white" },
+        ]},
+      ]
+    },
+    {
+      label: "Cafe & Food",
+      cats: [
+        { cat: "Cicchetti & Italian Snacks", items: [
+          { name: "Focaccia", price: "$8", desc: "rosemary, olive oil, sea salt" },
+          { name: "Bruschetta", price: "$10", desc: "tomato, basil, aged balsamic, olive oil" },
+          { name: "Burrata", price: "$18", desc: "fresh burrata, prosciutto, honey, grilled bread" },
+          { name: "Tiramisu", price: "$12", desc: "house-made, Kahl\u00faa-soaked ladyfingers, mascarpone" },
+        ]},
+      ]
+    },
+  ],
+  "stonewall-inn": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 2\u20138PM)", items: [
+          { name: "Cocktails", price: "$7", desc: "at the birthplace of the LGBTQ+ rights movement" },
+          { name: "Domestic Beers", price: "$5", desc: "" },
+          { name: "House Wine", price: "$6", desc: "" },
+          { name: "Well Drinks", price: "$4", desc: "well spirits" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Light Bites", items: [
+          { name: "Nachos", price: "$12", desc: "cheese, jalape\u00f1os, salsa, sour cream" },
+          { name: "Wings", price: "$13", desc: "buffalo or BBQ" },
+          { name: "Mozzarella Sticks", price: "$10", desc: "marinara" },
+          { name: "Loaded Fries", price: "$10", desc: "cheese, bacon, sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "duplex": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20138PM)", items: [
+          { name: "House Wine", price: "$8", desc: "red or white \u2014 West Village piano bar + cabaret" },
+          { name: "Draft Beers", price: "$6", desc: "" },
+          { name: "Cocktails", price: "$9", desc: "classic cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Nachos", price: "$12", desc: "classic bar nachos" },
+          { name: "Wings", price: "$13", desc: "buffalo or BBQ" },
+          { name: "Mozzarella Sticks", price: "$10", desc: "marinara" },
+          { name: "Sliders (3)", price: "$13", desc: "beef, cheddar, pickles" },
+        ]},
+        { cat: "Shows", items: [
+          { name: "Piano Bar", price: "FREE", desc: "nightly from 9PM \u2014 sing along, cabaret, comedy" },
+        ]},
+      ]
+    },
+  ],
+  "bandits-diner": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Martinis", price: "$10", desc: "classic gin or vodka martini" },
+          { name: "Martini + Tots (Happy Meal)", price: "$15", desc: "the must-order \u2014 martini + tater tots" },
+          { name: "House Wine", price: "$8", desc: "" },
+          { name: "Beers", price: "$6", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Diner Menu",
+      cats: [
+        { cat: "Diner Classics", items: [
+          { name: "Bandit Burger", price: "$16", desc: "smash patty, American cheese, secret sauce, onion, pickles" },
+          { name: "Chicken & Waffles", price: "$18", desc: "crispy fried chicken, Belgian waffle, maple syrup" },
+          { name: "Lobster Grilled Cheese", price: "$22", desc: "claw meat, gruy\u00e8re, tarragon butter, sourdough" },
+          { name: "Tater Tots", price: "$8", desc: "ketchup and ranch \u2014 perfect martini partner" },
+          { name: "Mac & Cheese", price: "$14", desc: "house-made, breadcrumb crust" },
+          { name: "Pancake Stack (3)", price: "$12", desc: "butter, maple syrup" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Martinis", items: [
+          { name: "Classic Gin Martini", price: "$13", desc: "gin, dry vermouth, olive or lemon twist" },
+          { name: "Dirty Vodka Martini", price: "$13", desc: "vodka, olive juice, dry vermouth" },
+          { name: "Espresso Martini", price: "$15", desc: "vodka, Kahl\u00faa, fresh espresso, sugar" },
+          { name: "Lemon Drop", price: "$13", desc: "citrus vodka, triple sec, fresh lemon" },
+        ]},
+      ]
+    },
+  ],
+  "amelie-gv": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20136PM)", items: [
+          { name: "Cocktails", price: "$10", desc: "French-inspired seasonal cocktails" },
+          { name: "Draft Beers", price: "$7", desc: "" },
+          { name: "Wine Flights", price: "$14", desc: "3 glasses of rotating French or European wines" },
+          { name: "Early Bird: Meal + Wine", price: "$21", desc: "one dish + one glass of wine" },
+        ]},
+      ]
+    },
+    {
+      label: "Wine List",
+      cats: [
+        { cat: "French Wines by the Glass", items: [
+          { name: "Champagne / Cr\u00e9mant", price: "$14\u201320", desc: "rotating French bubbles" },
+          { name: "Burgundy (Chardonnay)", price: "$13\u201318", desc: "" },
+          { name: "Loire Valley (Sauvignon Blanc)", price: "$12\u201316", desc: "" },
+          { name: "Bordeaux (Cabernet/Merlot)", price: "$13\u201318", desc: "" },
+          { name: "C\u00f4tes du Rh\u00f4ne (Grenache)", price: "$12\u201316", desc: "" },
+          { name: "Provence Ros\u00e9", price: "$12\u201315", desc: "classic Proven\u00e7al dry ros\u00e9" },
+        ]},
+      ]
+    },
+    {
+      label: "French Bar Bites",
+      cats: [
+        { cat: "Cheese & Charcuterie", items: [
+          { name: "Cheese Board (3)", price: "$18", desc: "French and European cheeses, honey, jam, baguette" },
+          { name: "Charcuterie Board (3)", price: "$16", desc: "p\u00e2t\u00e9, saucisson, jambon, cornichons, mustard" },
+          { name: "Croque Monsieur", price: "$14", desc: "ham, gruy\u00e8re, b\u00e9chamel, toasted brioche" },
+          { name: "Escargots", price: "$16", desc: "garlic herb butter, toasted baguette" },
+        ]},
+      ]
+    },
+  ],
+  "the-jane": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20138PM)", items: [
+          { name: "House Wine", price: "$7", desc: "red or white, served in the stunning 1908 hotel ballroom" },
+          { name: "Draft Beers", price: "$4", desc: "classic and rotating craft" },
+          { name: "Draft Negroni", price: "$9", desc: "on-tap house Negroni \u2014 exceptional quality" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "The Jane Ballroom Bites", items: [
+          { name: "Cheese Plate", price: "$18", desc: "seasonal selection with accompaniments" },
+          { name: "Charcuterie", price: "$16", desc: "cured meats, mustard, pickles, bread" },
+          { name: "Truffle Fries", price: "$12", desc: "parmesan, herbs" },
+          { name: "Seasonal Oysters (6)", price: "$20", desc: "mignonette, cocktail sauce" },
+        ]},
+      ]
+    },
+  ],
+  "miss-lilys": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20137PM)", items: [
+          { name: "Cocktails", price: "$8", desc: "includes Lily's Rum Punch \u2014 the signature" },
+          { name: "Beers", price: "$6", desc: "Caribbean-inspired selection" },
+          { name: "House Wine", price: "$7", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Jamaican Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Jerk Chicken Wings", price: "$16", desc: "Scotch bonnet marinade, festival bread, mango slaw" },
+          { name: "Crab Cakes", price: "$18", desc: "Jamaican seasoning, avocado, scotch bonnet aioli" },
+          { name: "Saltfish Fritters", price: "$14", desc: "salt cod, herbs, scotch bonnet dipping sauce" },
+          { name: "Ackee Dip", price: "$13", desc: "ackee, callaloo, plantain chips" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Jerk Chicken", price: "$24", desc: "whole jerk chicken, festival bread, rice and peas" },
+          { name: "Tuesday Crab Boil", price: "special", desc: "Tuesday nights only \u2014 legendary crab boil" },
+          { name: "Curry Goat", price: "$26", desc: "slow-braised, roti, pickled onion" },
+          { name: "Ackee & Saltfish", price: "$20", desc: "Jamaica's national dish, rice and peas, plantains" },
+          { name: "Veggie Roti", price: "$18", desc: "curried vegetables, chickpeas, chutney" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Rum-Forward Cocktails", items: [
+          { name: "Lily's Rum Punch", price: "$13", desc: "Jamaican rum, passion fruit, lime, grenadine, bitters" },
+          { name: "Miss Lily's Colada", price: "$14", desc: "coconut rum, pineapple, coconut cream" },
+          { name: "Ginger Mule", price: "$12", desc: "rum, fresh ginger, lime, ginger beer" },
+        ]},
+      ]
+    },
+  ],
+  "bar-belly": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 5\u20137PM)", items: [
+          { name: "Oysters", price: "$2 each", desc: "daily oysters \u2014 one of the best EV deals" },
+          { name: "Cocktails", price: "$14", desc: "craft cocktails" },
+          { name: "House Wine", price: "$8", desc: "" },
+          { name: "Free Popcorn", price: "FREE", desc: "on arrival \u2014 seasoned popcorn for the table" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Snacks & Bites", items: [
+          { name: "Oysters on the Half Shell (6)", price: "$18 ($12 HH)", desc: "rotating East/West Coast, mignonette, cocktail sauce" },
+          { name: "Cheeseburger", price: "$16", desc: "beef, American cheese, special sauce, fries" },
+          { name: "Chicken Sandwich", price: "$15", desc: "crispy fried, coleslaw, pickles, hot sauce" },
+          { name: "Loaded Fries", price: "$12", desc: "cheese sauce, jalape\u00f1os, bacon, sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "wcou": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily until 8PM)", items: [
+          { name: "Well Drinks", price: "$4", desc: "classic East Village dive \u2014 $4 wells all day until 8" },
+          { name: "Domestic Beers", price: "$5", desc: "Bud Light, PBR, Miller" },
+          { name: "Shots", price: "$4", desc: "well shots" },
+        ]},
+      ]
+    },
+    {
+      label: "Drinks",
+      cats: [
+        { cat: "What's on Tap", items: [
+          { name: "Pabst Blue Ribbon", price: "$4", desc: "NYC dive bar staple" },
+          { name: "Budweiser", price: "$4", desc: "" },
+          { name: "Miller Lite", price: "$4", desc: "" },
+          { name: "Coors Light", price: "$4", desc: "" },
+          { name: "Rotating Craft Tap", price: "$6–7", desc: "ask bartender" },
+        ]},
+        { cat: "Well Spirits", items: [
+          { name: "Well Vodka / Rum / Gin", price: "$4 (HH)", desc: "house pour well spirits" },
+          { name: "Well Whiskey / Tequila", price: "$4 (HH)", desc: "" },
+          { name: "Shots", price: "$4", desc: "well shots" },
+        ]}
+      ]
+    }
+  ],
+  "bibi": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 5\u20138PM)", items: [
+          { name: "House Wine", price: "$5 glass", desc: "Australian and natural wine selection" },
+          { name: "Select Bottles", price: "$28", desc: "select bottles during HH \u2014 incredible deal" },
+          { name: "Beers", price: "$6", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Australian Wine Bar",
+      cats: [
+        { cat: "Natural & Australian Wines", items: [
+          { name: "P\u00e9t-Nat (P\u00e9tillant Naturel)", price: "$13\u201318", desc: "natural sparkling, lightly funky, effervescent" },
+          { name: "Orange Wine", price: "$13\u201317", desc: "skin-contact white \u2014 complex, tannic" },
+          { name: "Australian Shiraz", price: "$14\u201320", desc: "from the Barossa and Yarra Valley regions" },
+          { name: "Biodynamic Riesling", price: "$12\u201316", desc: "off-dry, aromatic" },
+        ]},
+      ]
+    },
+    {
+      label: "Bites",
+      cats: [
+        { cat: "Small Plates", items: [
+          { name: "Burrata", price: "$16", desc: "seasonal fruit, honey, pistachios" },
+          { name: "Cheese Board (3)", price: "$20", desc: "Australian and European cheeses, fruit, nuts, crackers" },
+          { name: "Charcuterie (3)", price: "$18", desc: "cured meats, pickles, mustard, bread" },
+          { name: "Smashed Avocado Toast", price: "$14", desc: "sourdough, dukkah, lemon, chili flakes" },
+        ]},
+      ]
+    },
+  ],
+  "the-wayland": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20137PM)", items: [
+          { name: "Craft Cocktails", price: "$10", desc: "rotating seasonal cocktails \u2014 best in Alphabet City" },
+          { name: "Half-Dozen Oysters", price: "$10", desc: "best oyster deal in the East Village" },
+          { name: "Beer + Burger", price: "$15", desc: "one beer + Wayland burger \u2014 great combo deal" },
+        ]},
+      ]
+    },
+    {
+      label: "Full Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Oysters (6)", price: "$18 (HH $10)", desc: "East Coast rotating selection, mignonette" },
+          { name: "Crispy Calamari", price: "$14", desc: "lemon aioli, roasted tomato sauce" },
+          { name: "Guacamole & Chips", price: "$13", desc: "fresh guacamole, tortilla chips, pico de gallo" },
+          { name: "Deviled Eggs (6)", price: "$11", desc: "smoked paprika, chives" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Wayland Burger", price: "$17 (HH $15 w/beer)", desc: "beef, aged cheddar, caramelized onion, fries" },
+          { name: "Crispy Chicken Sandwich", price: "$16", desc: "coleslaw, pickles, spicy mayo, fries" },
+          { name: "Grilled Salmon", price: "$24", desc: "seasonal vegetables, lemon butter" },
+        ]},
+      ]
+    },
+  ],
+  "mermaid-inn": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 5\u20137PM)", items: [
+          { name: "Mini Lobster Roll", price: "HH special", desc: "classic New England style \u2014 best deal in EV" },
+          { name: "Beers", price: "$6", desc: "" },
+          { name: "House Wine", price: "$8.50", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Seafood Menu",
+      cats: [
+        { cat: "Raw Bar", items: [
+          { name: "East Coast Oysters (6)", price: "$21", desc: "rotating selection, mignonette, cocktail sauce" },
+          { name: "Oyster Sampler (12)", price: "$38", desc: "6 East, 6 West Coast varieties" },
+          { name: "Shrimp Cocktail", price: "$16", desc: "poached shrimp, house cocktail sauce" },
+          { name: "Littleneck Clams (6)", price: "$14", desc: "cocktail sauce, lemon" },
+        ]},
+        { cat: "Main Dishes", items: [
+          { name: "Maine Lobster Roll", price: "$29", desc: "cold New England style with mayo, or hot with butter" },
+          { name: "Fish & Chips", price: "$22", desc: "beer-battered cod, malt vinegar, tartar sauce" },
+          { name: "Clam Chowder", price: "$11 / $16", desc: "cup or bowl, New England style, oyster crackers" },
+          { name: "Pan-Roasted Salmon", price: "$26", desc: "seasonal vegetables, lemon caper beurre blanc" },
+          { name: "Crab Cakes", price: "$24", desc: "lump crab, remoulade, arugula salad" },
+        ]},
+      ]
+    },
+  ],
+  "la-linea": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily until 9PM)", items: [
+          { name: "All Drinks", price: "$3 off", desc: "discount on all drinks \u2014 HH until 9PM" },
+          { name: "Beers (after discount)", price: "~$8", desc: "craft and domestic" },
+          { name: "Cocktails (after discount)", price: "~$11", desc: "rotating cocktails" },
+          { name: "Taco Tuesday Tacos", price: "$4 each", desc: "beef, chicken, or veggie \u2014 on Tuesdays" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Bites", items: [
+          { name: "Quesadilla", price: "$12", desc: "cheese, jalape\u00f1os, salsa, sour cream" },
+          { name: "Nachos", price: "$13", desc: "cheese, jalape\u00f1os, guacamole, salsa" },
+          { name: "Wings (8)", price: "$14", desc: "buffalo or BBQ" },
+          { name: "Tacos (3)", price: "$14 ($4 on Tue)", desc: "beef, chicken, or veggie" },
+        ]},
+      ]
+    },
+  ],
+  "rosella": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 5\u20136:30PM)", items: [
+          { name: "Draft Beer", price: "$6", desc: "" },
+          { name: "House Wine", price: "$12", desc: "" },
+          { name: "5-Piece Nigiri", price: "$25", desc: "chef's selection of American fish nigiri \u2014 not traditional Japanese" },
+        ]},
+      ]
+    },
+    {
+      label: "Omakase Bar",
+      cats: [
+        { cat: "Rosella (American Sushi Experience)", items: [
+          { name: "Counter Omakase", price: "$85", desc: "chef's tasting with local American seafood \u2014 reservation recommended" },
+          { name: "5-pc Nigiri (HH)", price: "$25", desc: "chef's selection \u2014 extraordinary value" },
+          { name: "Hand Roll (2)", price: "$20", desc: "chef's selection hand rolls" },
+        ]},
+      ]
+    },
+  ],
+  "verlaine": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 5\u201310PM)", items: [
+          { name: "Lychee Martinis", price: "$8", desc: "vodka, lychee juice, elderflower \u2014 LES signature" },
+          { name: "Beers", price: "$6", desc: "" },
+          { name: "House Wine", price: "$9", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Asian-Inspired Cocktails", items: [
+          { name: "Lychee Martini", price: "$12 (HH $8)", desc: "vodka, lychee, elderflower \u2014 the classic" },
+          { name: "Sake Sangria", price: "$11", desc: "sake, white wine, seasonal fruit" },
+          { name: "Cucumber Basil Gimlet", price: "$13", desc: "gin, fresh cucumber, basil, lime" },
+          { name: "Ginger Lemon Drop", price: "$12", desc: "vodka, ginger, fresh lemon, Cointreau" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Bites",
+      cats: [
+        { cat: "Asian-Inspired Snacks", items: [
+          { name: "Edamame", price: "$7", desc: "salted or chili garlic" },
+          { name: "Gyoza (6)", price: "$12", desc: "pork and vegetable, ponzu dip" },
+          { name: "Bao Buns (2)", price: "$14", desc: "pork belly, hoisin, cucumber" },
+          { name: "Crispy Spring Rolls (4)", price: "$11", desc: "vegetable, sweet chili dip" },
+        ]},
+      ]
+    },
+  ],
+  "cervos": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Tue\u2013Fri 5\u20136PM)", items: [
+          { name: "Oysters", price: "$1 each", desc: "James Beard nominated spot \u2014 killer deal" },
+          { name: "Draft Beers", price: "$7", desc: "" },
+          { name: "House Wines", price: "$10", desc: "natural wine focus" },
+          { name: "Cocktails", price: "$12", desc: "seasonal Mediterranean-inspired" },
+        ]},
+      ]
+    },
+    {
+      label: "Mediterranean Menu",
+      cats: [
+        { cat: "Raw & Cold", items: [
+          { name: "Oysters (6)", price: "$21 ($6 HH)", desc: "East Coast rotating, mignonette" },
+          { name: "Yellowfin Tuna Crudo", price: "$19", desc: "citrus, olives, herbs, olive oil" },
+          { name: "Clam Toast", price: "$16", desc: "razor clams, garlic, parsley, toast" },
+        ]},
+        { cat: "Hot Dishes", items: [
+          { name: "Grilled Octopus", price: "$18", desc: "charred, chickpeas, chermoula, lemon" },
+          { name: "Mussels al Forno", price: "$16", desc: "baked mussels, breadcrumbs, garlic, white wine" },
+          { name: "Fried Anchovies", price: "$12", desc: "lemon, herbs, aioli" },
+          { name: "Lamb Chops", price: "$28", desc: "herb crust, harissa, tzatziki" },
+        ]},
+      ]
+    },
+  ],
+  "barrio-chino": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20138PM)", items: [
+          { name: "Margaritas", price: "$8", desc: "4 hours of $8 margaritas daily \u2014 insane deal" },
+          { name: "Beers", price: "$7", desc: "Mexican cerveza selection" },
+          { name: "Mezcal Cocktails", price: "$9", desc: "rotating mezcal drinks" },
+        ]},
+      ]
+    },
+    {
+      label: "Mexican Cantina",
+      cats: [
+        { cat: "Antojitos", items: [
+          { name: "Guacamole", price: "$13", desc: "fresh avocado, lime, jalape\u00f1o, chips" },
+          { name: "Queso Fundido", price: "$14", desc: "melted cheese, chorizo, peppers" },
+          { name: "Ceviche", price: "$16", desc: "fresh fish, lime, cilantro, tomato, red onion" },
+          { name: "Taquitos (3)", price: "$12", desc: "rolled and fried tacos, salsa, sour cream" },
+        ]},
+        { cat: "Tacos (3)", items: [
+          { name: "Carnitas Tacos", price: "$15", desc: "slow-braised pork, salsa verde, onion, cilantro" },
+          { name: "Fish Tacos", price: "$15", desc: "beer-battered cod, chipotle mayo, cabbage" },
+          { name: "Mushroom Tacos", price: "$13", desc: "roasted mushroom, black beans, avocado" },
+        ]},
+        { cat: "Cocktails", items: [
+          { name: "House Margarita", price: "$12 ($8 HH)", desc: "tequila, Cointreau, fresh lime" },
+          { name: "Spicy Marg", price: "$13", desc: "jalape\u00f1o-infused tequila, lime, agave" },
+          { name: "Oaxacan Old Fashioned", price: "$14", desc: "mezcal, agave, Angostura, orange" },
+        ]},
+      ]
+    },
+  ],
+  "la-caverna": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Wed/Fri/Sun)", items: [
+          { name: "Tacos", price: "$3 each", desc: "underground cave bar specials" },
+          { name: "Beers", price: "$6", desc: "" },
+          { name: "Margaritas", price: "$8", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Cave Bar Menu",
+      cats: [
+        { cat: "Mexican Bites", items: [
+          { name: "Nachos", price: "$13", desc: "cheese, jalape\u00f1os, salsa, guacamole, sour cream" },
+          { name: "Tacos (3)", price: "$14 ($3 ea HH)", desc: "beef, chicken, or veggie" },
+          { name: "Quesadilla", price: "$12", desc: "cheese, peppers, onion" },
+          { name: "Elote", price: "$9", desc: "grilled corn, mayo, cotija, chili" },
+        ]},
+      ]
+    },
+  ],
+  "mr-purple": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Wed 4\u20137PM)", items: [
+          { name: "Bar Snacks", price: "$6", desc: "15th floor rooftop \u2014 rotating daily snacks" },
+          { name: "Cocktails", price: "$11", desc: "seasonal rooftop cocktails" },
+          { name: "Wine by the Glass", price: "$11", desc: "rotating selection" },
+        ]},
+      ]
+    },
+    {
+      label: "Rooftop Menu",
+      cats: [
+        { cat: "Bites", items: [
+          { name: "Truffle Fries", price: "$14", desc: "parmesan, herbs" },
+          { name: "Cheese Board", price: "$22", desc: "chef's selection, accompaniments" },
+          { name: "Shishito Peppers", price: "$12", desc: "sea salt, lemon" },
+          { name: "Hummus Plate", price: "$14", desc: "pita, crudit\u00e9s, olive oil" },
+        ]},
+      ]
+    },
+  ],
+  "local-138": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20138PM)", items: [
+          { name: "Domestic Beers", price: "$5", desc: "classic LES dive bar" },
+          { name: "House Wine", price: "$7", desc: "" },
+          { name: "Well Drinks", price: "$7", desc: "classic wells" },
+        ]},
+      ]
+    },
+    {
+      label: "Dive Bar Menu",
+      cats: [
+        { cat: "Simple Bar Food", items: [
+          { name: "Wings (8)", price: "$12", desc: "buffalo or BBQ" },
+          { name: "Nachos", price: "$11", desc: "cheese, jalape\u00f1os, salsa" },
+          { name: "Pretzel", price: "$8", desc: "mustard dip" },
+        ]},
+      ]
+    },
+  ],
+  "bonnie-vee": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20137PM)", items: [
+          { name: "Daily Cocktail", price: "$12", desc: "rotating house cocktail \u2014 ask bartender" },
+          { name: "Tecate", price: "$5", desc: "classic Mexican lager \u2014 patio favorite" },
+          { name: "Wine", price: "$2 off", desc: "select wines by the glass" },
+          { name: "Warm Pretzel", price: "included", desc: "complimentary bar snack during HH" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Snacks", items: [
+          { name: "Warm Pretzel", price: "$9", desc: "beer cheese, whole grain mustard" },
+          { name: "Wings", price: "$13", desc: "buffalo or dry rub" },
+          { name: "Smash Burger", price: "$15", desc: "double smash, American cheese, special sauce" },
+        ]},
+      ]
+    },
+  ],
+  "spring-lounge": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 12\u20138PM)", items: [
+          { name: "Domestic Beers", price: "$4", desc: "classic Nolita dive \u2014 8 hours daily" },
+          { name: "House Wine", price: "$6", desc: "" },
+          { name: "Well Drinks", price: "$5", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Drafts", items: [
+          { name: "Pabst Blue Ribbon", price: "$4 (HH)", desc: "the Nolita classic" },
+          { name: "Budweiser", price: "$4 (HH)", desc: "" },
+          { name: "Modelo Especial", price: "$5", desc: "" },
+          { name: "Rotating Craft", price: "$6–7", desc: "ask bartender" },
+        ]},
+        { cat: "Bottles & Cans", items: [
+          { name: "Domestic Cans", price: "$4 (HH)", desc: "Bud Light, Coors Light, Miller Lite" },
+          { name: "Import Bottles", price: "$6", desc: "Heineken, Corona, Stella" },
+        ]}
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Classic Well Cocktails", items: [
+          { name: "Vodka Soda / Cranberry", price: "$5 (HH)", desc: "" },
+          { name: "Rum & Coke", price: "$5 (HH)", desc: "" },
+          { name: "Gin & Tonic", price: "$5 (HH)", desc: "" },
+          { name: "Whiskey Sour", price: "$6", desc: "" },
+          { name: "Jack & Coke", price: "$6", desc: "" },
+        ]}
+      ]
+    }
+  ],
+  "roxy-bar": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20136PM)", items: [
+          { name: "Oysters", price: "$2 each", desc: "daily \u2014 best raw bar deal in SoHo/Tribeca area" },
+          { name: "Draft Beers", price: "$5", desc: "" },
+          { name: "House Wine", price: "$9", desc: "" },
+          { name: "Cocktails", price: "$10", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Hotel Bar Menu",
+      cats: [
+        { cat: "Snacks", items: [
+          { name: "Oysters (6)", price: "$20 ($12 HH)", desc: "East Coast rotating selection, mignonette" },
+          { name: "Fries", price: "$9", desc: "sea salt, ketchup, aioli" },
+          { name: "Charcuterie", price: "$20", desc: "cured meats, cheeses, pickles, bread" },
+          { name: "Cheese Plate", price: "$18", desc: "seasonal selection" },
+        ]},
+      ]
+    },
+  ],
+  "port-said": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20137PM)", items: [
+          { name: "BOGO Cocktails", price: "Buy 1 Get 1", desc: "one of the best HH deals in Manhattan \u2014 buy one cocktail, get one free" },
+          { name: "Snack Specials", price: "varies", desc: "rotating bar snacks during HH" },
+        ]},
+      ]
+    },
+    {
+      label: "Middle Eastern Bar",
+      cats: [
+        { cat: "Mezze", items: [
+          { name: "Hummus & Pita", price: "$12", desc: "smooth hummus, warm pita, olive oil, paprika" },
+          { name: "Falafel (4)", price: "$12", desc: "crispy, tahini, herbs" },
+          { name: "Shakshuka", price: "$16", desc: "eggs poached in spiced tomato sauce, pita" },
+          { name: "Sabich Sandwich", price: "$14", desc: "fried eggplant, hard-boiled egg, hummus, pickles, amba" },
+          { name: "Lamb Kofta", price: "$18", desc: "spiced ground lamb skewers, tzatziki, pita" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Middle Eastern Inspired", items: [
+          { name: "Rosewater Martini", price: "$14", desc: "vodka, rosewater, lychee, elderflower" },
+          { name: "Arak Sour", price: "$13", desc: "Lebanese arak, lemon, sugar, egg white" },
+          { name: "Za'atar Mary", price: "$13", desc: "vodka, tomato, za'atar, lemon \u2014 Israeli Bloody Mary" },
+        ]},
+      ]
+    },
+  ],
+  "botanica": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily until 8PM)", items: [
+          { name: "Draft Beers", price: "$3\u20135", desc: "rotating craft and domestic" },
+          { name: "House Wine", price: "$5", desc: "red or white" },
+          { name: "Well Drinks", price: "$4", desc: "daily until 8PM \u2014 great SoHo dive value" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer & Wine",
+      cats: [
+        { cat: "Draft Beers", items: [
+          { name: "Rotating Craft IPA", price: "$5–6", desc: "" },
+          { name: "Rotating Lager", price: "$4–5", desc: "" },
+          { name: "Pabst Blue Ribbon", price: "$3 (HH)", desc: "" },
+        ]},
+        { cat: "Wine by the Glass", items: [
+          { name: "House Red", price: "$5 (HH)", desc: "" },
+          { name: "House White", price: "$5 (HH)", desc: "" },
+          { name: "Rosé", price: "$6", desc: "" },
+        ]}
+      ]
+    },
+    {
+      label: "Cocktails",
+      cats: [
+        { cat: "Bar Cocktails", items: [
+          { name: "Margarita", price: "$10", desc: "tequila, lime, triple sec" },
+          { name: "Negroni", price: "$11", desc: "gin, Campari, sweet vermouth" },
+          { name: "Moscow Mule", price: "$10", desc: "vodka, ginger beer, lime" },
+          { name: "Old Fashioned", price: "$11", desc: "whiskey, sugar, bitters" },
+          { name: "Aperol Spritz", price: "$11", desc: "Aperol, prosecco, soda" },
+        ]}
+      ]
+    }
+  ],
+  "tinys": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20136PM)", items: [
+          { name: "House Wine", price: "$11", desc: "in the flamingo-pink Tribeca townhouse" },
+          { name: "Sangria", price: "$13", desc: "house red or white sangria" },
+          { name: "Martini + Tots", price: "$22", desc: "martini + tater tots \u2014 the 'Happy Meal'" },
+          { name: "Oysters", price: "$2 each", desc: "daily" },
+        ]},
+      ]
+    },
+    {
+      label: "Tiny's Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Oysters (6)", price: "$18 ($12 HH)", desc: "rotating East Coast selection, mignonette" },
+          { name: "Tater Tots", price: "$9", desc: "ketchup and aioli" },
+          { name: "Truffle Fries", price: "$12", desc: "parmesan, herbs" },
+          { name: "Burrata", price: "$16", desc: "heirloom tomato, basil, balsamic" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Tiny's Burger", price: "$18", desc: "grass-fed beef, aged cheddar, caramelized onion, special sauce" },
+          { name: "Lobster Roll", price: "$28", desc: "Connecticut or Maine style, brioche bun" },
+          { name: "Roast Chicken", price: "$24", desc: "half chicken, jus, seasonal vegetables" },
+        ]},
+      ]
+    },
+  ],
+  "the-odeon": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20137PM)", items: [
+          { name: "Cocktails", price: "$9", desc: "at Andy Warhol's old haunt \u2014 Tribeca institution since 1980" },
+          { name: "House Wine", price: "$8", desc: "" },
+          { name: "Draft Beers", price: "$6", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Brasserie Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Steak Tartare", price: "$19", desc: "capers, shallots, Dijon, quail egg, crostini" },
+          { name: "Grilled Shrimp", price: "$16", desc: "cocktail sauce, lemon" },
+          { name: "French Onion Soup", price: "$14", desc: "gruy\u00e8re, croutons" },
+          { name: "Caesar Salad", price: "$14", desc: "romaine, parmesan, croutons, house dressing" },
+        ]},
+        { cat: "Classic Mains", items: [
+          { name: "Steak Frites", price: "$36", desc: "hanger steak, herb butter, frites" },
+          { name: "Moules Marini\u00e8res", price: "$24", desc: "PEI mussels, white wine, garlic, frites" },
+          { name: "The Odeon Burger", price: "$19", desc: "house blend beef, cheddar, pickles, frites" },
+          { name: "Roasted Chicken", price: "$26", desc: "herb jus, seasonal vegetables" },
+        ]},
+      ]
+    },
+  ],
+  "169-bar": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 11:30AM\u20137:30PM)", items: [
+          { name: "All Beers", price: "$1 off", desc: "100+ year old bar \u2014 historic Chinatown dive" },
+          { name: "Taco Tuesday Tacos", price: "$4 each", desc: "Tuesday only \u2014 beef, chicken, or veggie" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Drafts", items: [
+          { name: "All Drafts", price: "$1 off (HH)", desc: "discount applies to full draft menu" },
+          { name: "Pabst Blue Ribbon", price: "$4", desc: "" },
+          { name: "Budweiser", price: "$4", desc: "" },
+          { name: "Rotating Craft Tap", price: "$6", desc: "" },
+        ]},
+        { cat: "Bottles & Cans", items: [
+          { name: "Domestic Cans", price: "$4", desc: "Bud Light, Coors, Miller" },
+          { name: "Import Bottles", price: "$5–6", desc: "Modelo, Corona, Heineken" },
+        ]}
+      ]
+    },
+    {
+      label: "Food",
+      cats: [
+        { cat: "Mexican Snacks", items: [
+          { name: "Tacos (3)", price: "$12 ($4 ea Tue)", desc: "beef, chicken, or veggie — Tuesday special $4 each" },
+          { name: "Nachos", price: "$11", desc: "cheese, jalapeños, salsa, sour cream" },
+          { name: "Quesadilla", price: "$10", desc: "cheese, peppers, onion" },
+          { name: "Chips & Salsa", price: "$6", desc: "house-made tortilla chips" },
+        ]}
+      ]
+    }
+  ],
+  "dead-rabbit": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 11AM\u20138PM)", items: [
+          { name: "Taproom Pints", price: "$5", desc: "ground floor Taproom \u2014 best pint deal in FiDi" },
+          { name: "Irish Whiskeys", price: "$12", desc: "rotating premium Irish whiskey selection" },
+          { name: "Cocktails (Parlor Bar)", price: "$10", desc: "upstairs bar \u2014 award-winning cocktail program" },
+        ]},
+      ]
+    },
+    {
+      label: "Taproom Menu",
+      cats: [
+        { cat: "Irish Bar Bites", items: [
+          { name: "Irish Beef Stew", price: "$16", desc: "Guinness-braised beef, root vegetables, soda bread" },
+          { name: "Scotch Egg", price: "$14", desc: "soft boiled, pork sausage coat, mustard" },
+          { name: "Fish & Chips", price: "$18", desc: "beer-battered cod, tartar sauce, malt vinegar, mushy peas" },
+          { name: "Crispy Pig's Ear", price: "$12", desc: "pickled mustard seeds, aioli \u2014 a Dead Rabbit original" },
+        ]},
+      ]
+    },
+    {
+      label: "Irish Whiskeys",
+      cats: [
+        { cat: "Award-Winning Selection", items: [
+          { name: "Redbreast 12yr", price: "$16", desc: "single pot still \u2014 classic and complex" },
+          { name: "Green Spot", price: "$14", desc: "single pot still, light and floral" },
+          { name: "Midleton Very Rare", price: "market", desc: "limited annual release" },
+          { name: "Jameson Black Barrel", price: "$13", desc: "double-distilled, toasted American oak finish" },
+          { name: "Teeling Single Grain", price: "$13", desc: "Californian wine cask finish" },
+        ]},
+      ]
+    },
+  ],
+  "pier-a": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20137PM)", items: [
+          { name: "Draft Beers", price: "$4", desc: "on the waterfront at historic Battery Park pier" },
+          { name: "House Wine", price: "$6", desc: "" },
+          { name: "Well Drinks", price: "$8", desc: "" },
+          { name: "Oysters", price: "$1.50 each", desc: "harbour oysters with Harbor views" },
+        ]},
+      ]
+    },
+    {
+      label: "Harbor House Menu",
+      cats: [
+        { cat: "Seafood", items: [
+          { name: "Oysters on the Half Shell (6)", price: "$18 ($9 HH)", desc: "East Coast rotating, mignonette" },
+          { name: "Lobster Roll", price: "$28", desc: "cold New England style, mayonnaise, brioche bun" },
+          { name: "Clam Chowder", price: "$12", desc: "New England style, oyster crackers" },
+          { name: "Fish & Chips", price: "$20", desc: "beer-battered, tartar sauce, malt vinegar" },
+        ]},
+        { cat: "Grilled Items", items: [
+          { name: "Harbor Burger", price: "$18", desc: "beef, cheddar, lettuce, tomato, fries" },
+          { name: "Grilled Salmon", price: "$26", desc: "with seasonal vegetables" },
+        ]},
+      ]
+    },
+  ],
+  "fraunces-tavern": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Draft Pints", price: "$7", desc: "at NYC's oldest bar (1762) \u2014 where Washington gave his farewell address" },
+          { name: "House Wine", price: "$9", desc: "" },
+          { name: "Cocktails", price: "$10", desc: "classic American cocktails" },
+        ]},
+      ]
+    },
+    {
+      label: "Tavern Menu (est. 1762)",
+      cats: [
+        { cat: "Colonial American Fare", items: [
+          { name: "Beef Sliders (3)", price: "$16", desc: "aged cheddar, caramelized onion, house sauce" },
+          { name: "Fish & Chips", price: "$19", desc: "beer battered, tartar sauce, mushy peas" },
+          { name: "New England Clam Chowder", price: "$12", desc: "cup or bowl, oyster crackers" },
+          { name: "Chicken Pot Pie", price: "$18", desc: "house-made, flaky crust, seasonal vegetables" },
+          { name: "Shepherd's Pie", price: "$17", desc: "ground beef, vegetables, mashed potato crust" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Tavern Drafts & Bottles", items: [
+          { name: "Smithwick's Irish Red Ale", price: "$8", desc: "" },
+          { name: "Guinness Stout", price: "$8", desc: "nitro-poured" },
+          { name: "Samuel Adams Boston Lager", price: "$8", desc: "" },
+          { name: "Brooklyn Lager", price: "$7", desc: "local NYC brewery" },
+          { name: "Rotating Guest Tap", price: "$8", desc: "ask bartender" },
+        ]},
+      ]
+    },
+  ],
+  "merchants-river": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20137PM)", items: [
+          { name: "Cocktails", price: "$8", desc: "with views of the Hudson River and Statue of Liberty" },
+          { name: "Draft Beers", price: "$6", desc: "" },
+          { name: "House Wine", price: "$8", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Waterfront Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Shrimp Cocktail", price: "$16", desc: "poached shrimp, house cocktail sauce" },
+          { name: "Calamari", price: "$14", desc: "fried, marinara, lemon aioli" },
+          { name: "Oysters (6)", price: "$18", desc: "East Coast rotating, mignonette" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Fish & Chips", price: "$20", desc: "beer-battered cod, fries, tartar sauce" },
+          { name: "Grilled Salmon", price: "$28", desc: "seasonal vegetables, lemon butter" },
+          { name: "Burger", price: "$17", desc: "beef, cheddar, lettuce, tomato, fries" },
+        ]},
+      ]
+    },
+  ],
+  "tao-downtown": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 5\u20138PM)", items: [
+          { name: "Beers", price: "$8", desc: "rare HH at this celeb hotspot" },
+          { name: "Cocktails", price: "$9", desc: "TAO signature cocktails" },
+          { name: "House Wine", price: "$9", desc: "curated list" },
+          { name: "Bar Bites", price: "$7", desc: "rotating selection of Asian-inspired snacks" },
+        ]},
+      ]
+    },
+    {
+      label: "TAO Menu",
+      cats: [
+        { cat: "Dim Sum & Starters", items: [
+          { name: "Edamame", price: "$9", desc: "sea salt" },
+          { name: "Shrimp Dumplings (6)", price: "$16", desc: "har gow style, ginger-soy" },
+          { name: "Pork Bao (3)", price: "$15", desc: "steamed buns, hoisin, cucumber, scallion" },
+          { name: "Crispy Rock Shrimp", price: "$18", desc: "spicy mayo aioli" },
+          { name: "Tuna Tartare", price: "$24", desc: "avocado, cucumber, ponzu, crispy taro" },
+        ]},
+        { cat: "Main Dishes", items: [
+          { name: "Peking Duck (half)", price: "$48", desc: "traditional service, pancakes, hoisin, cucumber, scallion" },
+          { name: "Wok-Seared Lobster", price: "$60", desc: "black bean sauce, scallion, ginger" },
+          { name: "TAO Wagyu Beef", price: "$52", desc: "A5 Wagyu, wok-charred broccolini" },
+        ]},
+      ]
+    },
+  ],
+  "mollys-shebeen": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20137PM)", items: [
+          { name: "Draft Beers", price: "$6", desc: "by the legendary fireplace with sawdust floors" },
+          { name: "Cocktails", price: "$8", desc: "Irish and classic bar cocktails" },
+          { name: "House Wine", price: "$7", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Irish Pub Menu",
+      cats: [
+        { cat: "Pub Classics", items: [
+          { name: "Fish & Chips", price: "$18", desc: "beer-battered cod, tartar sauce, mushy peas, malt vinegar" },
+          { name: "Shepherd's Pie", price: "$16", desc: "ground lamb, vegetables, mashed potato crust" },
+          { name: "Irish Stew", price: "$15", desc: "lamb, potatoes, carrots, turnips, Guinness broth" },
+          { name: "Guinness Beef Stew", price: "$15", desc: "braised beef, root veg, crusty bread" },
+          { name: "Chicken Wings", price: "$14", desc: "buffalo or BBQ" },
+          { name: "Burger", price: "$14", desc: "beef, cheddar, lettuce, tomato, fries" },
+        ]},
+      ]
+    },
+  ],
+  "seven-sins": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Draft Beers", price: "$7", desc: "Gramercy sports bar \u2014 home to Notre Dame fans" },
+          { name: "House Wine", price: "$7", desc: "" },
+          { name: "Cocktails", price: "$12", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Sports Bar Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Wings (10)", price: "$14", desc: "buffalo, BBQ, or garlic parm, celery, blue cheese or ranch" },
+          { name: "Nachos", price: "$13", desc: "cheese, jalape\u00f1os, sour cream, guacamole, salsa" },
+          { name: "Mozzarella Sticks", price: "$11", desc: "marinara" },
+          { name: "Loaded Fries", price: "$12", desc: "cheese sauce, bacon, sour cream, scallions" },
+          { name: "Sliders (3)", price: "$14", desc: "beef, cheddar, pickles, special sauce" },
+          { name: "Quesadilla", price: "$12", desc: "cheese, peppers, onion, salsa, sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "cafe-dalsace": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 5\u20138PM)", items: [
+          { name: "Beers", price: "$7", desc: "the best Alsatian beer list on the UES \u2014 rotating imports" },
+          { name: "Cocktails", price: "$12", desc: "French-inspired seasonal cocktails" },
+          { name: "House Wine", price: "$10", desc: "Alsatian whites a specialty" },
+        ]},
+      ]
+    },
+    {
+      label: "French-Alsatian Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "French Onion Soup", price: "$14", desc: "gruy\u00e8re, croutons, rich beef broth" },
+          { name: "Moules Marini\u00e8res", price: "$16", desc: "mussels, white wine, shallots, cream" },
+          { name: "Foie Gras Torchon", price: "$22", desc: "brioche, Sauternes gel\u00e9e, cornichon" },
+          { name: "Charcuterie Alsacienne", price: "$18", desc: "Alsatian charcuterie, cornichons, mustard, bread" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Choucroute Garnie", price: "$28", desc: "Alsatian sauerkraut, sausages, pork belly, potatoes \u2014 the classic" },
+          { name: "Coq au Vin", price: "$26", desc: "chicken braised in red wine, lardons, mushrooms" },
+          { name: "Steak Frites", price: "$36", desc: "hanger steak, herb butter, frites" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Alsatian & European Imports", items: [
+          { name: "Kronenbourg 1664 Blanc", price: "$9", desc: "French wheat beer \u2014 refreshing, citrusy" },
+          { name: "Schneider Weisse", price: "$9", desc: "German hefeweizen" },
+          { name: "Chimay Blue", price: "$11", desc: "Belgian Trappist strong ale" },
+          { name: "Brasserie Caracole Nostradamus", price: "$11", desc: "Belgian brown ale" },
+        ]},
+      ]
+    },
+  ],
+  "penrose": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 4\u20137PM)", items: [
+          { name: "Draft Beers", price: "$7", desc: "best craft beer selection on the UES" },
+          { name: "House Wine", price: "$8", desc: "" },
+          { name: "Cocktails", price: "$10", desc: "seasonal craft cocktails" },
+          { name: "Well Drinks", price: "$5", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Craft Beer List",
+      cats: [
+        { cat: "Rotating Taps (ask bartender for current)", items: [
+          { name: "IPA", price: "$8\u201310", desc: "rotating local and national IPAs" },
+          { name: "Stout / Porter", price: "$8\u201310", desc: "rotating dark beers" },
+          { name: "Lager / Pilsner", price: "$7\u20139", desc: "crisp and refreshing" },
+          { name: "Wheat / Saison", price: "$8\u201310", desc: "farmhouse ales and wheat beers" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Gastropub Bites", items: [
+          { name: "Penrose Burger", price: "$16", desc: "dry-aged beef, aged cheddar, special sauce, fries" },
+          { name: "Chicken Wings (10)", price: "$15", desc: "buffalo or Korean-style gochujang" },
+          { name: "Fish Tacos (3)", price: "$15", desc: "beer-battered cod, slaw, chipotle mayo" },
+          { name: "Truffle Fries", price: "$12", desc: "parmesan, herbs, truffle oil" },
+          { name: "Grilled Cheese", price: "$12", desc: "sourdough, gruy\u00e8re, caramelized onion" },
+        ]},
+      ]
+    },
+  ],
+  "stumble-inn": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 12\u20138PM)", items: [
+          { name: "Domestic Beers", price: "$5", desc: "cheapest beers on the UES \u2014 8-hour daily HH" },
+          { name: "Well Drinks", price: "$4", desc: "classic wells" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer List",
+      cats: [
+        { cat: "Cheapest Beers on the UES", items: [
+          { name: "Domestic Cans", price: "$5 (HH)", desc: "Bud Light, Miller Lite, Coors Light, PBR" },
+          { name: "Import Bottles", price: "$6", desc: "Heineken, Corona, Stella" },
+          { name: "Draft Beer", price: "$6–7", desc: "rotating selection" },
+        ]}
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Wings (10)", price: "$13", desc: "buffalo or BBQ, ranch or blue cheese" },
+          { name: "Nachos", price: "$11", desc: "cheese, jalapeños, sour cream, salsa" },
+          { name: "Mozzarella Sticks", price: "$10", desc: "marinara" },
+          { name: "Loaded Fries", price: "$10", desc: "cheese sauce, bacon, sour cream" },
+          { name: "Slider (3)", price: "$12", desc: "beef, cheddar, pickles" },
+        ]}
+      ]
+    }
+  ],
+  "nobody-told-me": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20136PM)", items: [
+          { name: "Negroni (discounted)", price: "ask server", desc: "best cocktail bar on the UWS \u2014 premium Negroni" },
+          { name: "Aperol Spritz (discounted)", price: "ask server", desc: "" },
+          { name: "Espresso Martini (discounted)", price: "ask server", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Cocktail Menu",
+      cats: [
+        { cat: "Signature Cocktails", items: [
+          { name: "Classic Negroni", price: "$15", desc: "gin, Campari, sweet vermouth, orange peel" },
+          { name: "Espresso Martini", price: "$16", desc: "vodka, fresh espresso, Kahl\u00faa, sugar" },
+          { name: "Aperol Spritz", price: "$13", desc: "Aperol, prosecco, soda, orange" },
+          { name: "Paper Plane", price: "$15", desc: "equal parts bourbon, Aperol, Amaro Nonino, lemon" },
+          { name: "Last Word", price: "$15", desc: "equal parts gin, Chartreuse, maraschino, lime" },
+        ]},
+      ]
+    },
+  ],
+  "amelie-uws": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20136PM)", items: [
+          { name: "Cocktails", price: "$10", desc: "French-inspired, same great wine program as GV location" },
+          { name: "Draft Beers", price: "$7", desc: "" },
+          { name: "Wine Flights", price: "$14", desc: "3 rotating French/European wines" },
+        ]},
+      ]
+    },
+    {
+      label: "Wine List",
+      cats: [
+        { cat: "French Wines by the Glass", items: [
+          { name: "Champagne", price: "$15\u201322", desc: "rotating producer selection" },
+          { name: "Burgundy Blanc", price: "$13\u201318", desc: "Chardonnay" },
+          { name: "Bordeaux Rouge", price: "$13\u201318", desc: "Cabernet/Merlot blend" },
+          { name: "C\u00f4tes du Rh\u00f4ne", price: "$12\u201316", desc: "Grenache-based" },
+          { name: "Provence Ros\u00e9", price: "$12\u201315", desc: "dry and refreshing" },
+        ]},
+      ]
+    },
+    {
+      label: "Bites",
+      cats: [
+        { cat: "French Bar Snacks", items: [
+          { name: "Cheese Board", price: "$18", desc: "3 French cheeses, honey, jam, baguette" },
+          { name: "Charcuterie", price: "$16", desc: "3 cured meats, cornichons, mustard, bread" },
+          { name: "Croque Monsieur", price: "$14", desc: "ham, gruy\u00e8re, b\u00e9chamel, toasted bread" },
+        ]},
+      ]
+    },
+  ],
+  "jakes-dilemma": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20136PM)", items: [
+          { name: "Well Drinks", price: "50% off", desc: "half-price wells \u2014 huge UWS deal" },
+          { name: "Beer Buckets", price: "$4 each", desc: "domestic bottles by the bucket" },
+          { name: "Burgers", price: "$1.50", desc: "yes, $1.50 burgers during HH \u2014 house mini sliders" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Classic Bar Food", items: [
+          { name: "Mini Sliders (3)", price: "$5 (HH $1.50 ea)", desc: "beef, American cheese, pickles, ketchup" },
+          { name: "Wings (10)", price: "$13", desc: "buffalo or BBQ, ranch or blue cheese" },
+          { name: "Nachos", price: "$12", desc: "cheese, jalape\u00f1os, salsa, sour cream, guacamole" },
+          { name: "Mozzarella Sticks", price: "$10", desc: "marinara sauce" },
+          { name: "Loaded Fries", price: "$11", desc: "cheese, bacon, sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "red-rooster": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 12\u201310PM)", items: [
+          { name: "Signature Cocktails", price: "$10", desc: "Marcus Samuelsson's Harlem icon \u2014 live jazz nightly" },
+          { name: "Snack Combo", price: "$20", desc: "rotating bar snack combo \u2014 ask server" },
+        ]},
+      ]
+    },
+    {
+      label: "Harlem Restaurant Menu",
+      cats: [
+        { cat: "Starters", items: [
+          { name: "Cornbread", price: "$8", desc: "skillet cornbread, honey butter \u2014 a must" },
+          { name: "Fried Yard Bird", price: "$18", desc: "crispy fried chicken bites, hot sauce, pickles" },
+          { name: "Hush Puppies", price: "$12", desc: "honey butter dipping sauce" },
+          { name: "Dirty Rice Fritters", price: "$14", desc: "andouille sausage, herbs, remoulade" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Yard Bird (Fried Chicken)", price: "$26", desc: "whole bird, choice of sides \u2014 the signature" },
+          { name: "Pan-Fried Catfish", price: "$26", desc: "cornmeal crust, farmer's remix salad" },
+          { name: "Short Rib Mac & Greens", price: "$28", desc: "braised short rib, mac and cheese, collard greens" },
+          { name: "Lobster Roll", price: "$30", desc: "elevated comfort food, brioche bun" },
+        ]},
+        { cat: "Sides", items: [
+          { name: "Mac & Cheese", price: "$10", desc: "three-cheese house recipe" },
+          { name: "Collard Greens", price: "$9", desc: "slow-cooked with smoked turkey" },
+          { name: "Sweet Potato Mash", price: "$9", desc: "brown butter, cinnamon" },
+        ]},
+      ]
+    },
+  ],
+  "vinateria": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Sat 4\u20136PM)", items: [
+          { name: "Bordeaux", price: "$10", desc: "sidewalk tables in Harlem \u2014 French Bordeaux" },
+          { name: "Cocktails", price: "$8", desc: "seasonal craft cocktails" },
+          { name: "Bacalao Croquettes", price: "$12", desc: "salt cod croquettes \u2014 a must-order" },
+        ]},
+      ]
+    },
+    {
+      label: "Italian-Mediterranean Menu",
+      cats: [
+        { cat: "Antipasti", items: [
+          { name: "Bacalao Croquettes", price: "$14 ($12 HH)", desc: "salt cod, herbs, aioli \u2014 the signature starter" },
+          { name: "Prosciutto e Melone", price: "$16", desc: "thinly sliced prosciutto, cantaloupe, arugula, EVOO" },
+          { name: "Burrata Caprese", price: "$17", desc: "fresh burrata, heirloom tomato, basil, aged balsamic" },
+          { name: "Bruschetta", price: "$10", desc: "grilled bread, tomato, basil, garlic" },
+        ]},
+        { cat: "Pasta", items: [
+          { name: "Cacio e Pepe", price: "$22", desc: "spaghetti, pecorino romano, Parmesan, black pepper" },
+          { name: "Bucatini all'Amatriciana", price: "$24", desc: "guanciale, San Marzano tomato, pecorino" },
+          { name: "Tagliatelle al Rag\u00f9", price: "$26", desc: "slow-braised beef rag\u00f9, parmesan" },
+        ]},
+      ]
+    },
+  ],
+  "shrine": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 4\u20138PM)", items: [
+          { name: "Beers", price: "$5", desc: "live music every night \u2014 often FREE show during HH" },
+          { name: "Cocktails", price: "$7", desc: "" },
+          { name: "House Wine", price: "$6", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Live Music & Bar",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Wings", price: "$12", desc: "buffalo or BBQ" },
+          { name: "Nachos", price: "$11", desc: "classic bar nachos" },
+          { name: "Sliders (3)", price: "$12", desc: "beef, cheddar, pickles" },
+        ]},
+        { cat: "Music Schedule", items: [
+          { name: "Live Music", price: "FREE during HH", desc: "jazz, blues, afrobeat, R&B \u2014 check calendar" },
+        ]},
+      ]
+    },
+  ],
+  "harlem-tavern": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 12\u20137PM)", items: [
+          { name: "Drinks", price: "$7", desc: "best outdoor beer garden in Harlem \u2014 daily 7-hour HH" },
+          { name: "Craft Beers", price: "$6", desc: "rotating craft selection" },
+          { name: "Draft Beers", price: "$5", desc: "domestic drafts" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer Garden Menu",
+      cats: [
+        { cat: "American Bar Food", items: [
+          { name: "Harlem Burger", price: "$16", desc: "beef, cheddar, lettuce, tomato, special sauce, fries" },
+          { name: "Chicken & Waffles", price: "$18", desc: "fried chicken, Belgian waffle, hot sauce, maple syrup" },
+          { name: "Wings (10)", price: "$14", desc: "buffalo, BBQ, or honey garlic" },
+          { name: "Fish Tacos (3)", price: "$15", desc: "grilled or fried cod, coleslaw, chipotle mayo" },
+          { name: "Nachos", price: "$13", desc: "cheese, jalape\u00f1os, guacamole, salsa, sour cream" },
+          { name: "Mac & Cheese", price: "$13", desc: "house made, three-cheese sauce" },
+        ]},
+      ]
+    },
+  ],
+  "hamilton-hall": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Mon\u2013Fri 3\u20137PM)", items: [
+          { name: "Draft Beers", price: "$1 off", desc: "live jazz every Saturday in Hamilton Heights" },
+          { name: "House Wine", price: "$8", desc: "" },
+          { name: "Cocktails", price: "$8", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Bar Bites", items: [
+          { name: "Wings (8)", price: "$13", desc: "buffalo or BBQ" },
+          { name: "Nachos", price: "$12", desc: "classic bar nachos" },
+          { name: "Burger", price: "$14", desc: "beef, cheddar, lettuce, tomato, fries" },
+          { name: "Quesadilla", price: "$12", desc: "cheese, peppers, salsa, sour cream" },
+        ]},
+      ]
+    },
+  ],
+  "yatenga": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Tue\u2013Fri 5\u20137PM)", items: [
+          { name: "French-Caribbean Cocktails", price: "discounted", desc: "one of Harlem's best date spots \u2014 French-Caribbean specialty" },
+          { name: "House Wine", price: "$8", desc: "French-influenced selection" },
+          { name: "Beers", price: "$6", desc: "" },
+        ]},
+      ]
+    },
+    {
+      label: "French-Caribbean Menu",
+      cats: [
+        { cat: "Caribbean Starters", items: [
+          { name: "Accras de Morue", price: "$14", desc: "Martinique salt cod fritters, hot sauce" },
+          { name: "Plantain Chips & Guacamole", price: "$11", desc: "fresh tostones, house guac" },
+          { name: "Grilled Prawns", price: "$16", desc: "Creole spice marinade, lemon, herbs" },
+        ]},
+        { cat: "Mains", items: [
+          { name: "Colombo de Poulet", price: "$24", desc: "Martinique chicken curry, sweet potato, rice" },
+          { name: "Grilled Fish of the Day", price: "market", desc: "fresh catch, Creole seasoning, rice and beans" },
+          { name: "Oxtail Braise", price: "$28", desc: "slow-braised oxtail, root vegetables, plantains" },
+        ]},
+      ]
+    },
+    {
+      label: "Rum & Cocktails",
+      cats: [
+        { cat: "Rhum Agricole Cocktails", items: [
+          { name: "Ti' Punch (Martinique)", price: "$13", desc: "rhum agricole, cane syrup, lime disc \u2014 sip slowly" },
+          { name: "Planteur", price: "$13", desc: "rum punch, tropical fruits, Angostura bitters" },
+          { name: "French Mule", price: "$13", desc: "cognac, ginger beer, lime" },
+        ]},
+      ]
+    },
+  ],
+  "inwood-bar": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily until 7PM)", items: [
+          { name: "Beers", price: "$3", desc: "biggest sports bar in Inwood \u2014 insanely cheap" },
+          { name: "House Shots", price: "$1", desc: "well shots \u2014 $1 each" },
+          { name: "Beer Buckets", price: "$15", desc: "five domestic beers on ice" },
+        ]},
+      ]
+    },
+    {
+      label: "Beer & Shots",
+      cats: [
+        { cat: "Inwood Prices", items: [
+          { name: "Domestic Beers", price: "$3", desc: "Bud, Bud Light, Miller, Coors — insanely cheap" },
+          { name: "Import Beers", price: "$5", desc: "Modelo, Corona, Heineken" },
+          { name: "Beer Buckets (5)", price: "$15", desc: "five domestic bottles on ice" },
+          { name: "Craft Beers", price: "$6–7", desc: "rotating draft selection" },
+        ]},
+        { cat: "Shots & Spirits", items: [
+          { name: "Well Shots", price: "$1 (HH)", desc: "house spirits — the famous $1 shots" },
+          { name: "Premium Shots", price: "$5–7", desc: "Jameson, Tequila, Fireball etc." },
+          { name: "Well Cocktails", price: "$6", desc: "classic well drinks" },
+        ]}
+      ]
+    },
+    {
+      label: "Sports Bar Menu",
+      cats: [
+        { cat: "Bar Classics", items: [
+          { name: "Wings (10)", price: "$12", desc: "buffalo or BBQ" },
+          { name: "Nachos", price: "$11", desc: "cheese, jalapeños, salsa" },
+          { name: "Burger & Fries", price: "$13", desc: "beef, cheddar, lettuce, tomato" },
+          { name: "Mozzarella Sticks", price: "$10", desc: "marinara" },
+          { name: "Quesadilla", price: "$11", desc: "cheese, peppers, salsa" },
+        ]}
+      ]
+    }
+  ],
+  "the-heights": [
+    {
+      label: "Happy Hour",
+      cats: [
+        { cat: "Happy Hour (Daily 3\u20138PM)", items: [
+          { name: "Frozen Margaritas", price: "$6", desc: "popular with Columbia crowd \u2014 frozen, yes" },
+          { name: "Cocktails", price: "$7", desc: "rotating seasonal" },
+          { name: "Beers", price: "$5", desc: "draft selection" },
+        ]},
+      ]
+    },
+    {
+      label: "Bar Menu",
+      cats: [
+        { cat: "Casual Bar Food", items: [
+          { name: "Wings (10)", price: "$13", desc: "buffalo, BBQ, or honey sriracha" },
+          { name: "Nachos", price: "$12", desc: "cheese, jalape\u00f1os, salsa, guacamole" },
+          { name: "Burger", price: "$14", desc: "beef, cheddar, lettuce, tomato, fries" },
+          { name: "Quesadilla", price: "$11", desc: "cheese, peppers, onion, salsa" },
+          { name: "Truffle Fries", price: "$10", desc: "parmesan, herbs" },
+        ]},
+      ]
+    },
+  ],
+};
+function renderRealTab(vid, tabIdx) {
+  const menu = REAL_MENUS[vid];
+  if (!menu || !menu[tabIdx]) return '';
+  return menu[tabIdx].cats.map(cat => `
+    <div class="mcat">
+      <div class="mcat-name">${cat.cat}</div>
+      ${cat.items.map(item => `
+        <div class="mitem">
+          <div class="mitem-l">
+            <span class="mitem-n">${item.name}</span>
+            ${item.desc ? `<span class="mitem-d">${item.desc}</span>` : ''}
+          </div>
+          <span class="mitem-p">${item.price}</span>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function switchRealTab(e, vid, tabIdx) {
+  const menu = REAL_MENUS[vid];
+  if (!menu) return;
+  const tabs = e.target.closest('.mtabs').querySelectorAll('.mtab');
+  tabs.forEach((t,i) => t.classList.toggle('on', i===tabIdx));
+  const body = document.getElementById('real-menu-body');
+  if (body) body.innerHTML = renderRealTab(vid, tabIdx);
+}
+
+async function searchMenu(vid) {
+  const v = allVenues.find(x=>x.id===vid);
+  const wrap = document.getElementById('menu-wrap');
+  // Just open Google search for their menu
+  window.open(`https://www.google.com/search?q=${encodeURIComponent(v.name+' '+v.addr+' NYC menu')}`, '_blank');
+}
+// ═══════════════════════════════════════════════════════════
+// AI SCRAPER ADMIN PANEL
+// ═══════════════════════════════════════════════════════════
+function openScraper() {
+  document.getElementById('scraper-panel').classList.add('open');
+}
+function closeScraper() {
+  document.getElementById('scraper-panel').classList.remove('open');
+}
+
+async function scrapeBar() {
+  const name = document.getElementById('sc-name').value.trim();
+  const url = document.getElementById('sc-url').value.trim();
+  if (!name) { alert('Enter a bar name'); return; }
+
+  const btn = document.getElementById('sc-btn');
+  btn.disabled = true; btn.textContent = 'Searching…';
+  document.getElementById('sc-result').innerHTML = '<div class="menu-spin"><div class="spinner"></div></div>';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{
+          role: 'user',
+          content: `Search for the happy hour details for "${name}" bar in Manhattan, New York City. ${url ? `Their website may be ${url}.` : ''}
+
+Find:
+1. Their exact happy hour schedule (days and hours)
+2. Specific happy hour drink prices and food deals
+3. Their address
+4. A short description of the vibe/specialty
+
+Return ONLY raw JSON (no markdown):
+{
+  "name": "exact bar name",
+  "addr": "street address",
+  "hood": "neighborhood",
+  "website": "website url or empty string",
+  "lat": null,
+  "lng": null,
+  "days": [array of day numbers, 0=Sun 1=Mon ... 6=Sat],
+  "sH": start hour as decimal (e.g. 16 for 4pm, 16.5 for 4:30pm),
+  "eH": end hour as decimal,
+  "label": "human readable schedule e.g. Mon-Fri 4-7PM",
+  "deals": ["specific deal 1 with price", "specific deal 2 with price"],
+  "note": "1-2 sentence description of the bar",
+  "confidence": "high/medium/low based on how confident you are in the data"
+}`
+        }]
+      })
+    });
+
+    const data = await res.json();
+    const fullText = (data.content||[]).map(c => c.type==='text' ? c.text : '').join('');
+    const clean = fullText.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+
+    document.getElementById('sc-result').innerHTML = `
+      <div style="margin-bottom:12px">
+        <div style="font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:4px">${parsed.name}</div>
+        <div style="font-size:11px;color:#444;margin-bottom:8px">${parsed.addr} · ${parsed.hood} · Confidence: <span style="color:${parsed.confidence==='high'?'#4ade80':parsed.confidence==='medium'?'#fb923c':'#ef4444'}">${parsed.confidence}</span></div>
+        <div style="font-size:12px;color:#4ade80;margin-bottom:4px">${parsed.label}</div>
+        <div style="font-size:11px;color:#333;margin-bottom:8px">${parsed.deals?.join(' · ')}</div>
+        <div style="font-size:11px;color:var(--text-2);margin-bottom:12px">${parsed.note}</div>
+        <button onclick="addScrapedBar(${JSON.stringify(JSON.stringify(parsed))})" style="width:100%;padding:10px;background:#4ade80;border:none;border-radius:8px;color:#0a0a0a;font-size:13px;font-weight:700;cursor:pointer">Add to App ✓</button>
+      </div>`;
+  } catch(e) {
+    document.getElementById('sc-result').innerHTML = `<div style="color:#ef4444;font-size:12px;padding:12px 0">Error: ${e.message}</div>`;
+  }
+
+  btn.disabled = false; btn.textContent = 'Search & Extract →';
+}
+
+function addScrapedBar(jsonStr) {
+  try {
+    const bar = JSON.parse(jsonStr);
+    const id = bar.name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-');
+    if (allVenues.find(v=>v.id===id)) { alert('Bar already exists!'); return; }
+    HH_DATA[id] = bar;
+    allVenues.push({ id, name:bar.name, addr:bar.addr, hood:bar.hood, hh:bar,
+      placeId:null, lat:bar.lat||null, lng:bar.lng||null,
+      rating:null, numRatings:null, openNow:null, hours:null });
+    applyFilters();
+    updateSubtitle();
+    alert(`✓ Added ${bar.name}! It now appears in the list.`);
+    document.getElementById('sc-name').value = '';
+    document.getElementById('sc-url').value = '';
+    document.getElementById('sc-result').innerHTML = '';
+  } catch(e) { alert('Error adding bar: '+e.message); }
+}
+
+// Kick off refresh every minute
+setInterval(()=>{updateSubtitle();applyFilters();},60000);
+</script>
+</body>
+</html>
