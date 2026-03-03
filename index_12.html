@@ -490,8 +490,8 @@
       <div style="display:flex;gap:8px;align-items:center">
         <button class="add-btn" onclick="openScraper()">+ Add Bar</button>
         <div class="seg">
-        <button class="seg-btn on" id="btn-list" onclick="setView('list')">List</button>
-        <button class="seg-btn" id="btn-map" onclick="setView('map')">Map</button>
+        <button class="seg-btn" id="btn-list" onclick="setView('list')">List</button>
+        <button class="seg-btn on" id="btn-map" onclick="setView('map')">Map</button>
       </div>
       </div>
     </div>
@@ -520,13 +520,13 @@
   </div>
 
   <div id="content">
-    <div id="list-pane">
+    <div id="list-pane" class="gone">
       <div id="list-inner"></div>
       <div class="load-more" id="load-more" onclick="loadMorePlaces()" style="display:none">Load more venues…</div>
       <div class="list-end"></div>
     </div>
 
-    <div id="map-pane">
+    <div id="map-pane" class="on">
       <div id="gmap"></div>
       <div id="map-loading">
         <div class="spinner"></div>
@@ -672,6 +672,59 @@ const HH_DATA = {
 "yatenga":{name:"Yatenga",lat:40.8160,lng:-73.9424,hood:"Harlem",addr:"2269 Frederick Douglass Blvd",days:[2,3,4,5],sH:17,eH:19,label:"Tue–Fri 5–7PM",deals:["French-Caribbean cocktails","$8 wines","$6 beers"],note:"French-Caribbean gem — one of Harlem's best date spots"},
 "inwood-bar":{name:"Inwood Bar & Grill",lat:40.8679,lng:-73.9236,hood:"Inwood",addr:"4957 Broadway",days:[1,2,3,4,5,6,0],sH:12,eH:19,label:"Daily until 7PM",deals:["$3 beers","$1 house shots","$15 beer buckets"],note:"Biggest sports bar in Inwood — $3 beers + $1 shots"},
 "the-heights":{name:"The Heights",lat:40.8050,lng:-73.9668,hood:"Washington Heights",addr:"2867 Broadway",days:[1,2,3,4,5,6,0],sH:15,eH:20,label:"Daily 3–8PM",deals:["$6 frozen margaritas","$7 cocktails","$5 beers"],note:"Two floors + rooftop, popular with Columbia students"},
+// ── ADDITIONAL HIGH-RATED VENUES ──
+"dante-gv":{name:"Dante",lat:40.7278,lng:-73.9994,hood:"Greenwich Village",addr:"79-81 MacDougal St",days:[1,2,3,4,5,6,0],sH:15,eH:17,label:"Daily 3–5PM (Martini Hour)",deals:["$10 martinis (Dante Martini, Dirty, With a Twist, 20th Century)","No food discounts — marinated olives $8, Marcona almonds $7"],note:"4.7★ World's #1 Best Bar 2019. Since 1915. Martini Hour not HH — $10 martinis daily 3-5PM. James Beard Foundation Award winner"},
+"dante-wv":{name:"Dante West Village",lat:40.7355,lng:-74.0049,hood:"West Village",addr:"551 Hudson St",days:[1,2,3,4,5,6,0],sH:15,eH:17,label:"Daily 3–5PM (Martini Hour)",deals:["$10 martinis","Wood-fired grill","\$10 martini flights"],note:"4.6★ Sister to the legendary Dante (GV). $10 Martini Hour 3-5PM daily. Wood-fired Italian food"},
+"sake-bar-decibel":{name:"Sake Bar Decibel",lat:40.7284,lng:-73.9856,hood:"East Village",addr:"240 E 9th St",days:[2,3,4,5,6],sH:18,eH:19,label:"Tue–Sat 6–7PM",deals:["$6 Sapporo draft","$8 cocktails (Lychee Martini, Sake Tini, Yuzu Sake, Umeshu Soda)","$38 cocktail pitcher"],note:"4.6★ NYC's original sake bar since 1993. Hidden underground behind 'On Air' sign. Tokyo Golden Gai vibes, walls covered in customer graffiti"},
+"dear-irving":{name:"Dear Irving",lat:40.7380,lng:-73.9865,hood:"Gramercy",addr:"55 Irving Place",days:[1,2,3,4,5,6,0],sH:17,eH:19,label:"From 5PM daily",deals:["Cocktails $17–20","Small plates available","First-come seating or reservations"],note:"4.7★ From the Raines Law Room team. Speakeasy with time-travel rooms: JFK lounge, Marie Antoinette, Victorian. World's 50 Best Discovery list"},
+"fleur-room":{name:"Fleur Room",lat:40.7448,lng:-73.9952,hood:"Midtown / Chelsea",addr:"105 W 28th St, Rooftop",days:[2,3,4,5],sH:17,eH:20,label:"Tue–Fri 5–8PM",deals:["$7 beers","$8 wines","$8 bar bites","$10 spritzes","$12 mixed drinks"],note:"4.5★ 360° rooftop views including Empire State Building. 21+ only, walk-ins welcome. Best skyline views in Midtown"},
+"bella-union":{name:"Bella Union Rooftop",lat:40.7589,lng:-73.9931,hood:"Midtown",addr:"220 W 41st St, Rooftop",days:[1,2,3,4,5],sH:16,eH:20,label:"Mon–Fri 4–8PM",deals:["Cocktails discounted","$10 espresso martinis (Sundays)","$10 pizzas (daily)","$10 wings 12pc","\$30/person unlimited cocktails + sampler (Mon & Wed 8PM–close)"],note:"4.5★ Midtown rooftop with great food HH deals. Prohibition Hour: unlimited cocktails + sampler platter $30/person Mon & Wed 8PM–close"},
+"fish-cheeks":{name:"Fish Cheeks",lat:40.7265,lng:-73.9954,hood:"NoHo",addr:"55 Bond St",days:[1,2,3,4,5],sH:16,eH:17,label:"Mon–Fri 4–5PM",deals:["$12 half-dozen oysters","$22 dozen oysters","$13 signature cocktails","$11 wine","$7–9 beer"],note:"4.6★ Thai seafood restaurant by Andy Ricker protégé. Clam-shell ceviche, Thai oyster sauce mussels. One of NYC's best Thai restaurants"},
+"the-jeffrey":{name:"The Jeffrey",lat:40.7762,lng:-73.9529,hood:"Upper East Side",addr:"311 E 60th St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$1 oysters (paired with $6 draft beers)","$6 draft beers","$10 cocktails"],note:"4.6★ Brilliant UES happy hour: $1 oysters + $6 draft beer. Sit on the backyard patio under the tram overhead. One of NYC's best HH oyster deals"},
+"sakagura":{name:"Sakagura",lat:40.7531,lng:-73.9715,hood:"Midtown East",addr:"211 E 43rd St, Lower Level",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$5 cups of junmai sake (at bar)","$10 Sapporo draft","Discounted sashimi","Discounted karaage"],note:"4.7★ Hidden underground through an office building lobby. World-class sake list. Sake flights $30–100. Japanese snacks. Dress code: smart casual"},
+"vin-sur-vingt":{name:"Vin Sur Vingt",lat:40.7301,lng:-73.9899,hood:"West Village",addr:"249 W 10th St",days:[1,2,3,4,5],sH:16,eH:18,label:"Mon–Fri 4–6PM",deals:["$7 house red/white/rosé","$6 select beers","$9 rotating French apéritifs (Lillet, Suze)"],note:"4.5★ French wine bar. Candlelit, exposed brick. Daily rotating apéritif list. European atmosphere, ideal date spot"},
+"bar-belly-les":{name:"Bar Belly",lat:40.7161,lng:-73.9919,hood:"Lower East Side",addr:"14 Orchard St",days:[1,2,3,4,5,6,0],sH:17,eH:19,label:"Daily 5–7PM",deals:["$1 oysters (max 12 per person)","$14 cocktails","$10 wines (red, white, bubbly)","$6 beers","Live music most nights"],note:"4.7★ $1 oysters daily during happy hour. East Side cocktail + oyster bar. Live jazz. Top US cocktail bar nominee 2023. Best Jackalope Spritz"},
+"dynamo-room":{name:"The Dynamo Room",lat:40.7504,lng:-73.9958,hood:"Midtown / Penn Station",addr:"130 W 31st St",days:[1,2,3,4,5,6,0],sH:16,eH:18,label:"Daily 4–6PM",deals:["$13.95 select cocktails","$12.95 wine","$5.95 beer","Discounted snacks + raw bar","$29.95 Dynamo Trio: dirty martini + Caesar salad + beef fat fries"],note:"4.5★ From Sunday in Brooklyn / Rule of Thirds team. The NYC Happy Meal ($29.95: martini + Caesar + fries) is the best lunch deal in Midtown"},
+"raines-law-room":{name:"Raines Law Room",lat:40.7436,lng:-73.9914,hood:"Chelsea",addr:"48 W 17th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["Cocktails from $15","No menu — bartenders create to your taste","Pressed service buttons at cozy booths"],note:"4.7★ Intimate speakeasy with velvet drapes and cozy booths. Press a button to order. Meaghan Dorman's legendary cocktail program. True NYC icon"},
+"mary-les":{name:"Mary's Bar",lat:40.7185,lng:-73.9876,hood:"Lower East Side",addr:"146 Orchard St",days:[1,2,3,4,5,6,0],sH:17,eH:20,label:"Daily 5–8PM",deals:["$12 cocktails (3/4 regular price)","$6 draft beers","$10 wine","Pitchers of beer and cocktails available"],note:"4.5★ New LES neighborhood bar from The Commissioner (Park Slope) team. Xmas lights, disco ball, great pub food. Pitcher-friendly — chill vibes"},
+"ten-bells":{name:"The Ten Bells",lat:40.7198,lng:-73.9929,hood:"Lower East Side",addr:"247 Broome St",days:[1,2,3,4,5,6,0],sH:16,eH:20,label:"Daily 4–8PM",deals:["$9 natural wines by glass","$10 select cocktails","$6 draft beers","Snacks available"],note:"4.6★ LES staple for 15+ years. Beautiful back garden patio. Better food than most wine bars need. Rotating natural wine list, warm regular crowd"},
+"sid-and-the-kids":{name:"Sid & the Kids (Sidney's Five)",lat:40.7262,lng:-73.9972,hood:"NoHo / Soho",addr:"1 Crosby St",days:[1,2,3,4,5,6,0],sH:17,eH:19,label:"Daily 5–7PM",deals:["$1.50 clams","$2 shrimp and oysters","$4 beers","$10 martinis","$5 unlimited popcorn"],note:"4.6★ Best new restaurant of 2021. Raw bar with build-your-own plates. $1.50 clams + $2 shrimp + oysters. Incredible value"},
+"golden-ratio":{name:"Golden Ratio",lat:40.7295,lng:-73.9981,hood:"West Village",addr:"232 W 14th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 cocktails","Foraged pine needle distillate cocktails","Natural wine and aperitivo selection"],note:"4.6★ Nordic-inspired cocktail lounge. New on Time Out's Best NYC Bars 2026 list. Unusual ingredients: foraged pine, mountain botanicals. Intimate"},
+"justines-wv":{name:"Justine's",lat:40.7339,lng:-74.0047,hood:"West Village",addr:"99 Seventh Ave South",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM (Apero Hour)",deals:["$10 wines (European imports)","$12 spritz cocktails","Small plates available"],note:"4.6★ Filipino-inflected West Village bar. Owner's family imports European wines — excellent bottles at great prices. Interesting Filipino-accented snacks"},
+
+// ── 4.5★+ HIGH-RATED ADDITIONS ──
+"employees-only":{name:"Employees Only",lat:40.7341,lng:-74.0050,hood:"West Village",addr:"510 Hudson St",days:[1,2,3,4,5],sH:15,eH:19,label:"Mon–Fri 3–7PM",deals:["$12 classic cocktails","$8 wines","$7 beers"],note:"4.6★ James Beard Award-winning cocktail bar. Famous for Gin Gin Mule, diner food until 3:30AM"},
+"katana-kitten":{name:"Katana Kitten",lat:40.7346,lng:-74.0042,hood:"West Village",addr:"531 Hudson St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 Japanese cocktails","$8 draft beer","$10 sake"],note:"4.7★ World's 50 Best Bars. Japanese-inspired cocktails — Mezcal Sakura, Japanese Old Fashioned"},
+"death-and-co":{name:"Death & Company",lat:40.7264,lng:-73.9824,hood:"East Village",addr:"433 E 6th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$14 signature cocktails","$9 beers","$12 wines"],note:"4.6★ Iconic NYC cocktail bar. Bartenders craft drinks to your taste — no menu needed"},
+"attaboy":{name:"Attaboy",lat:40.7180,lng:-73.9877,hood:"Lower East Side",addr:"134 Eldridge St",days:[1,2,3,4,5],sH:18,eH:20,label:"Mon–Fri 6–8PM",deals:["$15 bespoke cocktails","No menu — bartender creates to your taste"],note:"4.7★ No-menu speakeasy. One of the best cocktail bars in the world"},
+"bar-goto":{name:"Bar Goto",lat:40.7218,lng:-73.9872,hood:"Lower East Side",addr:"245 Eldridge St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 signature cocktails","$8 Japanese beer","$10 sake flights"],note:"4.6★ Japanese cocktail bar. Cherry Blossom Martini, Sakura Gimlet, okashi snacks"},
+"superbueno":{name:"Superbueno",lat:40.7198,lng:-73.9861,hood:"Lower East Side",addr:"199 Chrystie St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$14 signature cocktails","$9 Modelo","$12 wine"],note:"4.7★ #2 World's Best Bars North America 2024. Blackened margarita, Mole Negroni, Green Mango Martini"},
+"mr-purple":{name:"Mr. Purple",lat:40.7226,lng:-73.9878,hood:"Lower East Side",addr:"180 Orchard St 15th Fl",days:[1,2,3,4],sH:16,eH:19,label:"Mon–Wed 4–7PM",deals:["$11 cocktails","$11 wines","$6 bar snacks"],note:"4.5★ Rooftop bar with panoramic Manhattan views. Under 21 welcome until 9PM"},
+"la-caverna":{name:"La Caverna",lat:40.7221,lng:-73.9880,hood:"Lower East Side",addr:"122 Rivington St",days:[3,5,0],sH:17,eH:20,label:"Wed, Fri, Sun 5–8PM",deals:["$3 tacos (Tuesdays)","$6 beers","$8 margaritas","$50 bottomless marg dinner Thu"],note:"4.6★ Massive underground cave bar. Taco Tuesdays $3 tacos. Bottomless margarita dinners Thursdays"},
+"bar-moga":{name:"Bar Moga",lat:40.7207,lng:-73.9858,hood:"Lower East Side",addr:"128 Forsyth St",days:[1,2,3,4,5],sH:18,eH:20,label:"Mon–Fri 6–8PM",deals:["$15 signature cocktails","$12 wines","Japanese whiskey flights"],note:"4.6★ Japanese speakeasy cocktail bar. Shochu, Japanese whiskey, intimate vibe"},
+"amor-y-amargo":{name:"Amor y Amargo",lat:40.7278,lng:-73.9822,hood:"East Village",addr:"443 E 6th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 bitters-forward cocktails","$8 amaro flights","$6 low-ABV options"],note:"4.7★ Tiny bitters bar — Manhattan's most singular drinking experience. Menus change daily"},
+"el-camino":{name:"El Camino",lat:40.7264,lng:-73.9815,hood:"East Village",addr:"594 E 11th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$10 short martini","$14 cocktails","Bar nuts included"],note:"4.6★ From the Electric Burrito team. $10 short martini — one of NYC's best HH deals"},
+"slowly-shirley":{name:"Slowly Shirley",lat:40.7342,lng:-74.0031,hood:"West Village",addr:"121 W 10th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$10 select cocktails","$8 wine","$7 draft beers"],note:"4.5★ Basement cocktail lounge. Star Wars memorabilia, dance floor, library lounge — eclectic WV gem"},
+"jungle-bird":{name:"Jungle Bird",lat:40.7425,lng:-74.0001,hood:"Chelsea",addr:"174 8th Ave",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$14 craft cocktails","$5 Thai Chili Chickpeas"],note:"4.6★ Tropical cocktail bar. La Bailadora (reposado), Like A Prayer (blanco tequila)"},
+"turnmill":{name:"Turnmill",lat:40.7448,lng:-73.9882,hood:"NoMad",addr:"27 W 24th St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$14 martinis","$18 martini + fries","$8 margarita","$5 select beer","$2 off well drinks"],note:"4.5★ Spacious NoMad sports tavern. Big booths, tons of TVs — best for groups"},
+"the-lions":{name:"The Lions",lat:40.7259,lng:-73.9816,hood:"East Village",addr:"132 W Houston St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$10 cocktails","$8 select beers","$9 wines"],note:"4.5★ Famous for the best burger in the East Village"},
+"buvette":{name:"Buvette",lat:40.7331,lng:-74.0038,hood:"West Village",addr:"42 Grove St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$10 house wines","$12 spritz","$14 cocktails"],note:"4.6★ Parisian wine bar. Croque monsieur, charcuterie, natural wines — tiny and romantic"},
+"gramercy-tavern-bar":{name:"Gramercy Tavern Bar",lat:40.7383,lng:-73.9887,hood:"Gramercy",addr:"42 E 20th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 cocktails","$10 wines","$8 beers"],note:"4.8★ Danny Meyer's iconic tavern. Walk-in front bar. Award-winning cocktails + seasonal American food"},
+"milady-soho":{name:"Milady's",lat:40.7233,lng:-74.0012,hood:"SoHo",addr:"160 Prince St",days:[1,2,3,4,5,6,0],sH:12,eH:20,label:"Daily until 8PM",deals:["$7 draft beers","$8 wines","$10 cocktails"],note:"4.6★ Beloved SoHo neighborhood bar. All-day happy hour weekdays. Great burgers"},
+"harta":{name:"Harta",lat:40.7527,lng:-73.9784,hood:"Midtown East",addr:"27 E 39th St",days:[1,2,3,4,5],sH:16,eH:18,label:"Mon–Fri 4–6PM",deals:["$12 cocktails","$10 wines","$8 beers","Mediterranean small plates"],note:"4.6★ Apicii group. Mediterranean-inspired. Top Midtown after-work spot"},
+"rosevale":{name:"Rosevale Kitchen",lat:40.7598,lng:-73.9895,hood:"Theater District",addr:"339 W 44th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$9 draft beer (reg $11)","$12 cocktails","$10 wines","Negroni HH 7PM upstairs"],note:"4.5★ Theater District gem. World-class vermouth selection. Negroni HH upstairs from 7PM"},
+"asset-bar":{name:"Asset Bar",lat:40.7848,lng:-73.9793,hood:"Upper West Side",addr:"2254 Columbus Ave",days:[1,2,3,4,5,6,0],sH:17,eH:19,label:"Daily 5–7PM",deals:["$10 cocktails — any on menu","Small plates from $10"],note:"4.6★ Sparkling Grapefruit and Lychee Island Elixir are must-orders. Great cocktail menu"},
+"maison-premiere":{name:"Maison Premiere",lat:40.7184,lng:-73.9582,hood:"Lower East Side",addr:"298 Bedford Ave",days:[1,2,3,4,5],sH:16,eH:18,label:"Mon–Fri 4–6PM",deals:["$1.50 oysters","$12 absinthe cocktails","$10 wines"],note:"4.7★ New Orleans-style absinthe parlor. James Beard nominated. $1.50 oysters, stunning garden"},
+"le-dive":{name:"Le Dive",lat:40.7256,lng:-73.9982,hood:"SoHo",addr:"179 MacDougal St",days:[1,2,3,4,5,6,0],sH:16,eH:19,label:"Daily 4–7PM",deals:["$9 natural wines","$8 draft beers","$12 cocktails"],note:"4.7★ French-inspired natural wine dive. Fantastic rotating bottles, unpretentious vibe"},
+"gem-wine":{name:"Gem Wine",lat:40.7263,lng:-73.9834,hood:"East Village",addr:"98 Avenue B",days:[1,2,3,4,5,6,0],sH:17,eH:20,label:"Daily 5–8PM",deals:["$12 wines by glass","$8 beers","$14 cocktails"],note:"4.7★ Acclaimed natural wine bar. East Village wine destination — constantly rotating interesting pours"},
+"osamil":{name:"Osamil",lat:40.7396,lng:-73.9903,hood:"Flatiron",addr:"32 W 22nd St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 Spanish cocktails","$10 wines","Tapas from $8"],note:"4.6★ Spanish small plates and natural wines. Gambas al ajillo, patatas bravas, jamón"},
+"refinery-rooftop":{name:"Refinery Rooftop",lat:40.7531,lng:-73.9869,hood:"Midtown",addr:"63 W 38th St Rooftop",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$12 cocktails","$10 wines","$8 beers","Appetizers"],note:"4.6★ Panoramic Midtown skyline rooftop. Perfect for client entertaining"},
+"gu-japanese":{name:"Gu Japanese Fusion",lat:40.7570,lng:-73.9692,hood:"Midtown East",addr:"155 E 52nd St",days:[1,2,3,4,5,6,0],sH:15,eH:22,label:"Daily 3–10PM",deals:["50% off select cocktails, beer & wine","$6 lychee-tini","$8–10 signature cocktails"],note:"4.5★ Best HH window in NYC — 7 hours daily. 50% off drinks. Sushi, sashimi, Japanese fusion"},
+"viv-thai":{name:"Viv Thai",lat:40.7607,lng:-73.9926,hood:"Hell's Kitchen",addr:"717 9th Ave",days:[1,2,3,4,5,6,0],sH:12,eH:19,label:"Daily 12–7PM",deals:["$8 cocktails (reg $15)","$8 wines","$8 martinis"],note:"4.5★ Stylish Thai bar in HK. 7-hour daily HH. Lychee martini is a must. Gold neon dragon décor"},
+"stout-nyc":{name:"Stout NYC",lat:40.7548,lng:-73.9849,hood:"Midtown",addr:"133 W 33rd St",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$6 draft beers","$9 cocktails","$8 wines","$5 well drinks"],note:"4.5★ Massive craft beer bar near Penn Station. 40+ taps, great for large groups"},
+"nomad-bar":{name:"The NoMad Bar",lat:40.7450,lng:-73.9881,hood:"NoMad",addr:"10 W 28th St",days:[1,2,3,4,5],sH:17,eH:19,label:"Mon–Fri 5–7PM",deals:["$13 cocktails","$9 wines","$8 beers"],note:"4.5★ Sophisticated hotel bar. Daniel Humm's elegant library bar setting"},
+"long-room":{name:"The Long Room",lat:40.7514,lng:-73.9882,hood:"Midtown",addr:"520 8th Ave",days:[1,2,3,4,5],sH:16,eH:19,label:"Mon–Fri 4–7PM",deals:["$8 cocktails","$6 beers","$7 wines"],note:"4.5★ Chic bar with impressive whiskey selection and modern American cuisine"},
+"pearl-oyster-bar":{name:"Pearl Oyster Bar",lat:40.7329,lng:-74.0035,hood:"West Village",addr:"18 Cornelia St",days:[1,2,3,4,5],sH:17,eH:18,label:"Mon–Fri 5–6PM (bar only)",deals:["$2 off oysters","$10 wines","$12 cocktails"],note:"4.6★ Classic WV seafood institution. Famous lobster roll. Bar seats are walk-in only"},
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -682,7 +735,7 @@ let placesService = null;
 let allVenues = [];       // merged Places + HH data
 let mapMarkers = {};      // placeId -> google.maps.Marker
 let selVenue = null;
-let curView = 'list';
+let curView = 'map';
 let fNow = true;
 let fHHOnly = false;
 let fDays = new Set();
@@ -773,7 +826,9 @@ function initGoogleMap() {
 
   // Pre-load our curated bars as venues
   Object.entries(HH_DATA).forEach(([id, hh]) => {
-    allVenues.push({ id, name: hh.name, addr: hh.addr, hood: hh.hood, hh, placeId: null, lat: hh.lat||null, lng: hh.lng||null, rating: null, numRatings: null, openNow: null, hours: null });
+    // Parse rating from note field if present (e.g. "4.6★")
+    const noteRating = hh.note ? (hh.note.match(/^(\d+\.\d+)★/) || [])[1] : null;
+    allVenues.push({ id, name: hh.name, addr: hh.addr, hood: hh.hood, hh, placeId: null, lat: hh.lat||null, lng: hh.lng||null, rating: noteRating ? parseFloat(noteRating) : null, numRatings: null, openNow: null, hours: null });
   });
 
   updateSubtitle();
@@ -987,7 +1042,7 @@ function renderList(){
       <div class="bar-info">
         ${v.hh?'<div class="hh-badge">HH</div>':''}
         <div class="bar-name">${v.name}</div>
-        <div class="bar-sub">${v.hood||v.addr||'Manhattan'} ${v.rating?`· ★${v.rating}`:''}</div>
+        <div class="bar-sub">${v.hood||v.addr||'Manhattan'}${v.rating?` · <span style="color:var(--accent)">★${v.rating}</span> <span style="color:var(--text-3)">(${(v.numRatings||0).toLocaleString()})</span>`:''}</div>
         <div class="bar-deal">${v.hh?v.hh.deals[0]:'Bar / Restaurant'}</div>
       </div>
       <div class="bar-right">
@@ -3799,6 +3854,822 @@ const REAL_MENUS = {
       ]
     },
   ],
+  "employees-only": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 3–7PM", items: [
+      { name: "Classic Cocktails", price: "$12", desc: "Gin Gin Mule, Whiskey Sour, Negroni, Old Fashioned" },
+      { name: "Wine", price: "$8", desc: "red or white" },
+      { name: "Draft Beer", price: "$7", desc: "rotating selection" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Signature Drinks", items: [
+      { name: "Gin Gin Mule", price: "$17", desc: "gin, ginger beer, lime, mint — their most famous drink" },
+      { name: "Billionaire Margarita", price: "$18", desc: "tequila, elderflower, fresh lime, agave" },
+      { name: "Lost in Translation", price: "$17", desc: "Japanese whisky, dry vermouth, yuzu" },
+      { name: "Absinthe Minded", price: "$17", desc: "absinthe, chamomile, lemon" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Late Night Diner (until 3:30AM)", items: [
+      { name: "Beef Tartare", price: "$22", desc: "capers, cornichons, toast points" },
+      { name: "Cheeseburger", price: "$18", desc: "served until close — NYC institution" },
+      { name: "Chicken Liver Mousse", price: "$16", desc: "brioche toast, pickled onions" },
+      { name: "Deviled Eggs", price: "$14", desc: "smoked paprika, chives" },
+    ]}]},
+  ],
+  "katana-kitten": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Japanese Cocktails", price: "$12", desc: "full cocktail menu at HH price" },
+      { name: "Draft Beer", price: "$8", desc: "Japanese lager on tap" },
+      { name: "Sake", price: "$10", desc: "house sake selection" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Japanese-Inspired Cocktails", items: [
+      { name: "Mezcal Sakura", price: "$18", desc: "mezcal, sakura liqueur, yuzu, egg white" },
+      { name: "Japanese Old Fashioned", price: "$18", desc: "Suntory Toki, mirin, Angostura" },
+      { name: "Tokyo Mule", price: "$17", desc: "Japanese vodka, yuzu, ginger beer" },
+      { name: "Green Tea Highball", price: "$16", desc: "Japanese whisky, matcha, soda" },
+      { name: "Wasabi Mary", price: "$17", desc: "vodka, tomato, wasabi, dashi" },
+    ]}]},
+  ],
+  "death-and-co": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Signature Cocktails", price: "$14", desc: "seasonal menu changes regularly" },
+      { name: "Craft Beer", price: "$9", desc: "rotating selection" },
+      { name: "Wine", price: "$12", desc: "curated list" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Rotating Seasonal Menu", items: [
+      { name: "Oaxacan Old Fashioned", price: "$18", desc: "mezcal, reposado tequila, agave, mole bitters" },
+      { name: "Naked & Famous", price: "$17", desc: "mezcal, Aperol, Yellow Chartreuse, lime" },
+      { name: "Paper Plane", price: "$17", desc: "bourbon, Aperol, Amaro Nonino, lemon" },
+      { name: "Bartender's Choice", price: "$18", desc: "tell them what you like — they'll create something perfect" },
+    ]}]},
+  ],
+  "attaboy": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 6–8PM", items: [
+      { name: "Bespoke Cocktails", price: "$15", desc: "bartender creates to your taste — tell them spirit, flavor profile, occasion" },
+    ]}]},
+    { label: "Experience", cats: [{ cat: "The No-Menu Concept", items: [
+      { name: "Spirit-Forward", price: "$18", desc: "tell them your base spirit and style preference" },
+      { name: "Citrus & Refreshing", price: "$18", desc: "sours, highballs, spritzes" },
+      { name: "Spirit-Free", price: "$14", desc: "non-alcoholic cocktails available on request" },
+    ]}]},
+  ],
+  "bar-goto": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Signature Cocktails", price: "$12", desc: "full cocktail menu at HH price" },
+      { name: "Japanese Beer", price: "$8", desc: "Sapporo, Kirin, Asahi" },
+      { name: "Sake Flight", price: "$10", desc: "3 curated sakes" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Kenta Goto's Signatures", items: [
+      { name: "Cherry Blossom Martini", price: "$17", desc: "gin, Maraschino, cherry blossom syrup" },
+      { name: "Sakura Gimlet", price: "$17", desc: "gin, yuzu, sakura, lime" },
+      { name: "Miso Old Fashioned", price: "$17", desc: "bourbon, miso honey, Angostura" },
+      { name: "Green Yuzu Sour", price: "$16", desc: "vodka, yuzu, cucumber, egg white" },
+    ]}]},
+    { label: "Okashi (Snacks)", cats: [{ cat: "Japanese Bar Snacks", items: [
+      { name: "Okaki Rice Crackers", price: "$7", desc: "traditional Japanese rice crackers" },
+      { name: "Shiso Chips", price: "$9", desc: "crispy shiso with sea salt" },
+      { name: "Mochi Ice Cream", price: "$8", desc: "rotating flavors" },
+    ]}]},
+  ],
+  "superbueno": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Signature Cocktails", price: "$14", desc: "from the full menu" },
+      { name: "Modelo Especial", price: "$9", desc: "" },
+      { name: "Wine", price: "$12", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Award-Winning Menu", items: [
+      { name: "Blackened Margarita", price: "$20", desc: "tequila, huitlacoche, mole, lime — their signature" },
+      { name: "Mole Negroni", price: "$19", desc: "mezcal, mole, Campari, sweet vermouth" },
+      { name: "Green Mango Martini", price: "$19", desc: "vodka, green mango, Thai chili, lime — one of NYC's best martinis" },
+      { name: "Horchata Colada", price: "$18", desc: "rum, coconut, rice milk, cinnamon" },
+    ]}]},
+  ],
+  "mr-purple": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Wed 4–7PM", items: [
+      { name: "Cocktails & Wine", price: "$11", desc: "all cocktails and wines" },
+      { name: "Bar Snacks", price: "$6", desc: "fries, olives, nuts" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Rooftop Signatures", items: [
+      { name: "Purple Haze", price: "$18", desc: "vodka, lavender, lemon, butterfly pea flower" },
+      { name: "LES Mule", price: "$17", desc: "gin, ginger beer, cucumber, mint" },
+      { name: "Orchard Spritz", price: "$17", desc: "Aperol, apple, prosecco" },
+      { name: "Rooftop Old Fashioned", price: "$18", desc: "bourbon, honey, Angostura" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Rooftop Bites", items: [
+      { name: "Truffle Fries", price: "$14", desc: "parmesan, herbs, truffle aioli" },
+      { name: "Guac & Chips", price: "$14", desc: "fresh guacamole, tortilla chips" },
+      { name: "Sliders (3)", price: "$18", desc: "beef, cheddar, pickles" },
+      { name: "Cheese Board", price: "$22", desc: "seasonal selection" },
+    ]}]},
+  ],
+  "la-caverna": [
+    { label: "Happy Hour", cats: [{ cat: "Wed, Fri, Sun 5–8PM", items: [
+      { name: "Tacos", price: "$3 ea (Tue)", desc: "beef, chicken, veggie — Tuesday special" },
+      { name: "Draft Beer", price: "$6", desc: "" },
+      { name: "Margaritas", price: "$8", desc: "classic or frozen" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Cave Bar Drinks", items: [
+      { name: "Classic Margarita", price: "$15", desc: "blanco tequila, triple sec, lime" },
+      { name: "Frozen Mango Margarita", price: "$15", desc: "frozen mango, tequila, lime" },
+      { name: "Bottomless Margaritas", price: "$50", desc: "75-min bottomless + entrée (Thursdays)" },
+      { name: "Sangria Pitcher", price: "$38", desc: "red or white, serves 4" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Mexican Menu", items: [
+      { name: "Tacos (3)", price: "$15 ($3 Tue)", desc: "grilled chicken, beef, or veggie" },
+      { name: "Nachos", price: "$14", desc: "chips, cheese, jalapeños, sour cream, guac" },
+      { name: "Quesadilla", price: "$13", desc: "cheese, peppers, onion" },
+      { name: "Guac & Chips", price: "$12", desc: "fresh made guacamole" },
+      { name: "Enchiladas", price: "$18", desc: "chicken or beef, red or green sauce" },
+    ]}]},
+  ],
+  "bar-moga": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 6–8PM", items: [
+      { name: "Signature Cocktails", price: "$15", desc: "Pinky Up and Moga Manhattan are must-orders" },
+      { name: "Wine", price: "$12", desc: "curated selection" },
+      { name: "Japanese Whiskey", price: "$16+", desc: "premium whiskey list" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Japanese Speakeasy Cocktails", items: [
+      { name: "Pinky Up", price: "$18", desc: "Japanese gin, lychee, elderflower, lime" },
+      { name: "Moga Manhattan", price: "$19", desc: "Japanese whisky, umeshu, sweet vermouth" },
+      { name: "Shochu Highball", price: "$16", desc: "mugi shochu, yuzu, soda" },
+      { name: "Sakura Sour", price: "$17", desc: "pisco, sakura, lemon, egg white" },
+    ]}]},
+  ],
+  "amor-y-amargo": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Bitters Cocktails", price: "$12", desc: "menu changes daily — always bitter-forward" },
+      { name: "Amaro Flights", price: "$8", desc: "3 amari — staff curates the selection" },
+      { name: "Low-ABV Options", price: "$6", desc: "aperitivo, vermouth, low-proof cocktails" },
+    ]}]},
+    { label: "Menu", cats: [{ cat: "The Bitters Experience", items: [
+      { name: "Daily Cocktail Menu", price: "$15", desc: "changes every day — ask what's new" },
+      { name: "Amaro Flight (5)", price: "$22", desc: "staff-selected amari from the 100+ bottle collection" },
+      { name: "Negroni Variations", price: "$15", desc: "classic, white, mezcal, or tequila Negroni" },
+      { name: "Spritz of the Day", price: "$13", desc: "low-ABV aperitivo spritz" },
+    ]}]},
+  ],
+  "el-camino": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Short Martini", price: "$10", desc: "best HH martini deal in NYC — ask for your style" },
+      { name: "Cocktails", price: "$14", desc: "full menu at HH pricing" },
+      { name: "Bar Nuts", price: "FREE", desc: "complimentary with drinks" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Electric Burrito Bar Cocktails", items: [
+      { name: "Short Martini", price: "$10 (HH)", desc: "gin or vodka, your choice — seriously good value" },
+      { name: "Spicy Margarita", price: "$16", desc: "blanco, jalapeño, lime, salt" },
+      { name: "Agave Old Fashioned", price: "$16", desc: "reposado, agave, mole bitters" },
+      { name: "Cucumber Gimlet", price: "$15", desc: "gin, cucumber, lime, elder" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Bar Snacks & Sandwiches", items: [
+      { name: "Bar Nuts", price: "FREE w/ drinks", desc: "exceptional bar nuts — the famous ones" },
+      { name: "Braised Pork Sandwich", price: "$16", desc: "Balthazar bread, olives, pickled veg" },
+      { name: "Mushroom Sandwich", price: "$15", desc: "roasted mushroom, aioli, Balthazar bread" },
+      { name: "Cheese Board", price: "$18", desc: "seasonal selection, honey, nuts" },
+    ]}]},
+  ],
+  "slowly-shirley": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Select Cocktails", price: "$10", desc: "reduced from full menu" },
+      { name: "Wine", price: "$8", desc: "" },
+      { name: "Draft Beers", price: "$7", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Eclectic West Village Bar", items: [
+      { name: "Sangria", price: "$8 (HH)", desc: "red or white, seasonal fruit" },
+      { name: "House Mixed Drinks", price: "$7 (HH)", desc: "gin & tonic, vodka soda, rum & coke" },
+      { name: "Cocktail of the Day", price: "$10 (HH)", desc: "ask your bartender" },
+      { name: "Craft Beer", price: "$6–9", desc: "rotating selection" },
+    ]}]},
+  ],
+  "jungle-bird": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Craft Cocktails", price: "$14", desc: "tropical and tiki-inspired" },
+      { name: "Thai Chili Chickpeas", price: "$5", desc: "the only food item — addictive" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Tropical Cocktail Bar", items: [
+      { name: "La Bailadora", price: "$17", desc: "reposado tequila, passion fruit, lime, salt" },
+      { name: "Like A Prayer", price: "$17", desc: "blanco tequila, hibiscus, lime, elderflower" },
+      { name: "Jungle Bird Classic", price: "$17", desc: "rum, Campari, pineapple, lime, sugar" },
+      { name: "Rum Punch", price: "$15", desc: "house rum blend, tropical juices, grenadine" },
+      { name: "Blue Hawaii", price: "$16", desc: "vodka, Blue Curaçao, pineapple, coconut" },
+    ]}]},
+  ],
+  "turnmill": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–7PM", items: [
+      { name: "Martini", price: "$14", desc: "gin or vodka" },
+      { name: "Martini + Fries", price: "$18", desc: "best combo deal" },
+      { name: "Margarita", price: "$8", desc: "" },
+      { name: "Select Beer", price: "$5", desc: "domestic cans" },
+      { name: "Well Drinks & Wine", price: "$2 off", desc: "" },
+    ]}]},
+    { label: "Bar Menu", cats: [{ cat: "Sports Tavern Food", items: [
+      { name: "Truffle Fries", price: "$13", desc: "parmesan, herbs" },
+      { name: "Wings (10)", price: "$15", desc: "buffalo, BBQ, or honey garlic" },
+      { name: "Burger", price: "$17", desc: "cheddar, LTO, secret sauce" },
+      { name: "Nachos", price: "$13", desc: "cheese, jalapeños, guac, salsa" },
+      { name: "Soft Pretzel", price: "$10", desc: "beer cheese dip, mustard" },
+    ]}]},
+  ],
+  "the-lions": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Cocktails", price: "$10", desc: "" },
+      { name: "Select Beers", price: "$8", desc: "" },
+      { name: "Wines", price: "$9", desc: "" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "East Village Bar Food", items: [
+      { name: "The Lions Burger", price: "$18", desc: "famous double smash, special sauce, American cheese" },
+      { name: "Wings (8)", price: "$14", desc: "buffalo or dry rub, ranch dip" },
+      { name: "Fries", price: "$8", desc: "crispy with dipping sauce" },
+      { name: "Caesar Salad", price: "$14", desc: "romaine, anchovy, parmesan, croutons" },
+    ]}]},
+  ],
+  "buvette": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "House Wines", price: "$10", desc: "natural wines, French and Italian" },
+      { name: "Spritz", price: "$12", desc: "Aperol or Campari with prosecco" },
+      { name: "Cocktails", price: "$14", desc: "French classics" },
+    ]}]},
+    { label: "Wine", cats: [{ cat: "French Natural Wines", items: [
+      { name: "Muscadet", price: "$14/glass", desc: "crisp Loire Valley white" },
+      { name: "Beaujolais", price: "$14/glass", desc: "light Gamay from Burgundy" },
+      { name: "Côtes du Rhône", price: "$14/glass", desc: "Grenache-based Southern Rhône" },
+      { name: "Champagne", price: "$20/glass", desc: "house selection" },
+      { name: "Bottle Selection", price: "$45+", desc: "extensive French and Italian list" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Parisian Brasserie", items: [
+      { name: "Croque Monsieur", price: "$16", desc: "ham, Gruyère, béchamel — their signature" },
+      { name: "Charcuterie Board", price: "$22", desc: "jambon, cornichons, mustard, bread" },
+      { name: "Cheese Selection", price: "$20", desc: "3 seasonal French cheeses" },
+      { name: "Œufs Cocotte", price: "$14", desc: "baked eggs with cream and herbs" },
+      { name: "French Onion Soup", price: "$16", desc: "Gruyère crouton" },
+    ]}]},
+  ],
+  "gramercy-tavern-bar": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Seasonal Cocktails", price: "$12", desc: "award-winning bar program" },
+      { name: "Wine", price: "$10", desc: "sommelier-curated list" },
+      { name: "Craft Beer", price: "$8", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Award-Winning Bar Program", items: [
+      { name: "Seasonal Cocktail Menu", price: "$18", desc: "changes with the season — always exceptional" },
+      { name: "Classic Negroni", price: "$17", desc: "gin, Campari, sweet vermouth" },
+      { name: "House Old Fashioned", price: "$18", desc: "rye, house bitters, sugar" },
+      { name: "Clover Club", price: "$17", desc: "gin, lemon, raspberry syrup, egg white" },
+    ]}]},
+    { label: "Tavern Food", cats: [{ cat: "American Seasonal Menu", items: [
+      { name: "Deviled Eggs", price: "$12", desc: "seasonal garnishes" },
+      { name: "Charcuterie", price: "$22", desc: "house-cured meats, pickles" },
+      { name: "Cheese Selection", price: "$20", desc: "American artisan cheeses" },
+      { name: "Tavern Burger", price: "$22", desc: "aged beef, aged cheddar, house pickles" },
+      { name: "Yellowfin Tuna Tartare", price: "$24", desc: "avocado, sesame, wonton" },
+    ]}]},
+  ],
+  "milady-soho": [
+    { label: "Happy Hour", cats: [{ cat: "Daily until 8PM", items: [
+      { name: "Draft Beers", price: "$7", desc: "rotating craft and domestic" },
+      { name: "Wine", price: "$8", desc: "red or white" },
+      { name: "Well Cocktails", price: "$10", desc: "classics" },
+    ]}]},
+    { label: "Bar Menu", cats: [{ cat: "SoHo Neighborhood Bar", items: [
+      { name: "Milady's Burger", price: "$16", desc: "smash burger, american cheese, special sauce, fries" },
+      { name: "Wings (8)", price: "$14", desc: "buffalo or BBQ" },
+      { name: "Fries", price: "$8", desc: "crispy, served with aioli" },
+      { name: "Grilled Cheese", price: "$12", desc: "American, cheddar, sourdough" },
+    ]}]},
+  ],
+  "harta": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–6PM", items: [
+      { name: "Cocktails", price: "$12", desc: "Mediterranean-inspired" },
+      { name: "Wine", price: "$10", desc: "" },
+      { name: "Beer", price: "$8", desc: "" },
+      { name: "Mediterranean Small Plates", price: "Reduced pricing", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Mediterranean Cocktail Menu", items: [
+      { name: "Ouzo Spritz", price: "$15", desc: "ouzo, grapefruit, prosecco, rosemary" },
+      { name: "Mediterranean Mule", price: "$15", desc: "Turkish raki, ginger beer, lime, cucumber" },
+      { name: "Raki Sour", price: "$15", desc: "raki, lemon, honey, egg white" },
+      { name: "Pomegranate Negroni", price: "$16", desc: "gin, pomegranate, Campari, vermouth" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Mediterranean Small Plates", items: [
+      { name: "Hummus & Pita", price: "$12", desc: "sumac, olive oil, fresh herbs" },
+      { name: "Spanakopita", price: "$13", desc: "spinach and feta in phyllo" },
+      { name: "Grilled Octopus", price: "$24", desc: "chickpea purée, lemon, herbs" },
+      { name: "Lamb Flatbread", price: "$18", desc: "spiced lamb, labne, pine nuts, pomegranate" },
+      { name: "Mezze Board", price: "$28", desc: "hummus, baba ghanoush, tabbouleh, olives, pita" },
+    ]}]},
+  ],
+  "rosevale": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Draft Beer", price: "$9", desc: "regular price $11" },
+      { name: "Cocktails", price: "$12", desc: "" },
+      { name: "Wine", price: "$10", desc: "" },
+      { name: "Negroni HH (Upstairs)", price: "From 7PM", desc: "Negroni happy hour in Cocktail Room from 7PM nightly" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Vermouth & Negroni Specialists", items: [
+      { name: "Classic Negroni", price: "$16", desc: "gin, Campari, Carpano Antica" },
+      { name: "Mezcal Negroni", price: "$17", desc: "mezcal, Campari, sweet vermouth" },
+      { name: "White Negroni", price: "$16", desc: "gin, Suze, Lillet Blanc" },
+      { name: "Vermouth Flight", price: "$20", desc: "3 aromatized wines from around the world" },
+      { name: "Americano", price: "$14", desc: "Campari, sweet vermouth, soda" },
+    ]}]},
+  ],
+  "asset-bar": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 5–7PM", items: [
+      { name: "Any Cocktail", price: "$10", desc: "full cocktail menu at happy hour price" },
+      { name: "Small Plates", price: "From $10", desc: "wings, truffle fries, calamari" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Must-Order Signatures", items: [
+      { name: "Sparkling Grapefruit", price: "$16", desc: "vodka, grapefruit, rosemary, prosecco — most popular" },
+      { name: "Lychee Island Elixir", price: "$16", desc: "rum, lychee, coconut, lime — tropical perfection" },
+      { name: "Espresso Martini", price: "$16", desc: "vodka, espresso, Kahlúa, vanilla" },
+      { name: "Mango Tango", price: "$15", desc: "tequila, mango, jalapeño, lime" },
+    ]}]},
+  ],
+  "maison-premiere": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–6PM", items: [
+      { name: "Oysters", price: "$1.50", desc: "east coast selection — the best deal in NYC" },
+      { name: "Absinthe Cocktails", price: "$12", desc: "their specialty" },
+      { name: "Wine", price: "$10", desc: "natural and French selections" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Absinthe & Aperitivo Specialists", items: [
+      { name: "Absinthe Drip", price: "$18", desc: "traditional absinthe service with sugar cube and water" },
+      { name: "Corpse Reviver #2", price: "$17", desc: "gin, Cointreau, Lillet, absinthe, lemon" },
+      { name: "Obituary", price: "$17", desc: "gin, dry vermouth, absinthe" },
+      { name: "Seelbach", price: "$17", desc: "bourbon, Cointreau, bitters, Champagne" },
+      { name: "French 75", price: "$18", desc: "gin, lemon, sugar, Champagne" },
+    ]}]},
+    { label: "Oysters & Food", cats: [{ cat: "Raw Bar & New Orleans Bites", items: [
+      { name: "East Coast Oysters (6)", price: "$21 ($1.50 HH)", desc: "rotating selection from Pemaquid, Blue Point, Wellfleet" },
+      { name: "Oysters Rockefeller (6)", price: "$26", desc: "spinach, Pernod, breadcrumb, parmesan" },
+      { name: "Gulf Shrimp Cocktail", price: "$20", desc: "house cocktail sauce, lemon" },
+      { name: "Po' Boy", price: "$18", desc: "fried shrimp or oyster, remoulade, lettuce" },
+      { name: "Gumbo", price: "$16", desc: "seafood, andouille, okra, rice" },
+    ]}]},
+  ],
+  "le-dive": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 4–7PM", items: [
+      { name: "Natural Wines", price: "$9", desc: "rotating list changes constantly" },
+      { name: "Draft Beers", price: "$8", desc: "French and craft" },
+      { name: "Cocktails", price: "$12", desc: "" },
+    ]}]},
+    { label: "Wine", cats: [{ cat: "Natural Wine Bar", items: [
+      { name: "Pet Nat (Pétillant Naturel)", price: "$14/glass", desc: "lightly sparkling — ask what's pouring" },
+      { name: "Orange Wine", price: "$14/glass", desc: "skin-contact whites" },
+      { name: "Gamay / Beaujolais", price: "$13/glass", desc: "light, low-tannin reds" },
+      { name: "Bottle List", price: "From $42", desc: "40+ natural wines, chalkboard changes weekly" },
+    ]}]},
+  ],
+  "gem-wine": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 5–8PM", items: [
+      { name: "Wine by Glass", price: "$12", desc: "rotating natural wine list" },
+      { name: "Craft Beer", price: "$8", desc: "" },
+      { name: "Cocktails", price: "$14", desc: "" },
+    ]}]},
+    { label: "Wine", cats: [{ cat: "Acclaimed Natural Wine Bar", items: [
+      { name: "Bubbles / Sparkling", price: "$14/glass", desc: "Champagne, Crémant, Cava, Pet Nat" },
+      { name: "White Wines", price: "$13–16/glass", desc: "rotating — always something interesting" },
+      { name: "Orange & Skin-Contact", price: "$14/glass", desc: "EV wine destination" },
+      { name: "Light Reds", price: "$13/glass", desc: "Gamay, Pinot Noir, Frappato" },
+      { name: "Bottle List", price: "From $45", desc: "extensive natural wine list" },
+    ]}]},
+  ],
+  "osamil": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Spanish Cocktails", price: "$12", desc: "" },
+      { name: "Wine", price: "$10", desc: "Spanish and natural selections" },
+      { name: "Tapas", price: "From $8", desc: "select bar tapas at HH pricing" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Spanish-Inspired Bar", items: [
+      { name: "Sherry Cobbler", price: "$15", desc: "Amontillado sherry, orange, berries" },
+      { name: "Spanish Gin & Tonic", price: "$15", desc: "premium gin, Spanish tonic, botanicals" },
+      { name: "Vermouth Service", price: "$12", desc: "Lustau vermouth, olives, orange" },
+      { name: "Cava Spritz", price: "$14", desc: "Cava, Aperol, soda, orange" },
+    ]}]},
+    { label: "Tapas", cats: [{ cat: "Spanish Small Plates", items: [
+      { name: "Jamón Ibérico", price: "$24", desc: "Bellota-grade cured ham, sliced to order" },
+      { name: "Gambas al Ajillo", price: "$18", desc: "garlic shrimp in olive oil, crusty bread" },
+      { name: "Patatas Bravas", price: "$12", desc: "crispy potatoes, spicy bravas sauce, aioli" },
+      { name: "Croquetas", price: "$14", desc: "jamón or bacalao, crispy fried" },
+      { name: "Pan con Tomate", price: "$10", desc: "grilled bread, tomato, olive oil, salt" },
+      { name: "Cheese Board", price: "$20", desc: "Manchego, Idiazábal, Mahón, membrillo" },
+    ]}]},
+  ],
+  "refinery-rooftop": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Cocktails", price: "$12", desc: "with panoramic skyline views" },
+      { name: "Wine", price: "$10", desc: "" },
+      { name: "Beer", price: "$8", desc: "" },
+      { name: "Appetizers", price: "Reduced", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Rooftop Cocktails", items: [
+      { name: "Skyline Spritz", price: "$18", desc: "Aperol, prosecco, soda, orange" },
+      { name: "Rooftop Margarita", price: "$17", desc: "tequila, lime, triple sec, salt rim" },
+      { name: "Midtown Mule", price: "$17", desc: "vodka, ginger beer, lime, cucumber" },
+      { name: "Classic Negroni", price: "$18", desc: "gin, Campari, sweet vermouth" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Rooftop Bites", items: [
+      { name: "Truffle Flatbread", price: "$18", desc: "truffle oil, mushroom, fontina, arugula" },
+      { name: "Burrata", price: "$20", desc: "heirloom tomato, basil, olive oil" },
+      { name: "Charcuterie Board", price: "$26", desc: "cured meats, olives, pickles, bread" },
+      { name: "Sliders (3)", price: "$18", desc: "wagyu beef, American cheese, special sauce" },
+    ]}]},
+  ],
+  "gu-japanese": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 3–10PM (7 Hours!)", items: [
+      { name: "50% Off Select Cocktails", price: "From $6", desc: "lychee-tini, plum wine spritzer, Sakepolitan" },
+      { name: "50% Off Beer & Wine", price: "From $5", desc: "all beer and wine on the HH menu" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Japanese Fusion Cocktails", items: [
+      { name: "Lychee-tini", price: "$6 (HH)", desc: "vodka, lychee, lime — bestseller" },
+      { name: "Plum Wine Spritzer", price: "$7 (HH)", desc: "umeshu, soda, lemon" },
+      { name: "Sakepolitan", price: "$7 (HH)", desc: "sake, cranberry, lime, Cointreau" },
+      { name: "Gu Cosmo", price: "$8 (HH)", desc: "vodka, yuzu, cranberry, triple sec" },
+      { name: "Lychee Mojito", price: "$8 (HH)", desc: "rum, lychee, mint, lime, soda" },
+    ]}]},
+    { label: "Sushi & Food", cats: [{ cat: "Japanese Fusion Menu", items: [
+      { name: "Salmon Sashimi (5pc)", price: "$16", desc: "fresh Atlantic salmon" },
+      { name: "Rainbow Roll", price: "$18", desc: "crab, avocado, topped with assorted sashimi" },
+      { name: "Spicy Tuna Roll", price: "$14", desc: "spicy tuna, cucumber, sriracha mayo" },
+      { name: "Edamame", price: "$6", desc: "sea salt" },
+      { name: "Gyoza (6pc)", price: "$12", desc: "pan-fried pork and cabbage dumplings" },
+    ]}]},
+  ],
+  "viv-thai": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 12–7PM", items: [
+      { name: "All Cocktails", price: "$8", desc: "regular price $15 — 50%+ off" },
+      { name: "Wine", price: "$8", desc: "" },
+      { name: "Martinis", price: "$8", desc: "lychee, espresso, passion fruit" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Thai-Inspired Bar", items: [
+      { name: "Lychee Martini", price: "$8 (HH)", desc: "vodka, lychee, elderflower — must order" },
+      { name: "Thai Basil Smash", price: "$8 (HH)", desc: "gin, Thai basil, lime, cucumber" },
+      { name: "Mango Chili Margarita", price: "$8 (HH)", desc: "tequila, mango, chili, lime" },
+      { name: "Espresso Martini", price: "$8 (HH)", desc: "vodka, espresso, Kahlúa" },
+    ]}]},
+    { label: "Thai Food", cats: [{ cat: "Modern Thai Kitchen", items: [
+      { name: "Pad Thai", price: "$18", desc: "rice noodles, tamarind, egg, peanuts" },
+      { name: "Green Curry", price: "$19", desc: "coconut milk, Thai basil, vegetables, choice of protein" },
+      { name: "Drunken Noodles", price: "$18", desc: "wide rice noodles, Thai chili, basil" },
+      { name: "Tom Kha Soup", price: "$14", desc: "coconut milk, galangal, lemongrass, mushroom" },
+      { name: "Thai Spring Rolls (4)", price: "$12", desc: "vegetables, glass noodles, sweet chili sauce" },
+    ]}]},
+  ],
+  "stout-nyc": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–7PM", items: [
+      { name: "Draft Beers", price: "$6", desc: "40+ taps — ask what's on" },
+      { name: "Cocktails", price: "$9", desc: "" },
+      { name: "Wine", price: "$8", desc: "" },
+      { name: "Well Drinks", price: "$5", desc: "" },
+    ]}]},
+    { label: "Beer List", cats: [{ cat: "40+ Taps", items: [
+      { name: "Rotating IPA", price: "$8", desc: "local craft IPA — ask what's on tap" },
+      { name: "Rotating Lager", price: "$7", desc: "" },
+      { name: "Guinness", price: "$9", desc: "perfectly poured Irish stout" },
+      { name: "Domestic Cans", price: "$6", desc: "Bud Light, Miller, Coors" },
+      { name: "Cider", price: "$8", desc: "Angry Orchard or rotating craft" },
+    ]}]},
+  ],
+  "nomad-bar": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Cocktails", price: "$13", desc: "library bar setting" },
+      { name: "Wine", price: "$9", desc: "sommelier-selected" },
+      { name: "Craft Beer", price: "$8", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Elegant Hotel Bar Program", items: [
+      { name: "NoMad Old Fashioned", price: "$18", desc: "rye, apple brandy, honey, bitters" },
+      { name: "Hotel Negroni", price: "$17", desc: "gin, Campari, Punt e Mes" },
+      { name: "Gin & Tonic", price: "$16", desc: "Hendrick's, cucumber, tonic" },
+      { name: "Champagne Cocktail", price: "$20", desc: "Champagne, sugar cube, Angostura" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Library Bar Snacks", items: [
+      { name: "Cheese Selection", price: "$22", desc: "3 cheeses, honey, nuts, fruit" },
+      { name: "Charcuterie Board", price: "$24", desc: "house-cured meats, pickles, mustard" },
+      { name: "Warm Nuts", price: "$10", desc: "spiced, seasonal herbs" },
+      { name: "Deviled Eggs", price: "$14", desc: "smoked paprika, chives" },
+    ]}]},
+  ],
+  "long-room": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–7PM", items: [
+      { name: "Cocktails", price: "$8", desc: "" },
+      { name: "Draft Beer", price: "$6", desc: "" },
+      { name: "Wine", price: "$7", desc: "" },
+    ]}]},
+    { label: "Whiskey List", cats: [{ cat: "Impressive Whiskey Selection", items: [
+      { name: "American Bourbon / Rye", price: "$12–22", desc: "Buffalo Trace, Knob Creek, Bulleit, Willett, Pappy" },
+      { name: "Scotch Single Malts", price: "$14–35", desc: "Glenfiddich, Lagavulin, Macallan, Highland Park" },
+      { name: "Irish Whiskey", price: "$10–18", desc: "Jameson, Redbreast, Green Spot, Midleton" },
+      { name: "Japanese Whisky", price: "$16–40", desc: "Suntory Toki, Nikka, Hibiki" },
+      { name: "Whiskey Flight (3)", price: "$28", desc: "staff-curated flight" },
+    ]}]},
+  ],
+  "pearl-oyster-bar": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–6PM (bar seats)", items: [
+      { name: "Oysters", price: "$2 off each", desc: "bar seats only — walk-in" },
+      { name: "Wine", price: "$10", desc: "" },
+      { name: "Cocktails", price: "$12", desc: "" },
+    ]}]},
+    { label: "Seafood Menu", cats: [{ cat: "West Village Seafood Icon", items: [
+      { name: "Lobster Roll", price: "$35", desc: "Maine lobster, mayo, celery, split-top bun — their legendary dish" },
+      { name: "Oysters (6)", price: "$24 ($2 off at bar HH)", desc: "East Coast selection" },
+      { name: "Clam Chowder", price: "$14", desc: "New England style, cream, potatoes" },
+      { name: "Fried Oysters", price: "$18", desc: "cornmeal-breaded, remoulade" },
+      { name: "Fish & Chips", price: "$26", desc: "beer-battered, tartar sauce, malt vinegar" },
+    ]}]},
+  ],
+
+  "dante-gv": [
+    { label: "Martini Hour", cats: [{ cat: "Daily 3–5PM $10 Martinis", items: [
+      { name: "Dante Martini", price: "$10", desc: "Ford's Gin + Ketel One, Noilly Prat, Dolin Blanc, olive + lemon bitters" },
+      { name: "Dirty", price: "$10", desc: "Reyka vodka, olive oil, olive bitters, Cinzano dry vermouth" },
+      { name: "With a Twist", price: "$10", desc: "Absolut Citron, Beefeater gin, Alessio Bianco vermouth, grapefruit citrus" },
+      { name: "20th Century", price: "$10", desc: "gin, white vermouth, white chocolate liqueur, lemon" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Award-Winning Aperitivo Program", items: [
+      { name: "Negroni Sbagliato", price: "$18", desc: "Campari, sweet vermouth, prosecco — their signature" },
+      { name: "Aperol Spritz", price: "$17", desc: "classic Italian aperitivo" },
+      { name: "Espresso Martini", price: "$19", desc: "Patron XO, espresso, Kahlúa" },
+      { name: "Garibaldi", price: "$16", desc: "Campari, fluffy fresh orange juice" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Italian Small Plates", items: [
+      { name: "Marinated Olives", price: "$8", desc: "Italian olives, herbs, citrus" },
+      { name: "Marcona Almonds", price: "$7", desc: "roasted with sea salt" },
+      { name: "Bruschetta al Pomodoro", price: "$14", desc: "fresh tomato, basil, olive oil, grilled sourdough" },
+      { name: "Burrata", price: "$18", desc: "heirloom tomato, basil, aged balsamic" },
+      { name: "Charcuterie Board", price: "$22", desc: "Italian cured meats, pickles, grissini" },
+    ]}]},
+  ],
+  "dante-wv": [
+    { label: "Martini Hour", cats: [{ cat: "Daily 3–5PM $10 Martinis", items: [
+      { name: "Dante Martini", price: "$10", desc: "Ford's Gin + Ketel One, vermouth, olive + lemon bitters" },
+      { name: "Olivette", price: "$10", desc: "Grey Goose, Bombay Sapphire, Noilly Prat, St-Germain, olive bitters" },
+      { name: "Upside Down Dirty Gibson", price: "$10", desc: "Dolin Blanc, Cinzano, Tanqueray, pickled ramp jus, wormwood" },
+      { name: "Smoke on the Water", price: "$10", desc: "Sipsmith, white port, Talisker, heather honey, pickled samphire" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Wood-Fired Italian Kitchen", items: [
+      { name: "Croque Madame", price: "$18", desc: "ham, Gruyère, béchamel, poached egg — wood-fired" },
+      { name: "Avocado Toast", price: "$16", desc: "goat's cheese, arugula, basil on sourdough" },
+      { name: "Pizza Margherita", price: "$20", desc: "wood-fired, San Marzano tomato, fior di latte" },
+      { name: "Baked Eggs", price: "$16", desc: "tuscan kale, pomodoro, dukkah, goat's feta" },
+    ]}]},
+  ],
+  "sake-bar-decibel": [
+    { label: "Happy Hour", cats: [{ cat: "Tue–Sat 6–7PM", items: [
+      { name: "Sapporo Draft", price: "$6", desc: "" },
+      { name: "Lychee Martini", price: "$8", desc: "lychee, vodka" },
+      { name: "Sake Tini", price: "$8", desc: "sake, citrus" },
+      { name: "Yuzu Sake", price: "$8", desc: "refreshing yuzu citrus sake cocktail" },
+      { name: "Umeshu Soda", price: "$8", desc: "Japanese plum wine soda" },
+      { name: "Cocktail Pitcher", price: "$38", desc: "serves 3–4" },
+    ]}]},
+    { label: "Sake", cats: [{ cat: "50+ Sake Selections", items: [
+      { name: "Junmai Daiginjo", price: "$14–22/glass", desc: "most refined — highly polished rice, delicate flavors" },
+      { name: "Ginjo", price: "$12–18/glass", desc: "fruity, aromatic — polished to 60% or less" },
+      { name: "Junmai", price: "$10–14/glass", desc: "pure rice sake, full-bodied" },
+      { name: "Nigori (Cloudy)", price: "$12/glass", desc: "unfiltered, creamy, slightly sweet" },
+      { name: "Sake Flight (3)", price: "$28", desc: "staff-curated selection across styles" },
+    ]}]},
+    { label: "Izakaya Food", cats: [{ cat: "Japanese Bar Snacks", items: [
+      { name: "Gyoza (6pc)", price: "$9", desc: "pan-fried pork and cabbage dumplings" },
+      { name: "Karaage Fried Chicken", price: "$10", desc: "Japanese fried chicken, spicy mayo" },
+      { name: "Okonomiyaki", price: "$12", desc: "savory Japanese pancake, bonito, mayo, sauce" },
+      { name: "Wasabi Shumai (4pc)", price: "$8", desc: "steamed shrimp dumplings with wasabi" },
+      { name: "Edamame", price: "$6", desc: "sea salt" },
+      { name: "Tsukune (Chicken Meatballs)", price: "$9", desc: "yakitori-style, tare glaze" },
+    ]}]},
+  ],
+  "dear-irving": [
+    { label: "Cocktails", cats: [{ cat: "Time-Travel Speakeasy", items: [
+      { name: "JFK Era Cocktails", price: "$18–21", desc: "classic 1960s American cocktails — ask bartender for the era-specific menu" },
+      { name: "Marie Antoinette Cocktails", price: "$18–21", desc: "French-inspired, floral, champagne-forward" },
+      { name: "Victorian Cocktails", price: "$18–21", desc: "spiced, aromatic, historic techniques" },
+      { name: "Seasonal Menu", price: "$19–22", desc: "Meaghan Dorman's cocktail bar director creations" },
+    ]}]},
+    { label: "Experience", cats: [{ cat: "The Dear Irving Concept", items: [
+      { name: "Walk-In Bar Seats", price: "First come", desc: "arrive early — bar seats are first-come basis" },
+      { name: "Reservations", price: "Available on Resy", desc: "table reservations available for lounge seating" },
+      { name: "Cocktail Classes", price: "Varies", desc: "mixology classes hosted regularly — book in advance" },
+      { name: "Private Events", price: "Inquire", desc: "Marie Antoinette Room for private buyout" },
+    ]}]},
+  ],
+  "fleur-room": [
+    { label: "Happy Hour", cats: [{ cat: "Tue–Fri 5–8PM", items: [
+      { name: "Draft Beer", price: "$7", desc: "" },
+      { name: "Wine", price: "$8", desc: "" },
+      { name: "Bar Bites", price: "$8", desc: "" },
+      { name: "Spritzes", price: "$10", desc: "" },
+      { name: "Mixed Drinks", price: "$12", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "360° Rooftop Bar Cocktails", items: [
+      { name: "Empire State Spritz", price: "$19", desc: "St-Germain, prosecco, grapefruit, soda" },
+      { name: "Fleur Negroni", price: "$20", desc: "gin, Campari, vermouth, floral bitters" },
+      { name: "Skyline Old Fashioned", price: "$20", desc: "bourbon, honey, Angostura, orange peel" },
+      { name: "Rose Garden Martini", price: "$19", desc: "vodka, rose water, elderflower, lemon" },
+    ]}]},
+  ],
+  "bella-union": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–8PM", items: [
+      { name: "Cocktails", price: "Discounted", desc: "ask server for current HH pricing" },
+      { name: "Espresso Martinis", price: "$10", desc: "Sunday special" },
+      { name: "Pizza", price: "$10", desc: "Margherita, pepperoni — daily" },
+      { name: "Wings (12pc)", price: "$10", desc: "buffalo or BBQ" },
+    ]}]},
+    { label: "Prohibition Hour", cats: [{ cat: "Mon & Wed from 8PM", items: [
+      { name: "Unlimited Cocktails + Sampler Platter", price: "$30/person", desc: "two-person minimum — truly one of NYC's best deals" },
+    ]}]},
+  ],
+  "fish-cheeks": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–5PM", items: [
+      { name: "Oysters (6)", price: "$12", desc: "east coast selection" },
+      { name: "Oysters (12)", price: "$22", desc: "" },
+      { name: "Specialty Cocktails", price: "$13", desc: "" },
+      { name: "Wine", price: "$11", desc: "" },
+      { name: "Beer", price: "$7–9", desc: "" },
+    ]}]},
+    { label: "Thai Seafood", cats: [{ cat: "Best Thai Seafood in NYC", items: [
+      { name: "Oysters with Thai Condiments", price: "$24 (12)", desc: "served with Thai chili mignonette" },
+      { name: "Clam-Shell Ceviche", price: "$18", desc: "fish sauce, lime, shallots, Thai chili" },
+      { name: "Crab Fried Rice", price: "$26", desc: "blue crab, egg, scallion, soy" },
+      { name: "Tiger Shrimp Pad Thai", price: "$24", desc: "fresh tiger shrimp, tamarind, peanut, egg" },
+      { name: "Whole Fish Tempura", price: "$42", desc: "crispy, served with nam prik sauce" },
+    ]}]},
+  ],
+  "the-jeffrey": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–7PM", items: [
+      { name: "Oysters", price: "$1 each", desc: "BEST DEAL — paired with beer on the backyard patio" },
+      { name: "Draft Beers", price: "$6", desc: "craft selection" },
+      { name: "Cocktails", price: "$10", desc: "" },
+    ]}]},
+    { label: "Full Bar", cats: [{ cat: "Relaxed UES Cocktail Bar", items: [
+      { name: "Oysters (6)", price: "$6 HH / $20 regular", desc: "east coast selection, cocktail sauce, mignonette" },
+      { name: "Oyster Shooter", price: "$7", desc: "vodka, hot sauce, oyster" },
+      { name: "Craft IPA", price: "$9", desc: "rotating local tap" },
+      { name: "Classic Negroni", price: "$16", desc: "gin, Campari, sweet vermouth" },
+      { name: "Hot Sauce Martini", price: "$16", desc: "their signature — pairs with oysters" },
+    ]}]},
+  ],
+  "sakagura": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Junmai Sake Cup", price: "$5", desc: "dry-leaning house sake at the bar" },
+      { name: "Sapporo Draft", price: "$10", desc: "" },
+      { name: "Discounted Sashimi", price: "Reduced", desc: "omakase cuts available" },
+      { name: "Discounted Karaage", price: "Reduced", desc: "Japanese fried chicken" },
+    ]}]},
+    { label: "Sake List", cats: [{ cat: "World-Class 200+ Sake Selections", items: [
+      { name: "Sake Flight — Beginner", price: "$30", desc: "3 curated sakes — accessible intro to sake styles" },
+      { name: "Sake Flight — Dry", price: "$40", desc: "3 dry junmai/daiginjo sakes" },
+      { name: "Sake Tasting Deluxe", price: "$100", desc: "premium selection with sommelier guidance" },
+      { name: "Sake by the Glass", price: "$12–22", desc: "50+ options by the glass" },
+      { name: "Sake Carafe", price: "$28–55", desc: "share with a friend" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Traditional Japanese Izakaya", items: [
+      { name: "Omakase Sashimi", price: "$38", desc: "chef's choice of seasonal fish" },
+      { name: "Hamachi Carpaccio", price: "$22", desc: "yuzu, jalapeño, olive oil" },
+      { name: "Black Cod Miso", price: "$36", desc: "saikyo miso, broiled — signature dish" },
+      { name: "Wagyu Beef Tataki", price: "$28", desc: "seared, ponzu, grated daikon" },
+      { name: "Japanese Fried Chicken", price: "$14", desc: "shio-koji marinated, spicy mayo" },
+      { name: "Prix Fixe (5 courses)", price: "$85", desc: "pairs with sake tasting — advance booking required" },
+    ]}]},
+  ],
+  "vin-sur-vingt": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 4–6PM", items: [
+      { name: "House Wine (Red/White/Rosé)", price: "$7", desc: "French and European selection" },
+      { name: "Select Beers", price: "$6", desc: "" },
+      { name: "Rotating French Apéritifs", price: "$9", desc: "Lillet, Suze, Noilly Prat, Pineau des Charentes" },
+    ]}]},
+    { label: "Wine", cats: [{ cat: "French Wine Bar", items: [
+      { name: "Champagne", price: "$18/glass", desc: "grower Champagne selections" },
+      { name: "Loire Valley White", price: "$14/glass", desc: "Muscadet, Sancerre, Pouilly-Fumé" },
+      { name: "Burgundy Pinot Noir", price: "$16/glass", desc: "village-level and premier cru" },
+      { name: "Rhône Reds", price: "$14/glass", desc: "Grenache and Syrah blends" },
+      { name: "Bottle List", price: "From $48", desc: "100+ French and European bottles" },
+    ]}]},
+  ],
+  "bar-belly-les": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 5–7PM", items: [
+      { name: "Oysters", price: "$1 each (max 12)", desc: "THE DEAL — best oyster HH in NYC, daily" },
+      { name: "Cocktails", price: "$14", desc: "Jackalope Spritz, Old Fashioned, Tinderella" },
+      { name: "Wines", price: "$10", desc: "red, white, bubbly" },
+      { name: "Beers", price: "$6", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Nominated Top US Cocktail Bar 2023", items: [
+      { name: "Jackalope Spritz", price: "$16", desc: "Martini aperitivo, gentian, grapefruit, orange, celery, prosecco" },
+      { name: "Tinderella", price: "$16", desc: "Caribbean dark rum, mezcal, coconut milk" },
+      { name: "Old Fashioned", price: "$16", desc: "bourbon, honey, Angostura" },
+      { name: "I Like to Matcha", price: "$16", desc: "pisco, rum, pineapple, matcha-chamomile, lime" },
+      { name: "Casanova", price: "$16", desc: "ask bartender — rotating seasonal" },
+    ]}]},
+    { label: "Raw Bar", cats: [{ cat: "Oysters & Bites", items: [
+      { name: "East Coast Oysters (6)", price: "$6 HH / $18 regular", desc: "max 12 at $1 HH price" },
+      { name: "West Coast Oysters (6)", price: "$20 regular", desc: "Kumamoto, Miyagi, rotating" },
+      { name: "Salmon Tartare", price: "$10", desc: "" },
+      { name: "Mini Fish Tacos (3)", price: "$12", desc: "" },
+      { name: "Fried Calamari", price: "$12", desc: "" },
+    ]}]},
+  ],
+  "dynamo-room": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 4–6PM", items: [
+      { name: "Select Cocktails", price: "$13.95", desc: "dirty martini, Vesper, espresso martini, mini versions available" },
+      { name: "Wine", price: "$12.95", desc: "" },
+      { name: "Beer", price: "$5.95", desc: "" },
+      { name: "Discounted Snacks + Raw Bar", price: "Reduced", desc: "" },
+      { name: "🔥 Dynamo Trio", price: "$29.95", desc: "dirty martini + Caesar salad + beef fat fries — the NYC Happy Meal" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Steakhouse Cocktail Bar", items: [
+      { name: "Dirty Martini", price: "$17", desc: "gin or vodka, olive brine, blue cheese-stuffed olive" },
+      { name: "Vesper Martini", price: "$17", desc: "gin, vodka, Lillet Blanc — James Bond's original" },
+      { name: "Old Fashioned", price: "$18", desc: "rye, Angostura, sugar, orange" },
+      { name: "Mini Martini", price: "$8", desc: "2oz pour — great for a sneak preview" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Penn Station Steakhouse", items: [
+      { name: "Beef Fat Fries", price: "$14", desc: "Gordal olive aioli — their signature" },
+      { name: "Caesar Salad", price: "$16", desc: "anchovy, aged parmesan, house dressing" },
+      { name: "Wagyu Sliders (3)", price: "$24", desc: "American cheese, house pickles, brioche" },
+      { name: "Oysters (6)", price: "$18", desc: "east coast selection, cocktail sauce" },
+      { name: "Steak Frites", price: "$38", desc: "hanger steak, beef fat fries, compound butter" },
+    ]}]},
+  ],
+  "raines-law-room": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Craft Cocktails", price: "From $15", desc: "press the button at your velvet booth to order" },
+      { name: "Small Plates", price: "$12–18", desc: "rotating seasonal menu" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Legendary Speakeasy Bar Program", items: [
+      { name: "Bartender's Choice", price: "$19", desc: "tell them your mood, spirit, and preferences" },
+      { name: "Seasonal Menu", price: "$18–22", desc: "Meaghan Dorman's award-winning cocktails — changes quarterly" },
+      { name: "Raines Law Old Fashioned", price: "$20", desc: "rye, Demerara, Angostura, Peychaud's" },
+      { name: "The Chelsea", price: "$19", desc: "gin, elderflower, cucumber, lime, tonic" },
+    ]}]},
+  ],
+  "mary-les": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 5–8PM", items: [
+      { name: "Cocktails", price: "$12", desc: "3/4 regular price — great value" },
+      { name: "Draft Beers", price: "$6", desc: "pitchers available" },
+      { name: "Wine", price: "$10", desc: "" },
+    ]}]},
+    { label: "Bar Menu", cats: [{ cat: "Neighborhood Pub Food", items: [
+      { name: "Pot Roast", price: "$18", desc: "braised beef, roasted vegetables, gravy" },
+      { name: "Fish & Chips", price: "$20", desc: "beer-battered, tartar sauce, malt vinegar" },
+      { name: "Tacos (3)", price: "$14", desc: "grilled chicken or beef, salsa, cabbage" },
+      { name: "Burger", price: "$16", desc: "American cheese, LTO, pickles, fries" },
+      { name: "Beer Pitcher", price: "$28", desc: "serves 3–4 — great group deal" },
+    ]}]},
+  ],
+  "ten-bells": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 4–8PM", items: [
+      { name: "Natural Wines by Glass", price: "$9", desc: "rotating — always interesting" },
+      { name: "Cocktails", price: "$10", desc: "" },
+      { name: "Draft Beer", price: "$6", desc: "" },
+    ]}]},
+    { label: "Wine", cats: [{ cat: "Natural Wine Bar with Kitchen", items: [
+      { name: "Rotating Natural Wines", price: "$12–18/glass", desc: "chalkboard list changes constantly — ask what's open" },
+      { name: "Sparkling / Pet Nat", price: "$14/glass", desc: "pétillant naturel, Crémant, Champagne" },
+      { name: "Bottle List", price: "From $45", desc: "100+ bottles, strong French and Italian selection" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Better-Than-Expected Bar Food", items: [
+      { name: "Cheese + Charcuterie", price: "$22", desc: "rotating selection, cornichons, mustard, bread" },
+      { name: "Roasted Beet Salad", price: "$14", desc: "goat cheese, walnuts, citrus vinaigrette" },
+      { name: "Pan-Fried Oysters", price: "$16", desc: "cornmeal-dusted, remoulade" },
+      { name: "Grilled Sardines", price: "$14", desc: "lemon, capers, toast" },
+    ]}]},
+  ],
+  "sid-and-the-kids": [
+    { label: "Happy Hour", cats: [{ cat: "Daily 5–7PM", items: [
+      { name: "Clams", price: "$1.50 each", desc: "build-your-own raw bar plate" },
+      { name: "Shrimp & Oysters", price: "$2 each", desc: "" },
+      { name: "Beers", price: "$4", desc: "" },
+      { name: "Martinis", price: "$10", desc: "" },
+      { name: "Unlimited Popcorn", price: "$5", desc: "seasonal flavors" },
+    ]}]},
+    { label: "Raw Bar", cats: [{ cat: "Build-Your-Own Raw Bar", items: [
+      { name: "East Coast Oysters", price: "$18 half-dozen", desc: "rotating selection" },
+      { name: "Jumbo Shrimp Cocktail", price: "$22", desc: "classic cocktail sauce and lemon" },
+      { name: "Littleneck Clams (6)", price: "$14", desc: "" },
+      { name: "Seafood Platter", price: "$65", desc: "for two — oysters, shrimp, clams, crab claws" },
+    ]}]},
+  ],
+  "golden-ratio": [
+    { label: "Happy Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "Nordic Cocktails", price: "$12", desc: "foraged pine, mountain botanicals, Scandinavian spirits" },
+      { name: "Natural Wine", price: "$10", desc: "" },
+      { name: "Aperitivo Selection", price: "$11", desc: "" },
+    ]}]},
+    { label: "Cocktails", cats: [{ cat: "Nordic-Inspired Cocktail Lounge", items: [
+      { name: "Foraged Pine Cocktail", price: "$17", desc: "distillate of foraged pine needles — tart, bitter, mysterious" },
+      { name: "Aquavit Sour", price: "$17", desc: "aquavit, lemon, egg white, dill" },
+      { name: "Nordic Negroni", price: "$18", desc: "aquavit, Linie, Aperol, vermouth" },
+      { name: "Lingonberry Spritz", price: "$16", desc: "gin, lingonberry, elderflower, prosecco" },
+    ]}]},
+  ],
+  "justines-wv": [
+    { label: "Apero Hour", cats: [{ cat: "Mon–Fri 5–7PM", items: [
+      { name: "House Wines (European Imports)", price: "$10", desc: "owner's family imports from Europe — quality far exceeds price" },
+      { name: "Spritz Cocktails", price: "$12", desc: "Filipino-accented aperitivo style" },
+      { name: "Small Plates at dinner pricing", price: "Full menu available", desc: "" },
+    ]}]},
+    { label: "Food", cats: [{ cat: "Filipino-Inflected West Village Cooking", items: [
+      { name: "Lamb Sliders (3)", price: "$18", desc: "don't miss if turning into dinner — from The Infatuation" },
+      { name: "Kinilaw (Filipino Ceviche)", price: "$16", desc: "fresh fish, coconut vinegar, ginger, chili" },
+      { name: "Pancit Noodles", price: "$18", desc: "glass noodles, vegetables, calamansi" },
+      { name: "Lechon Belly", price: "$24", desc: "crispy pork belly, liver sauce, pickled vegetables" },
+    ]}]},
+  ],
+
 };
 function renderRealTab(vid, tabIdx) {
   const menu = REAL_MENUS[vid];
